@@ -1,0 +1,36 @@
+﻿<Window x:Class="GestorJRF.Ventanas.GestionDatosGenericos.Tarifas.VentanaGestionTarifas"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestorJRF.Ventanas.GestionDatosGenericos.Tarifas"
+        mc:Ignorable="d"
+        Title="VentanaGestionTarifas" Height="360" Width="915.063" Closing="CerrandoVentana">
+    <Grid>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="309" Margin="10,10,0,0" VerticalAlignment="Top" Width="876">
+            <Grid>
+                <Label x:Name="label_Copy" Content="ETIQUETA" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label_Copy1" Content="PRECIO" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
+                <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="78,103,0,0" VerticalAlignment="Top" Height="194" Width="416">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{x:Null}" Width="*" Header="ETIQUETA"/>
+                        <DataGridTextColumn Binding="{x:Null}" Width="*" Header="PRECIO"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <CheckBox x:Name="checkCliente" Content="CLIENTE" HorizontalAlignment="Left" Margin="10,16,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label" Content="NOMBRE CLIENTE" HorizontalAlignment="Left" Margin="114,10,0,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="cCliente" HorizontalAlignment="Left" Margin="225,14,0,0" VerticalAlignment="Top" Width="269" IsEnabled="False"/>
+                <TextBox x:Name="tEtiqueta" HorizontalAlignment="Left" Height="23" Margin="78,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="786"/>
+                <TextBox x:Name="tPrecio" HorizontalAlignment="Left" Height="23" Margin="78,72,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="786"/>
+                <Button x:Name="button" Content="AÑADIR&#xD;&#xA;TARIFA" HorizontalAlignment="Left" Margin="10,139,0,0" VerticalAlignment="Top" Width="63" Height="131" Background="#FFECB9FF"/>
+                <GroupBox x:Name="groupBox" Header="Acciones" HorizontalAlignment="Left" Margin="509,203,0,0" VerticalAlignment="Top" Height="94" Width="355">
+                    <Grid Margin="2,0,-2,0">
+                        <Button x:Name="bCrear" Content="CREAR TARIFA" HorizontalAlignment="Left" Margin="157,10,0,0" VerticalAlignment="Top" Width="176" Height="52" Background="#FF9EFF9E"/>
+                        <Button x:Name="bLimpiarCampos" Content="LIMPIAR CAMPOS" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="139" Height="52" Background="#FFF4FF83"/>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Window>

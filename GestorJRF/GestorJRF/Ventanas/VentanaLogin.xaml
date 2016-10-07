@@ -1,0 +1,26 @@
+﻿<Window x:Class="GestorJRF.VentanaLogin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestorJRF"
+        mc:Ignorable="d"
+        Title="LOGIN" Height="254.817" Width="227.55" ResizeMode="NoResize">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="10*"/>
+        </Grid.ColumnDefinitions>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="197" Margin="10,10,0,0" VerticalAlignment="Top" Width="192" Grid.ColumnSpan="2">
+            <Grid>
+                <Label x:Name="label" Content="Usuario:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="tUsuario" HorizontalAlignment="Left" Height="23" Margin="10,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170"/>
+                <Label x:Name="label1" Content="Contraseña:" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="tPass" HorizontalAlignment="Left" Height="23" Margin="10,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170"/>
+                <Button x:Name="bEntrar" Content="ENTRAR" HorizontalAlignment="Left" Margin="10,149,0,0" VerticalAlignment="Top" Width="170" Height="36" Click="bEntrar_Click"/>
+            </Grid>
+
+        </Border>
+
+    </Grid>
+</Window>

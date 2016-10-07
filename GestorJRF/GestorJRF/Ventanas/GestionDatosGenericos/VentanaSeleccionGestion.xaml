@@ -1,0 +1,14 @@
+﻿<Window x:Class="GestorJRF.Ventanas.GestionDatosGenericos.VentanaSeleccionGestion"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestorJRF.Ventanas.GestionDatosGenericos"
+        mc:Ignorable="d"
+        Title="VentanaSeleccionGestion" Height="139.23" Width="448.222" ResizeMode="NoResize" Closing="CerrandoVentana">
+    <Grid>
+        <Button x:Name="bAlta" Content="ALTA" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="204" Height="82" Background="#FF9EFF9E" Click="bAlta_Click"/>
+        <Button x:Name="bVisualizacion" Content="VISUALIZACIÓN" HorizontalAlignment="Left" Margin="219,10,0,0" VerticalAlignment="Top" Width="204" Height="82" Background="#FF80EEFF" Click="bVisualizacion_Click"/>
+
+    </Grid>
+</Window>

@@ -35,8 +35,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IBatisNet.Common, Version=1.6.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MyBatis.NET.1.6.4\lib\IBatisNet.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IBatisNet.DataMapper, Version=1.6.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MyBatis.NET.1.6.4\lib\IBatisNet.DataMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MyBatis.Common, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MyBatis.Common.3.0.0\lib\MyBatis.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Npgsql, Version=3.1.8.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.3.1.8\lib\net451\Npgsql.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,7 +72,110 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Compile Include="MyBatis.NET\InstanciaPostgreSQL.cs" />
+    <Compile Include="POJOS\Camion.cs" />
+    <Compile Include="POJOS\Empleado.cs" />
+    <Compile Include="POJOS\Empresa.cs" />
+    <Compile Include="POJOS\PersonaContacto.cs" />
+    <Compile Include="Utilidades\UtilidadesVentana.cs" />
+    <Compile Include="Ventanas\Genericas\VistaCompletaTabla.xaml.cs">
+      <DependentUpon>VistaCompletaTabla.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Alertas\VentanaGestionAlertas.xaml.cs">
+      <DependentUpon>VentanaGestionAlertas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Alertas\VistaAlertas.xaml.cs">
+      <DependentUpon>VistaAlertas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Camiones\VentanaGestionCamiones.xaml.cs">
+      <DependentUpon>VentanaGestionCamiones.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Camiones\VistaCamiones.xaml.cs">
+      <DependentUpon>VistaCamiones.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Empleados\VentanaGestionEmpleados.xaml.cs">
+      <DependentUpon>VentanaGestionEmpleados.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Empleados\VistaEmpleados.xaml.cs">
+      <DependentUpon>VistaEmpleados.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Empresas\VentanaGestionEmpresas.xaml.cs">
+      <DependentUpon>VentanaGestionEmpresas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Tarifas\VentanaGestionTarifas.xaml.cs">
+      <DependentUpon>VentanaGestionTarifas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Tarifas\VistaTarifas.xaml.cs">
+      <DependentUpon>VistaTarifas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\VentanaBusqueda.xaml.cs">
+      <DependentUpon>VentanaBusqueda.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\VentanaMenuGestionDatos.xaml.cs">
+      <DependentUpon>VentanaMenuGestionDatos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Empresas\VistaEmpresas.xaml.cs">
+      <DependentUpon>VistaEmpresas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\VentanaSeleccionGestion.xaml.cs">
+      <DependentUpon>VentanaSeleccionGestion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\VentanaMenuPrincipal.xaml.cs">
+      <DependentUpon>VentanaMenuPrincipal.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Ventanas\Genericas\VistaCompletaTabla.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Alertas\VentanaGestionAlertas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Alertas\VistaAlertas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Camiones\VentanaGestionCamiones.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Camiones\VistaCamiones.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Empleados\VentanaGestionEmpleados.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Empleados\VistaEmpleados.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Empresas\VentanaGestionEmpresas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Empresas\VistaEmpresas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Tarifas\VentanaGestionTarifas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Tarifas\VistaTarifas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\VentanaBusqueda.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\VentanaSeleccionGestion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\VentanaLogin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -63,10 +183,19 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Principal.cs" />
+    <Compile Include="Ventanas\VentanaLogin.xaml.cs">
+      <DependentUpon>VentanaLogin.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Ventanas\GestionDatosGenericos\VentanaMenuGestionDatos.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\VentanaMenuPrincipal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -85,7 +214,16 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="bin\Debug\providers.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="bin\Debug\SqlMap.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -94,6 +232,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Iconos\lupa.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="bin\Debug\MapaPOJOS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MyBatis.NET\Mapas\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

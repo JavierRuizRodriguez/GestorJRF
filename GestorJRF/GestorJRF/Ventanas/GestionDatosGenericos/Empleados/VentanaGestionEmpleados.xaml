@@ -1,0 +1,38 @@
+﻿<Window x:Class="GestorJRF.Ventanas.GestionDatosGenericos.Empleados.VentanaGestionEmpleados"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestorJRF.Ventanas.GestionDatosGenericos.Empleados"
+        mc:Ignorable="d"
+        Title="VentanaGestionEmpleados"  Height="329" Width="1095.344" ResizeMode="NoResize" Closing="CerrandoVentana">
+    <Grid>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="268" Margin="10,10,0,0" VerticalAlignment="Top" Width="1057">
+            <Grid x:Name="gridPrincipal">
+                <Label x:Name="label" Content="NOMBRE" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label_Copy" Content="APELLIDOS" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label_Copy1" Content="DNI" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label_Copy2" Content="FECHA NACIMIENTO (DD-MM-AA)" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label_Copy3" Content="FECHA ALTA EMPRESA (DD-MM-AA)" HorizontalAlignment="Left" Margin="470,103,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label_Copy4" Content="SUELDO BRUTO" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="tNombre" HorizontalAlignment="Left" Height="23" Margin="84,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="961"/>
+                <TextBox x:Name="tApellidos" HorizontalAlignment="Left" Height="23" Margin="84,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="961"/>
+                <TextBox x:Name="tDNI" HorizontalAlignment="Left" Height="23" Margin="84,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="961"/>
+                <TextBox x:Name="tFechaNacimiento" HorizontalAlignment="Left" Height="23" Margin="210,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="255"/>
+                <TextBox x:Name="tFechaAlta" HorizontalAlignment="Left" Height="23" Margin="680,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="365"/>
+                <TextBox x:Name="tSueldo" HorizontalAlignment="Left" Height="23" Margin="110,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="935"/>
+                <GroupBox x:Name="groupBox" Header="Acciones" HorizontalAlignment="Left" Margin="690,162,0,0" VerticalAlignment="Top" Height="94" Width="355">
+                    <Grid Margin="2,0,-2,0">
+                        <Button x:Name="bNuevoEmpleado" Content="AÑADIR EMPLEADO" HorizontalAlignment="Left" Margin="157,10,0,0" VerticalAlignment="Top" Width="176" Height="52" Background="#FF9EFF9E" Click="bNuevoEmpleado_Click"/>
+                        <Button x:Name="bLimpiarCampos" Content="LIMPIAR CAMPOS" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="139" Height="52" Background="#FFF4FF83"/>
+                    </Grid>
+                </GroupBox>
+                <Label x:Name="label1" Content="TELÉFONO" HorizontalAlignment="Left" Margin="10,162,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label2" Content="E-MAIL" HorizontalAlignment="Left" Margin="10,193,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="tTelefono" HorizontalAlignment="Left" Height="23" Margin="110,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="575"/>
+                <TextBox x:Name="tMail" HorizontalAlignment="Left" Height="23" Margin="110,196,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="575"/>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Window>
