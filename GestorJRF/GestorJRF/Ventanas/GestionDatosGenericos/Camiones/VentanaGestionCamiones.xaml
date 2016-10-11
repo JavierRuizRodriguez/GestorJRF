@@ -31,7 +31,7 @@
                 <TextBox x:Name="tGalibo" HorizontalAlignment="Left" Height="23" Margin="588,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="459"/>
                 <GroupBox x:Name="groupBox" Header="Acciones" HorizontalAlignment="Left" Margin="692,165,0,0" VerticalAlignment="Top" Height="94" Width="355">
                     <Grid Margin="2,0,-2,0">
-                        <Button x:Name="button" Content="AÑADIR CAMIÓN" HorizontalAlignment="Left" Margin="157,10,0,0" VerticalAlignment="Top" Width="176" Height="52" Background="#FF9EFF9E" Click="button_Click"/>
+                        <Button x:Name="bNuevo" Content="AÑADIR CAMIÓN" HorizontalAlignment="Left" Margin="157,10,0,0" VerticalAlignment="Top" Width="176" Height="52" Background="#FF9EFF9E" Click="bNuevo_Click"/>
                         <Button x:Name="bLimpiarCampos" Content="LIMPIAR CAMPOS" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="139" Height="52" Background="#FFF4FF83" Click="bLimpiarCampos_Click"/>
                     </Grid>
                 </GroupBox>

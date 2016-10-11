@@ -72,11 +72,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CRUD\Empresas\CamionesCRUD.cs" />
+    <Compile Include="CRUD\Empresas\EmpleadosCRUD.cs" />
+    <Compile Include="CRUD\Empresas\EmpresasCRUD.cs" />
     <Compile Include="MyBatis.NET\InstanciaPostgreSQL.cs" />
+    <Compile Include="POJOS\Alerta.cs" />
     <Compile Include="POJOS\Camion.cs" />
     <Compile Include="POJOS\Empleado.cs" />
     <Compile Include="POJOS\Empresa.cs" />
+    <Compile Include="POJOS\Nombre.cs" />
     <Compile Include="POJOS\PersonaContacto.cs" />
+    <Compile Include="POJOS\Tarifa.cs" />
     <Compile Include="Utilidades\UtilidadesVentana.cs" />
     <Compile Include="Ventanas\Genericas\VistaCompletaTabla.xaml.cs">
       <DependentUpon>VistaCompletaTabla.xaml</DependentUpon>

@@ -12,8 +12,8 @@
                 <Label x:Name="label" Content="NOMBRE" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                 <Label x:Name="label_Copy" Content="APELLIDOS" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
                 <Label x:Name="label_Copy1" Content="DNI" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="label_Copy2" Content="FECHA NACIMIENTO (DD-MM-AA)" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="label_Copy3" Content="FECHA ALTA EMPRESA (DD-MM-AA)" HorizontalAlignment="Left" Margin="470,103,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label_Copy2" Content="FECHA NACIMIENTO (DD/MM/AA)" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label_Copy3" Content="FECHA ALTA EMPRESA (DD/MM/AA)" HorizontalAlignment="Left" Margin="470,103,0,0" VerticalAlignment="Top"/>
                 <Label x:Name="label_Copy4" Content="SUELDO BRUTO" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="tNombre" HorizontalAlignment="Left" Height="23" Margin="84,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="961"/>
                 <TextBox x:Name="tApellidos" HorizontalAlignment="Left" Height="23" Margin="84,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="961"/>
@@ -21,16 +21,17 @@
                 <TextBox x:Name="tFechaNacimiento" HorizontalAlignment="Left" Height="23" Margin="210,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="255"/>
                 <TextBox x:Name="tFechaAlta" HorizontalAlignment="Left" Height="23" Margin="680,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="365"/>
                 <TextBox x:Name="tSueldo" HorizontalAlignment="Left" Height="23" Margin="110,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="935"/>
+                <TextBox x:Name="tTelefono" HorizontalAlignment="Left" Height="23" Margin="110,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="575"/>
+                <TextBox x:Name="tMail" HorizontalAlignment="Left" Height="23" Margin="110,196,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="575"/>
                 <GroupBox x:Name="groupBox" Header="Acciones" HorizontalAlignment="Left" Margin="690,162,0,0" VerticalAlignment="Top" Height="94" Width="355">
                     <Grid Margin="2,0,-2,0">
                         <Button x:Name="bNuevoEmpleado" Content="AÑADIR EMPLEADO" HorizontalAlignment="Left" Margin="157,10,0,0" VerticalAlignment="Top" Width="176" Height="52" Background="#FF9EFF9E" Click="bNuevoEmpleado_Click"/>
-                        <Button x:Name="bLimpiarCampos" Content="LIMPIAR CAMPOS" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="139" Height="52" Background="#FFF4FF83"/>
+                        <Button x:Name="bLimpiarCampos" Content="LIMPIAR CAMPOS" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="139" Height="52" Background="#FFF4FF83" Click="bLimpiarCampos_Click"/>
                     </Grid>
                 </GroupBox>
                 <Label x:Name="label1" Content="TELÉFONO" HorizontalAlignment="Left" Margin="10,162,0,0" VerticalAlignment="Top"/>
                 <Label x:Name="label2" Content="E-MAIL" HorizontalAlignment="Left" Margin="10,193,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="tTelefono" HorizontalAlignment="Left" Height="23" Margin="110,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="575"/>
-                <TextBox x:Name="tMail" HorizontalAlignment="Left" Height="23" Margin="110,196,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="575"/>
+                
             </Grid>
         </Border>
 

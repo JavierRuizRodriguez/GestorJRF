@@ -1,4 +1,5 @@
-﻿using GestorJRF.MyBatis.NET;
+﻿using GestorJRF.CRUD.Empresas;
+using GestorJRF.MyBatis.NET;
 using GestorJRF.POJOS;
 using GestorJRF.Utilidades;
 using GestorJRF.Ventanas.Genericas;
@@ -6,6 +7,8 @@ using GestorJRF.Ventanas.GestionDatosGenericos.Alertas;
 using GestorJRF.Ventanas.GestionDatosGenericos.Camiones;
 using GestorJRF.Ventanas.GestionDatosGenericos.Empleados;
 using GestorJRF.Ventanas.GestionDatosGenericos.Tarifas;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -33,7 +36,7 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos
             {
                 case "camion":
                     vCamionPadre = (VistaCamiones)ventanaPadre;
-                    cBusqueda.Items.Add(new ComboBoxItem().Content = "NÚMERO DE MATRICULA");
+                    cBusqueda.Items.Add(new ComboBoxItem().Content = "NÚMERO DE MATRÍCULA");
                     cBusqueda.Items.Add(new ComboBoxItem().Content = "NÚMERO DE BASTIDOR");
                     cBusqueda.SelectedIndex = 0;
                     break;
@@ -74,31 +77,54 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos
             {
                 case "camion":
                     Camion camion;
-                    if (cBusqueda.SelectedValue.Equals("NÚMERO DE MATRICULA"))
-                        camion = (Camion)InstanciaPostgreSQL.CogerInstaciaPostgreSQL.QueryForObject("cogerCamionPorMatricula", tBusqueda.Text);
+                    if (cBusqueda.SelectedValue.Equals("NÚMERO DE MATRÍCULA"))
+                        camion = CamionesCRUD.cogerCamion("NÚMERO DE MATRÍCULA", tBusqueda.Text);
                     else
-                        camion = (Camion)InstanciaPostgreSQL.CogerInstaciaPostgreSQL.QueryForObject("cogerCamionPorBastidor", tBusqueda.Text);
+                        camion = CamionesCRUD.cogerCamion("NÚMERO DE BASTIDOR", tBusqueda.Text);
 
                     if (camion != null)
                     {
                         vCamionPadre.camion = camion;
                         vCamionPadre.MostrarCamionBuscado();
                         Close();
-                    }   
+                    }
                     else
                         MessageBox.Show("El camión buscado no existe.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
 
                 case "empleado":
-                    cBusqueda.Items.Add(new ComboBoxItem().Content = "DNI");
-                    cBusqueda.Items.Add(new ComboBoxItem().Content = "APELLIDOS, NOMBRE");
-                    cBusqueda.SelectedIndex = 0;
+                    Empleado empleado;
+                    if (cBusqueda.SelectedValue.Equals("DNI"))
+                        empleado = EmpleadosCRUD.cogerEmpleado("DNI", tBusqueda.Text);
+                    else
+                        empleado = EmpleadosCRUD.cogerEmpleado("NOMBRE", tBusqueda.Text);
+
+                    if (empleado != null)
+                    {
+                        vEmpleadoPadre.empleado = empleado;
+                        vEmpleadoPadre.MostrarCamionBuscado();
+                        Close();
+                    }
+                    else
+                        MessageBox.Show("El camión buscado no existe.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
 
                 case "empresa":
-                    cBusqueda.Items.Add(new ComboBoxItem().Content = "NOMBRE");
-                    cBusqueda.Items.Add(new ComboBoxItem().Content = "CIF/NIF");
-                    cBusqueda.SelectedIndex = 0;
+                    Empresa empresa;
+                    if (cBusqueda.SelectedValue.Equals("NOMBRE"))
+                        empresa = EmpresasCRUD.cogerEmpresa("nombre", tBusqueda.Text);
+                    else
+                        empresa = EmpresasCRUD.cogerEmpresa("cif", tBusqueda.Text);
+
+                    if (empresa != null)
+                    {
+                        vEmpresaPadre.empresa = empresa;
+                        vEmpresaPadre.MostrarCamionBuscado();
+                        Close();
+                    }
+                    else
+                        MessageBox.Show("La empresa buscada no existe.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+
                     break;
 
                 case "tarifa":

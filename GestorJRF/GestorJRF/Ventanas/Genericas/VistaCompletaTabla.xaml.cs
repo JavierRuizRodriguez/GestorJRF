@@ -1,19 +1,11 @@
-﻿using GestorJRF.MyBatis.NET;
+﻿using GestorJRF.CRUD.Empresas;
+using GestorJRF.MyBatis.NET;
 using GestorJRF.POJOS;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace GestorJRF.Ventanas.Genericas
 {
@@ -22,6 +14,12 @@ namespace GestorJRF.Ventanas.Genericas
     /// </summary>
     public partial class VistaCompletaTabla : Window
     {
+        private ObservableCollection<Camion> listaCamiones;
+        private ObservableCollection<Empleado> listaEmpleados;
+        private ObservableCollection<Empresa> listaEmpresas;
+        private ObservableCollection<Tarifa> listaTarifas;
+        private ObservableCollection<Alerta> listaAlertas;
+
         public VistaCompletaTabla(string tipo)
         {
             InitializeComponent();
@@ -29,22 +27,43 @@ namespace GestorJRF.Ventanas.Genericas
             switch (tipo)
             {
                 case "camion":
+                    listaCamiones = new ObservableCollection<Camion>();
                     crearColumnasCamion();
-                    IList camiones = InstanciaPostgreSQL.CogerInstaciaPostgreSQL.QueryForList("cogerTodosCamiones", null);
-                    foreach (Camion camion in camiones)
-                        tabla.Items.Add(camion);
+                    IList camiones = CamionesCRUD.cogerTodosCamiones();
+                    if (camiones != null)
+                    {
+                        foreach (Camion camion in camiones)
+                            listaCamiones.Add(camion);
+                    }
                     break;
                 case "empleado":
+                    listaEmpleados = new ObservableCollection<Empleado>();
                     crearColumnasEmpleado();
+                    IList empleados = InstanciaPostgreSQL.CogerInstaciaPostgreSQL.QueryForList("cogerTodosEmpleados", null);
+                    foreach (Empleado empleado in empleados)
+                    {
+                        empleado.fechaAlta = empleado.fechaAlta.Date;
+                        empleado.fechaNacimiento = empleado.fechaNacimiento.Date;
+                        listaEmpleados.Add(empleado);
+                    }                        
                     break;
                 case "empresa":
+                    listaEmpresas = new ObservableCollection<Empresa>();
                     crearColumnasEmpresa();
+                    IList empresas = EmpresasCRUD.cogerTodasEmpresas();
+                    if (empresas != null)
+                    {
+                        foreach (Empresa empresa in empresas)
+                            listaEmpresas.Add(empresa);
+                    }
                     break;
                 case "tarifa":
                     crearColumnasTarifa();
+                    listaTarifas = new ObservableCollection<Tarifa>();
                     break;
                 case "alerta":
                     crearColumnasAlerta();
+                    listaAlertas = new ObservableCollection<Alerta>();
                     break;
                 default:
                     break;
@@ -60,80 +79,52 @@ namespace GestorJRF.Ventanas.Genericas
 
         private void crearColumnasCamion()
         {
-            DataGridTextColumn columna = new DataGridTextColumn();
-
-            columna.Header = "MARCA";
-            columna.Binding = new Binding("marca");
-            columna.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-            tabla.Columns.Add(columna);
-
-            columna = new DataGridTextColumn();
-            columna.Header = "MODELO";
-            columna.Binding = new Binding("modelo");
-            columna.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-            tabla.Columns.Add(columna);
-
-            columna = new DataGridTextColumn();
-            columna.Header = "MATRICULA";
-            columna.Binding = new Binding("matricula");
-            columna.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-            tabla.Columns.Add(columna);
-
-            columna = new DataGridTextColumn();
-            columna.Header = "Nº BASTIDOR";
-            columna.Binding = new Binding("nBastidor");
-            columna.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-            tabla.Columns.Add(columna);
-
-            columna = new DataGridTextColumn();
-            columna.Header = "LARGO CAJA (m)";
-            columna.Binding = new Binding("largoCaja");
-            columna.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-            tabla.Columns.Add(columna);
-
-            columna = new DataGridTextColumn();
-            columna.Header = "LARGO VEHÍCULO (m)";
-            columna.Binding = new Binding("largoVehiculo");
-            columna.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-            tabla.Columns.Add(columna);
-
-            columna = new DataGridTextColumn();
-            columna.Header = "KILOMETRAJE";
-            columna.Binding = new Binding("kilometraje");
-            columna.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-            tabla.Columns.Add(columna);
-
-            columna = new DataGridTextColumn();
-            columna.Header = "GÁLIBO";
-            columna.Binding = new Binding("galibo");
-            columna.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-            tabla.Columns.Add(columna);
-
-            columna = new DataGridTextColumn();
-            columna.Header = "TIPO COMBUSTIBLE";
-            columna.Binding = new Binding("tipoCombustible");
-            columna.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-            tabla.Columns.Add(columna);
+            tabla.SetBinding(DataGrid.ItemsSourceProperty, new Binding() { Source = listaCamiones });
+            tabla.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
         }
 
         private void crearColumnasEmpleado()
         {
-
+            tabla.SetBinding(DataGrid.ItemsSourceProperty, new Binding() { Source = listaEmpleados });
+            tabla.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
         }
 
         private void crearColumnasEmpresa()
         {
-
+            tabla.SetBinding(DataGrid.ItemsSourceProperty, new Binding() { Source = listaEmpresas });
+            tabla.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
         }
 
         private void crearColumnasTarifa()
         {
-
+            tabla.SetBinding(DataGrid.ItemsSourceProperty, new Binding() { Source = listaTarifas });
+            tabla.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
         }
 
         private void crearColumnasAlerta()
         {
+            tabla.SetBinding(DataGrid.ItemsSourceProperty, new Binding() { Source = listaAlertas });
+            tabla.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
+        }
 
+        private void tabla_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            if (e.Column.Header.ToString() == "cifAntiguo" || e.Column.Header.ToString() == "personasContacto" || e.Column.Header.ToString() == "dniAntiguo" || e.Column.Header.ToString() == "nBastidorAntiguo")
+                e.Cancel = true;
+            else
+            {
+                if(e.Column.Header.ToString() == "fechaAlta" || e.Column.Header.ToString() == "fechaNacimiento")
+                {
+                    DataGridTextColumn columnaNueva = new DataGridTextColumn();
+                    columnaNueva.Header = e.Column.Header.ToString();
+                    Binding b = new Binding(e.PropertyName);
+                    b.StringFormat = "dd/MM/yyyy";
+                    columnaNueva.Binding = b;
+                    e.Column = columnaNueva;
+                }
+
+                e.Column.Header = e.Column.Header.ToString().ToUpper();
+            }
         }
     }
 }

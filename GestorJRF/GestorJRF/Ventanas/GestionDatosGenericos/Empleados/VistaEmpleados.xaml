@@ -8,7 +8,7 @@
         Title="VistaEmpleados" Height="329" Width="1095.344" ResizeMode="NoResize" Closing="CerrandoVentana">
     <Grid>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="268" Margin="10,10,0,0" VerticalAlignment="Top" Width="1057">
-            <Grid>
+            <Grid Name="gridPrincipal">
                 <Label x:Name="label" Content="NOMBRE" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                 <Label x:Name="label_Copy" Content="APELLIDOS" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
                 <Label x:Name="label_Copy1" Content="DNI" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
@@ -27,9 +27,9 @@
                 <TextBox x:Name="tMail" HorizontalAlignment="Left" Height="23" Margin="110,196,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="361" IsEnabled="False"/>
                 <GroupBox x:Name="groupBox" Header="Acciones" HorizontalAlignment="Left" Margin="476,162,0,0" VerticalAlignment="Top" Height="94" Width="569">
                     <Grid Margin="2,0,-2,0">
-                        <Button x:Name="bModificar" Content="MODIFICAR EMPLEADO" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="176" Height="52" Background="#FFF99F60"/>
-                        <Button x:Name="bBorrar" Content="BORRAR EMPLEADO" HorizontalAlignment="Left" Margin="191,10,0,0" VerticalAlignment="Top" Width="176" Height="52" Background="#FFFF8A8A"/>
-                        <Button x:Name="bBuscar" HorizontalAlignment="Left" Margin="372,10,0,0" VerticalAlignment="Top" Width="176" Height="52" Background="#FF80EEFF">
+                        <Button x:Name="bModificar" Content="MODIFICAR EMPLEADO" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="176" Height="52" Background="#FFF99F60" Click="bModificar_Click"/>
+                        <Button x:Name="bBorrar" Content="BORRAR EMPLEADO" HorizontalAlignment="Left" Margin="191,10,0,0" VerticalAlignment="Top" Width="176" Height="52" Background="#FFFF8A8A" Click="bBorrar_Click"/>
+                        <Button x:Name="bBuscar" HorizontalAlignment="Left" Margin="372,10,0,0" VerticalAlignment="Top" Width="176" Height="52" Background="#FF80EEFF" Click="bBuscar_Click">
                             <DockPanel LastChildFill="True" Width="157">
                                 <Image DockPanel.Dock="Left" Source="/GestorJRF;component/Iconos/lupa.png" Stretch="None" />
                                 <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"><Run Text="BUSCAR "/><Run Text="EMPLEADO"/></TextBlock>

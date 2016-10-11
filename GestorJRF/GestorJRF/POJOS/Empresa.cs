@@ -1,25 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace GestorJRF.POJOS
 {
     public class Empresa
     {
-        private string nombre { get; set; }
-        private string cif { get; set; }
-        private string domicilio { get; set; }
-        private string localidad { get; set; }
-        private string provincia { get; set; }
-        private int cp { get; set; }
-        private string telefono { get; set; }
-        private string email { get; set; }
-        private List<PersonaContacto> personasContacto { get; set; }
-
+        public string nombre { get; set; }
+        public string cif { get; set; }
+        public string cifAntiguo { get; set; }
+        public string domicilio { get; set; }
+        public string localidad { get; set; }
+        public string provincia { get; set; }
+        public int cp { get; set; }
+        public int telefono { get; set; }
+        public string email { get; set; }
+        public List<PersonaContacto> personasContacto;
         public Empresa() { }
 
-        public Empresa(string nombre, string cif, string domicilio, string localidad, string provincia, int cp, string telefono, string email, List<PersonaContacto> personasContacto)
+        public Empresa(string nombre, string cif, string domicilio, string localidad, string provincia, int cp, int telefono, string email, ObservableCollection<PersonaContacto> personasContacto)
         {
             this.nombre = nombre;
             this.cif = cif;
+            this.domicilio = domicilio;
+            this.localidad = localidad;
+            this.provincia = provincia;
+            this.cp = cp;
+            this.telefono = telefono;
+            this.email = email;
+            this.personasContacto = new List<PersonaContacto>(personasContacto);
+        }
+
+        public Empresa(string nombre, string cif, string cifAntiguo, string domicilio, string localidad, string provincia, int cp, int telefono, string email, ObservableCollection<PersonaContacto> personasContacto)
+        {
+            this.nombre = nombre;
+            this.cif = cif;
+            this.cifAntiguo = cifAntiguo;
             this.domicilio = domicilio;
             this.localidad = localidad;
             this.provincia = provincia;

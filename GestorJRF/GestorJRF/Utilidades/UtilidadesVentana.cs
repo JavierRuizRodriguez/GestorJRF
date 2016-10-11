@@ -28,8 +28,6 @@ namespace GestorJRF.Utilidades
                 }
             }
 
-            if (!todosRellenos) MessageBox.Show("Falta campos por rellenar", "¡Aviso!", MessageBoxButton.OK, MessageBoxImage.Error);
-
             return todosRellenos;
         }
 

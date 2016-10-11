@@ -22,32 +22,25 @@
                 <TextBox x:Name="tDomicilio" HorizontalAlignment="Left" Height="23" Margin="115,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932"/>
                 <TextBox x:Name="tLocalidad" HorizontalAlignment="Left" Height="23" Margin="115,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932"/>
                 <TextBox x:Name="tProvincia" HorizontalAlignment="Left" Height="23" Margin="115,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932"/>
-                <TextBox x:Name="tCD" HorizontalAlignment="Left" Height="23" Margin="115,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932"/>
+                <TextBox x:Name="tCP" HorizontalAlignment="Left" Height="23" Margin="115,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932"/>
                 <TextBox x:Name="tTelefono" HorizontalAlignment="Left" Height="23" Margin="115,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932"/>
                 <TextBox x:Name="tMail" HorizontalAlignment="Left" Height="23" Margin="115,230,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932"/>
                 <GroupBox x:Name="groupBox" Header="Lista de personas de contacto" HorizontalAlignment="Left" Margin="12,258,0,0" VerticalAlignment="Top" Height="274" Width="730">
-                    <Grid>
+                    <Grid x:Name="gridPersonalContacto">
                         <Label Content="NOMBRE" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                         <Label Content="TELÉFONO" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
                         <Label Content="EMAIL" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
                         <TextBox x:Name="tNombrePC" HorizontalAlignment="Left" Height="23" Margin="82,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="626"/>
                         <TextBox x:Name="tTelefonoPC" HorizontalAlignment="Left" Height="23" Margin="82,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="626"/>
                         <TextBox x:Name="tMailPC" HorizontalAlignment="Left" Height="23" Margin="82,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="626"/>
-                        <Button x:Name="bNuevoContacto" Content="AÑADIR PERSONA CONTACTO" HorizontalAlignment="Left" Margin="10,132,0,0" VerticalAlignment="Top" Width="230" Height="100" Background="#FFECB9FF"/>
-                        <DataGrid x:Name="tablaPC" HorizontalAlignment="Left" Height="130" Margin="253,112,0,0" VerticalAlignment="Top" Width="455" IsReadOnly="True">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="NOMBRE" Width="*"/>
-                                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="TELÉFONO" Width="*"/>
-                                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="E-MAIL" Width="*"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-
+                        <Button x:Name="bNuevoContacto" Content="AÑADIR PERSONA CONTACTO" HorizontalAlignment="Left" Margin="10,132,0,0" VerticalAlignment="Top" Width="230" Height="100" Background="#FFECB9FF" Click="bNuevoContacto_Click"/>
+                        <DataGrid x:Name="tablaPC" HorizontalAlignment="Left" Height="130" Margin="253,112,0,0" VerticalAlignment="Top" Width="455" CanUserAddRows="False" CanUserDeleteRows="True" DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}" ItemsSource="{Binding listaPersonasContacto}" AutoGeneratingColumn="tablaPC_AutoGeneratingColumn" ColumnWidth="*" />
                     </Grid>
                 </GroupBox>
                 <GroupBox x:Name="groupBox1" Header="Acciones" HorizontalAlignment="Left" Margin="747,258,0,0" VerticalAlignment="Top" Height="274" Width="300">
                     <Grid>
-                        <Button x:Name="bNuevaEmpresa" Content="AÑADIR EMPRESA" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="268" Height="141" Background="#FF9EFF9E"/>
-                        <Button x:Name="bLimpiarCampos" Content="LIMPIAR CAMPOS " HorizontalAlignment="Left" Margin="10,156,0,0" VerticalAlignment="Top" Width="268" Height="86" Background="#FFF4FF83"/>
+                        <Button x:Name="bNuevaEmpresa" Content="AÑADIR EMPRESA" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="268" Height="141" Background="#FF9EFF9E" Click="bNuevaEmpresa_Click"/>
+                        <Button x:Name="bLimpiarCampos" Content="LIMPIAR CAMPOS " HorizontalAlignment="Left" Margin="10,156,0,0" VerticalAlignment="Top" Width="268" Height="86" Background="#FFF4FF83" Click="bLimpiarCampos_Click"/>
 
                     </Grid>
                 </GroupBox>

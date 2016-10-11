@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="VistaCompletaTabla" Height="300" Width="300" WindowState="Maximized">
     <Grid>
-        <DataGrid x:Name="tabla" SelectionMode="Single" IsReadOnly="True" CopyingRowClipboardContent="tabla_CopyingRowClipboardContent"/>
+        <DataGrid x:Name="tabla" SelectionMode="Single" IsReadOnly="True" CopyingRowClipboardContent="tabla_CopyingRowClipboardContent" AutoGeneratingColumn="tabla_AutoGeneratingColumn" DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
     </Grid>
 </Window>

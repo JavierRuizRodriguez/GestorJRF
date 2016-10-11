@@ -1,6 +1,10 @@
-﻿using GestorJRF.POJOS;
+﻿using GestorJRF.CRUD.Empresas;
+using GestorJRF.MyBatis.NET;
+using GestorJRF.POJOS;
 using GestorJRF.Utilidades;
+using Npgsql;
 using System;
+using System.Diagnostics;
 using System.Windows;
 
 namespace GestorJRF.Ventanas.GestionDatosGenericos.Camiones
@@ -38,6 +42,34 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Camiones
             tKilometraje.Text = Convert.ToString(camion.kilometraje);
             tGalibo.Text = Convert.ToString(camion.galibo);
             tTipoCombustible.Text = camion.tipoCombustible;
+        }
+
+        private void bModificar_Click(object sender, RoutedEventArgs e)
+        {
+            if (camion != null)
+            {
+                new VentanaGestionCamiones(camion).Show();
+                UtilidadesVentana.LimpiarCampos(gridPrincipal);
+            }
+            else
+                MessageBox.Show("Debe seleccionar un camión para modificarlo.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void bBorrar_Click(object sender, RoutedEventArgs e)
+        {
+            if (camion != null)
+            {
+                if (MessageBox.Show("¿Desea borrar el camión?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    int salida = CamionesCRUD.borrarCamion(camion.nBastidor);
+
+                    if(salida == 1)
+                        UtilidadesVentana.LimpiarCampos(gridPrincipal);                    
+                }
+                
+            }
+            else
+                MessageBox.Show("Debe seleccionar un camión para borrarlo.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

@@ -4,27 +4,41 @@ namespace GestorJRF.POJOS
 {
     public class Empleado
     {
-        private string nombre { get; set; }
-        private string apellidos { get; set; }
-        private string dni { get; set; }
-        private DateTime fechaNacimiento { get; set; }
-        private DateTime fechaAlta { get; set; }
-        private double sueldoBruto { get; set; }
-        private string telefono { get; set; }
-        private string mail { get; set; }
+        public string nombre { get; set; }
+        public string apellidos { get; set; }
+        public string dni { get; set; }
+        private string dniAntiguo { get; set; }
+        public DateTime fechaNacimiento { get; set; }
+        public DateTime fechaAlta { get; set; }
+        public double sueldoBruto { get; set; }
+        public int telefono { get; set; }
+        public string email { get; set; }
 
         public Empleado() { }
 
-        public Empleado(string nombre, string apellidos, string dni, DateTime fechaNacimiento, DateTime fechaAlta, double sueldoBruto, string telefono, string mail)
+        public Empleado(string nombre, string apellidos, string dni, DateTime fechaNacimiento, DateTime fechaAlta, double sueldoBruto, int telefono, string email)
         {
             this.nombre = nombre;
             this.apellidos = apellidos;
             this.dni = dni;
-            this.fechaNacimiento = fechaNacimiento;
-            this.fechaAlta = fechaAlta;
+            this.fechaNacimiento = fechaNacimiento.Date;
+            this.fechaAlta = fechaAlta.Date;
             this.sueldoBruto = sueldoBruto;
             this.telefono = telefono;
-            this.mail = mail;
+            this.email = email;
+        }
+
+        public Empleado(string nombre, string apellidos, string dni, string dniAntiguo, DateTime fechaNacimiento, DateTime fechaAlta, double sueldoBruto, int telefono, string email)
+        {
+            this.nombre = nombre;
+            this.apellidos = apellidos;
+            this.dni = dni;
+            this.dniAntiguo = dniAntiguo;
+            this.fechaNacimiento = fechaNacimiento.Date;
+            this.fechaAlta = fechaAlta.Date;
+            this.sueldoBruto = sueldoBruto;
+            this.telefono = telefono;
+            this.email = email;
         }
     }
 }
