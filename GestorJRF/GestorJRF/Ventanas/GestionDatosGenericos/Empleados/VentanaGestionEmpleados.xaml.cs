@@ -1,4 +1,4 @@
-﻿using GestorJRF.CRUD.Empresas;
+﻿using GestorJRF.CRUD;
 using GestorJRF.POJOS;
 using GestorJRF.Utilidades;
 using System;
@@ -28,14 +28,14 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Empleados
         public VentanaGestionEmpleados()
         {
             InitializeComponent();
-            UtilidadesVentana.SituarVentana(this);
+            UtilidadesVentana.SituarVentana(0, this);
             esAlta = true;
         }
 
         public VentanaGestionEmpleados(Empleado empleado)
         {
             InitializeComponent();
-            UtilidadesVentana.SituarVentana(this);
+            UtilidadesVentana.SituarVentana(0, this);
             this.empleado = empleado;
             esAlta = false;
 
@@ -52,16 +52,34 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Empleados
 
         private void CerrandoVentana(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if(esAlta)
+            if (esAlta)
                 new VentanaMenuGestionDatos().Show();
         }
 
         private void bNuevoEmpleado_Click(object sender, RoutedEventArgs e)
         {
-            if (esAlta)
-                crearEmpresa();
+            if (UtilidadesVentana.ComprobarCampos(gridPrincipal))
+            {
+                if (sonCamposValidos())
+                {
+                    if (esAlta)
+                        crearEmpresa();
+                    else
+                        modificarEmpresa();
+                }   
+            }
             else
-                modificarEmpresa();           
+                MessageBox.Show("Debe introducir todos los campos.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private bool sonCamposValidos()
+        {
+            if (UtilidadesVerificacion.validadorMail(tMail.Text) || UtilidadesVerificacion.validadorMail(tFechaAlta.Text)
+                    || UtilidadesVerificacion.validadorMail(tFechaNacimiento.Text) || UtilidadesVerificacion.validadorNumeroDecimal(tSueldo.Text)
+                    || UtilidadesVerificacion.validadorNumeroEntero(tTelefono.Text))
+                return true;
+            else
+                return false;
         }
 
         private void modificarEmpresa()
@@ -72,16 +90,11 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Empleados
 
         private void crearEmpresa()
         {
-            if (UtilidadesVentana.ComprobarCampos(gridPrincipal))
-            {
-                Empleado em = new Empleado(tNombre.Text, tApellidos.Text, tDNI.Text, Convert.ToDateTime(tFechaNacimiento.Text), Convert.ToDateTime(tFechaAlta.Text), Convert.ToInt32(tSueldo.Text), Convert.ToInt32(tTelefono.Text), tMail.Text);
-                int salida = EmpleadosCRUD.insertarEmpleado(em);
+            Empleado em = new Empleado(tNombre.Text, tApellidos.Text, tDNI.Text, Convert.ToDateTime(tFechaNacimiento.Text), Convert.ToDateTime(tFechaAlta.Text), Convert.ToInt32(tSueldo.Text), Convert.ToInt32(tTelefono.Text), tMail.Text);
+            int salida = EmpleadosCRUD.insertarEmpleado(em);
 
-                if (salida == 1)
-                    UtilidadesVentana.LimpiarCampos(gridPrincipal);
-            }
-            else
-                MessageBox.Show("Debe introducir todos los campos.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+            if (salida == 1)
+                UtilidadesVentana.LimpiarCampos(gridPrincipal);
         }
 
         private void bLimpiarCampos_Click(object sender, RoutedEventArgs e)

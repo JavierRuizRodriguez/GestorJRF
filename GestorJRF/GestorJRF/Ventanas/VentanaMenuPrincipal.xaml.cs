@@ -1,17 +1,9 @@
 ﻿using GestorJRF.Utilidades;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using GestorJRF.Ventanas.Estadisticas;
+using GestorJRF.Ventanas.Facturas;
+using GestorJRF.Ventanas.GestionDatosGenericos;
+using GestorJRF.Ventanas.Mapas;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace GestorJRF.Ventanas
 {
@@ -20,21 +12,53 @@ namespace GestorJRF.Ventanas
     /// </summary>
     public partial class VentanaMenuPrincipal : Window
     {
+        private bool xBotonPulsado;
         public VentanaMenuPrincipal()
         {
             InitializeComponent();
-            UtilidadesVentana.SituarVentana(this);
-        }
-
-        private void bGestionResumenes_Click(object sender, RoutedEventArgs e)
-        {
+            UtilidadesVentana.SituarVentana(0, this);
+            xBotonPulsado = true;
         }
 
         private void bGestionDatosGenerales_Click(object sender, RoutedEventArgs e)
         {
-            VentanaMenuGestionDatos vGestionDatosGenerales = new VentanaMenuGestionDatos();
+            xBotonPulsado = false;
+            new VentanaMenuGestionDatos().Show();
             Close();
-            vGestionDatosGenerales.Show();
+        }
+
+        private void bGestionGastos_Click(object sender, RoutedEventArgs e)
+        {
+            xBotonPulsado = false;
+            new VentanaSeleccionGestion("gastos").Show();
+            Close();
+        }
+
+        private void bMapas_Click(object sender, RoutedEventArgs e)
+        {
+            xBotonPulsado = false;
+            new VentanaMapa().Show();
+            Close();
+        }
+
+        private void bGestionFacturas_Click(object sender, RoutedEventArgs e)
+        {
+            xBotonPulsado = false;
+            new VentanaSeleccionFacturacion().Show();
+            Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (xBotonPulsado)
+                Application.Current.Shutdown();
+        }
+
+        private void bEstadisticas_Click(object sender, RoutedEventArgs e)
+        {
+            xBotonPulsado = false;
+            new VentanaEstadisticas().Show();
+            Close();
         }
     }
 }

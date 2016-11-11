@@ -1,12 +1,8 @@
-﻿using GestorJRF.CRUD.Empresas;
-using GestorJRF.MyBatis.NET;
+﻿using GestorJRF.CRUD;
 using GestorJRF.POJOS;
 using GestorJRF.Utilidades;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace GestorJRF.Ventanas
@@ -17,6 +13,7 @@ namespace GestorJRF.Ventanas
     public partial class VentanaGestionEmpresas : Window
     {
         private bool esAlta;
+        private bool esAltaEnMapa;
         public ObservableCollection<PersonaContacto> listaPersonasContacto { get; set; }
         public Empresa empresa;
 
@@ -24,38 +21,42 @@ namespace GestorJRF.Ventanas
         {
             InitializeComponent();
 
-            UtilidadesVentana.SituarVentana(this);
+            UtilidadesVentana.SituarVentana(0, this);
             esAlta = false;
             this.empresa = empresa;
 
             bNuevaEmpresa.Content = "MODIFICAR EMPRESA";
-            listaPersonasContacto = new ObservableCollection<PersonaContacto>();
+            listaPersonasContacto = new ObservableCollection<PersonaContacto>(empresa.personasContacto);
 
             CambiarParaModificacion();
         }
 
-        public VentanaGestionEmpresas()
+        public VentanaGestionEmpresas(bool esAltaEnMapa)
         {
             InitializeComponent();
 
             listaPersonasContacto = new ObservableCollection<PersonaContacto>();
-            UtilidadesVentana.SituarVentana(this);
+            UtilidadesVentana.SituarVentana(0, this);
             esAlta = true;
+            this.esAltaEnMapa = esAltaEnMapa;
         }
 
         private void CerrandoVentana(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (esAlta)
+            if (esAlta && !esAltaEnMapa)
                 new VentanaMenuGestionDatos().Show();
         }
 
         private void bNuevoContacto_Click(object sender, RoutedEventArgs e)
         {
             if (UtilidadesVentana.ComprobarCampos(gridPersonalContacto))
-                if (new Regex(@"^\d+$").IsMatch(tTelefonoPC.Text))
+            {
+                if (UtilidadesVerificacion.validadorNumeroEntero(tTelefonoPC.Text) && UtilidadesVerificacion.validadorMail(tMailPC.Text))
                     listaPersonasContacto.Add(new PersonaContacto(tNombrePC.Text, Convert.ToInt32(tTelefonoPC.Text), tMailPC.Text));
-                else
-                    MessageBox.Show("El número de teléfono debe contener únicamiente números.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+                MessageBox.Show("Debe introducir todos los campos para rellenar la tabla", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+
         }
 
         private void bLimpiarCampos_Click(object sender, RoutedEventArgs e)
@@ -69,13 +70,25 @@ namespace GestorJRF.Ventanas
         {
             if (UtilidadesVentana.ComprobarCampos(gridPrincipal) && listaPersonasContacto.Count > 0)
             {
-                if (esAlta)
-                    añadirEmpresa();
-                else
-                    modificarEmpresa();
+                if (sonCamposValidos())
+                {
+                    if (esAlta)
+                        añadirEmpresa();
+                    else
+                        modificarEmpresa();
+                }
             }
             else
                 MessageBox.Show("Debe introducir todos los campos.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private bool sonCamposValidos()
+        {
+            if (UtilidadesVerificacion.validadorMail(tMail.Text) && UtilidadesVerificacion.validadorNumeroEntero(tCP.Text)
+                && UtilidadesVerificacion.validadorNumeroEntero(tTelefono.Text))
+                return true;
+            else
+                return false;
         }
 
         private void modificarEmpresa()
@@ -95,17 +108,6 @@ namespace GestorJRF.Ventanas
                 MessageBox.Show("Camion almacenado correctamente.", "Nueva empresa", MessageBoxButton.OK, MessageBoxImage.Information);
                 bLimpiarCampos_Click(null, null);
             }
-            else
-            {
-                if (codigo == -1)
-                {
-                    MessageBox.Show("El CIF/NIF introducido ya está almacenado.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                else
-                {
-                    MessageBox.Show("Error en la creación de la nueva empresa.", "Aviso error fatal", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
         }
 
         private void CambiarParaModificacion()
@@ -118,8 +120,6 @@ namespace GestorJRF.Ventanas
             tCP.Text = Convert.ToString(empresa.cp);
             tTelefono.Text = Convert.ToString(empresa.telefono);
             tMail.Text = empresa.email;
-            foreach (PersonaContacto e in empresa.personasContacto)
-                listaPersonasContacto.Add(e);
         }
 
         private void tablaPC_AutoGeneratingColumn(object sender, System.Windows.Controls.DataGridAutoGeneratingColumnEventArgs e)
@@ -127,7 +127,7 @@ namespace GestorJRF.Ventanas
             if (e.Column.Header.ToString() == "cif")
                 e.Cancel = true;
             else
-                e.Column.Header = e.Column.Header.ToString().ToUpper();
+                e.Column.Header = UtilidadesVentana.generarEtiquetaFormatoColumna(e.Column.Header.ToString());
         }
     }
 }

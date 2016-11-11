@@ -1,0 +1,86 @@
+﻿<Window x:Class="GestorJRF.Ventanas.Mapas.VentanaMapa"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestorJRF.Ventanas.Mapas"
+        mc:Ignorable="d"
+        Title="VentanaMapa" Height="1060" Width="1920" ResizeMode="NoResize" Closing="Window_Closing">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="163*"/>
+            <ColumnDefinition Width="426*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="2">
+            <m:Map  Name="mapa"
+               Center="40.4833, -3.3667"
+               ZoomLevel="6"
+               CredentialsProvider="q2KhydXMgdTJl4jufbXx~YI5W6KMW_HpvgmRJLAQHOQ~As9qctVqGjuKNNF2XrfNxhd4odqazk1Kj0BELJvNJpa5r8JF_4F7n98qwQuwH76t"
+               Mode="Road"
+               AnimationLevel="Full"
+               >
+                <Grid HorizontalAlignment="Left" Height="63" VerticalAlignment="Top" Width="95" Margin="10,10,0,0" Background="#FFCBCBCB">
+                    <Slider x:Name="selectorTipoMapa" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="55" Margin="22,33,0,0" Minimum="0" Maximum="1" Ticks="0, 1" Value="0" IsSnapToTickEnabled="True" TickFrequency="1" ValueChanged="selectorTipoMapa_ValueChanged"/>
+                    <Label x:Name="label4" Content="TIPO MAPA" HorizontalAlignment="Left" Height="23" VerticalAlignment="Top" Width="75" Margin="10,5,0,0"/>
+                </Grid>
+            </m:Map>
+        </Grid>
+        <Grid>
+            <GroupBox x:Name="groupBox" Header="ITINERARIO" HorizontalAlignment="Left" Margin="10,0,0,657" VerticalAlignment="Bottom" Height="364" Width="510">
+                <Grid x:Name="gridItinerario">
+                    <Label x:Name="label" Content="DIRECCIÓN" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="tDireccion" HorizontalAlignment="Stretch" Height="23" Margin="10,41,44,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                    <DataGrid x:Name="tablaItinerario" HorizontalAlignment="Stretch" Margin="10,69,10,0" VerticalAlignment="Top" Height="193" DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" ItemsSource="{Binding listaItinerarios}" CanUserDeleteRows="True" CanUserAddRows="False" PreviewKeyDown="tablaItinerario_PreviewKeyDown" AutoGeneratingColumn="tablaItinerario_AutoGeneratingColumn" BeginningEdit="tablaItinerario_BeginningEdit" CanUserSortColumns="False" CanUserReorderColumns="False"/>
+                    <Button x:Name="bNuevoPuntoItinerario" Content="+" HorizontalAlignment="Left" Margin="459,41,0,0" VerticalAlignment="Top" Width="29" Click="nuevoPuntoItinerario_Click" Height="23"/>
+                    <CheckBox x:Name="checkSalidaNave" Content="SALIDA DESDE NAVE" HorizontalAlignment="Left" Margin="323,16,0,0" VerticalAlignment="Top" Checked="esSalidaNave_Checked" Unchecked="esSalidaNave_Unchecked" IsChecked="True"/>
+                    <Button x:Name="bCalcularRuta" Content="CALCULAR RUTA" HorizontalAlignment="Left" Margin="246,273,0,0" VerticalAlignment="Top" Width="242" Height="57" Click="bCalcularRuta_Click" RenderTransformOrigin="0.5,0.172" Background="#FFECB9FF"/>
+                    <CheckBox x:Name="checkAutopista" Content="EVITAR AUTOPISTAS" HorizontalAlignment="Left" Margin="10,285,0,0" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="checkPeaje" Content="EVITAR PEAJE" HorizontalAlignment="Left" Margin="10,305,0,0" VerticalAlignment="Top"/>
+                </Grid>
+            </GroupBox>
+            <GroupBox x:Name="groupBox1" Header="INFORMACIÓN SOBRE RUTAS" HorizontalAlignment="Left" Margin="10,0,0,378" VerticalAlignment="Bottom" Height="274" Width="510">
+                <Grid x:Name="gridInfoRutas">
+                    <DataGrid x:Name="tablaRutasPosibles" DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" ItemsSource="{Binding listaRutas}" CanUserDeleteRows="False" ColumnWidth="*" IsReadOnly="True" MouseLeftButtonDown="tablaRutasPosibles_MouseLeftButtonDown" AutoGeneratingColumn="tablaRutasPosibles_AutoGeneratingColumn" Margin="10,10,143,126"  CanUserReorderColumns="False" CanUserSortColumns="False"/>
+                    <DataGrid x:Name="tablaRutasRetornoPosibles" DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" ItemsSource="{Binding listaRutasRetorno}" CanUserDeleteRows="False" ColumnWidth="*" IsReadOnly="True" MouseLeftButtonDown="tablaRutasRetornoPosibles_MouseLeftButtonDown" AutoGeneratingColumn="tablaRutasRetornoPosibles_AutoGeneratingColumn" Margin="10,131,143,10"  CanUserReorderColumns="False" CanUserSortColumns="False"/>
+                    <Label x:Name="label3" Content="RUTA SELECCIONADA:" HorizontalAlignment="Left" Margin="361,41,0,0" VerticalAlignment="Top" Width="133"/>
+                    <Label x:Name="label3_Copy" Content="RUTA RETORNO&#xD;&#xA;SELECCIONADA:" HorizontalAlignment="Left" Margin="374,153,0,0" VerticalAlignment="Top" Width="101"/>
+                    <TextBox x:Name="tRutaSeleccionada" HorizontalAlignment="Left" Height="23" Margin="415,72,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="21" RenderTransformOrigin="0.133,0.13"/>
+                    <TextBox x:Name="tRutaRetornoSeleccionada" HorizontalAlignment="Left" Height="23" Margin="415,200,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="21" RenderTransformOrigin="0.133,0.13"/>
+                </Grid>
+            </GroupBox>
+            <GroupBox x:Name="gridInformacionPorte" Header="INFORMACIÓN SOBRE EL TRANSPORTE" HorizontalAlignment="Left" Margin="10,0,0,123" VerticalAlignment="Bottom" Height="250" Width="510" IsEnabled="False">
+                <Grid x:Name="gridInfoTransporte">
+                    <Label x:Name="label1" Content="CLIENTE" HorizontalAlignment="Left" Margin="10,29,0,0" VerticalAlignment="Top" Width="59"/>
+                    <ComboBox x:Name="cCliente" HorizontalAlignment="Left" Margin="106,33,0,0" VerticalAlignment="Top" Width="296" SelectionChanged="cCliente_SelectionChanged"/>
+                    <Label x:Name="label2" Content="TARIFA APLICADA A RUTA" HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top" Width="153"/>
+                    <Label x:Name="label2_Copy" Content="PRECIO TARIFA APLICADA" HorizontalAlignment="Left" Margin="10,113,0,0" VerticalAlignment="Top" Width="153"/>
+                    <Label x:Name="label2_Copy1" Content="NÚMERO DE REPARTOS" HorizontalAlignment="Left" Margin="10,141,0,0" VerticalAlignment="Top" Width="153"/>
+                    <Label x:Name="label2_Copy2" Content="PRECIO FINAL PORTE (€)" HorizontalAlignment="Left" Margin="10,169,0,0" VerticalAlignment="Top" Width="153"/>
+                    <CheckBox x:Name="checkGrupaje" Content="ES GRUPAJE" HorizontalAlignment="Left" Margin="404,10,0,0" VerticalAlignment="Top" Checked="checkGrupaje_Checked" Unchecked="checkGrupaje_Unchecked"/>
+                    <TextBox x:Name="tPrecioTarifa" HorizontalAlignment="Left" Height="23" Margin="168,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="320" IsEnabled="False"/>
+                    <TextBox x:Name="tRepartos" HorizontalAlignment="Left" Height="23" Margin="168,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="320" IsEnabled="False"/>
+                    <TextBox x:Name="tPrecioFinal" HorizontalAlignment="Left" Height="23" Margin="168,172,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="320"/>
+                    <Button x:Name="bNuevaEmpresa" Content="NUEVO" HorizontalAlignment="Left" Margin="407,33,0,0" VerticalAlignment="Top" Width="81" Height="22" Background="#FFECB9FF" Click="bNuevaEmpresa_Click"/>
+                    <Label x:Name="label1_Copy" Content="TIPO CAMIÓN" HorizontalAlignment="Left" Margin="10,2,0,0" VerticalAlignment="Top" Width="91"/>
+                    <ComboBox x:Name="cTipoCamion" HorizontalAlignment="Left" Margin="106,6,0,0" VerticalAlignment="Top" Width="139" SelectionChanged="cTipoCamion_SelectionChanged" SelectedIndex="0">
+                        <ComboBoxItem Content="CAMIÓN GRANDE" HorizontalAlignment="Left" Width="326"/>
+                        <ComboBoxItem Content="CAMIÓN PEQUEÑO" HorizontalAlignment="Left" Width="326"/>
+                    </ComboBox>
+                    <Label x:Name="label2_Copy4" Content="NOMBRE TARIFA" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Width="153"/>
+                    <TextBox x:Name="tNombreTarifa" HorizontalAlignment="Left" Height="23" Margin="168,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="320" IsEnabled="False"/>
+                    <ComboBox x:Name="cComponenteTarifa" HorizontalAlignment="Left" Margin="168,88,0,0" VerticalAlignment="Top" Width="320" SelectionChanged="cComponenteTarifa_SelectionChanged" Height="23"/>
+                    <Label x:Name="label2_Copy3" Content="FECHA DE TRANSPORTE" HorizontalAlignment="Left" Margin="10,197,0,0" VerticalAlignment="Top" Width="153"/>
+                    <TextBox x:Name="tFechaTransporte" HorizontalAlignment="Left" Height="23" Margin="168,200,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="320"/>
+                </Grid>
+            </GroupBox>
+            <GroupBox x:Name="groupBox3" Header="ACCIONES PORTES" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Height="108" Width="510">
+                <Grid>
+                    <Button x:Name="bAltaPorte" Content="DAR DE ALTA PORTE" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="297" Height="66" Background="#FF9EFF9E" Click="bAltaPorte_Click"/>
+                    <Button x:Name="bLimpiarCampos" Content="LIMPIAR CAMPOS" HorizontalAlignment="Left" Margin="312,10,0,0" VerticalAlignment="Top" Width="176" Height="66" Background="#FFF4FF83" Click="bLimpiarCampos_Click"/>
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </Grid>
+
+</Window>

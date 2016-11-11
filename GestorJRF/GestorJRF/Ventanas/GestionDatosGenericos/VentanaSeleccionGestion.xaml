@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GestorJRF.Ventanas.GestionDatosGenericos"
         mc:Ignorable="d"
-        Title="VentanaSeleccionGestion" Height="139.23" Width="448.222" ResizeMode="NoResize" Closing="CerrandoVentana">
+        Title="VentanaSeleccionGestion" Height="175.23" Width="500.722"  ResizeMode="NoResize" Closing="CerrandoVentana">
     <Grid>
-        <Button x:Name="bAlta" Content="ALTA" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="204" Height="82" Background="#FF9EFF9E" Click="bAlta_Click"/>
-        <Button x:Name="bVisualizacion" Content="VISUALIZACIÓN" HorizontalAlignment="Left" Margin="219,10,0,0" VerticalAlignment="Top" Width="204" Height="82" Background="#FF80EEFF" Click="bVisualizacion_Click"/>
+        <Button x:Name="bAlta" Content="ALTA" HorizontalAlignment="Left" Margin="32,27,0,0" VerticalAlignment="Top" Width="204" Height="82" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Background="#FF9EFF9E" Click="bAlta_Click"/>
+        <Button x:Name="bVisualizacion" Content="VISUALIZACIÓN" HorizontalAlignment="Left" Margin="256,27,0,0" VerticalAlignment="Top" Width="204" Height="82" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Background="#FF80EEFF" Click="bVisualizacion_Click"/>
 
     </Grid>
 </Window>

@@ -37,7 +37,9 @@
                         <Button x:Name="bBuscar" HorizontalAlignment="Left" Margin="10,169,0,0" VerticalAlignment="Top" Width="268" Height="69" Background="#FF80EEFF" Click="bBuscar_Click">
                             <DockPanel LastChildFill="True" Width="157">
                                 <Image DockPanel.Dock="Left" Source="/Iconos/lupa.png" Stretch="None" />
-                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center">   BUSCAR EMPRESA</TextBlock>
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center">
+                                    BUSCAR EMPRESA
+                                </TextBlock>
                             </DockPanel>
                         </Button>
                     </Grid>

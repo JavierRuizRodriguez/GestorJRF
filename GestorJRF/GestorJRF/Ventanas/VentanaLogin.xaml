@@ -5,22 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GestorJRF"
         mc:Ignorable="d"
-        Title="LOGIN" Height="254.817" Width="227.55" ResizeMode="NoResize">
+        Title="LOGIN" Height="274.648" Width="238.457" ResizeMode="NoResize">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="10*"/>
-        </Grid.ColumnDefinitions>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="197" Margin="10,10,0,0" VerticalAlignment="Top" Width="192" Grid.ColumnSpan="2">
-            <Grid>
-                <Label x:Name="label" Content="Usuario:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="tUsuario" HorizontalAlignment="Left" Height="23" Margin="10,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170"/>
-                <Label x:Name="label1" Content="Contraseña:" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="tPass" HorizontalAlignment="Left" Height="23" Margin="10,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170"/>
-                <Button x:Name="bEntrar" Content="ENTRAR" HorizontalAlignment="Left" Margin="10,149,0,0" VerticalAlignment="Top" Width="170" Height="36" Click="bEntrar_Click"/>
-            </Grid>
-
-        </Border>
+        <Grid>
+            <Label x:Name="label" Content="Usuario" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="tUsuario" HorizontalAlignment="Left" Height="23" Margin="10,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="202"/>
+            <Label x:Name="label1" Content="Contraseña" HorizontalAlignment="Left" Margin="10,59,0,0" VerticalAlignment="Top"/>
+            <PasswordBox x:Name="tContraseña" HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top" Width="202" Height="24"/>
+            <Button x:Name="bEntrar" Content="ENTRAR" HorizontalAlignment="Left" Margin="10,125,0,0" VerticalAlignment="Top" Width="202" Height="36" Click="bEntrar_Click"/>
+            <Label HorizontalAlignment="Left" Margin="10,171,0,0" VerticalAlignment="Top" Height="25" Width="202" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                <Hyperlink x:Name="hipervinculo" Click="hipervinculo_Click"/>
+            </Label>
+            <Label HorizontalAlignment="Left" Margin="10,201,0,0" VerticalAlignment="Top" Height="25" Width="202" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                <Hyperlink x:Name="hipervinculo1" Click="hipervinculo1_Click"/>
+            </Label>
+        </Grid>
 
     </Grid>
 </Window>

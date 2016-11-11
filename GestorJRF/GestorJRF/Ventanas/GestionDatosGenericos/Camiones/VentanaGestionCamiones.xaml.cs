@@ -1,4 +1,4 @@
-﻿using GestorJRF.CRUD.Empresas;
+﻿using GestorJRF.CRUD;
 using GestorJRF.POJOS;
 using GestorJRF.Utilidades;
 using System;
@@ -17,7 +17,7 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Camiones
         public VentanaGestionCamiones()
         {
             InitializeComponent();
-            UtilidadesVentana.SituarVentana(this);
+            UtilidadesVentana.SituarVentana(0, this);
             esAlta = true;
         }
 
@@ -54,35 +54,45 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Camiones
 
         private void bNuevo_Click(object sender, RoutedEventArgs e)
         {
-            int salida;
-            if (esAlta)
-                añadirCamion();
+            if (UtilidadesVentana.ComprobarCampos(gridPrincipal))
+            {
+                if(sonCamposValidos())
+                if (esAlta)
+                    añadirCamion();
+                else
+                    modificarCamion();
+            }
             else
-                modificarCamion();
+                MessageBox.Show("Debe introducir todos los campos.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private bool sonCamposValidos()
+        {
+            if (UtilidadesVerificacion.validadorNumeroDecimal(tGalibo.Text) || UtilidadesVerificacion.validadorNumeroDecimal(tLargoCaja.Text)
+                || UtilidadesVerificacion.validadorNumeroDecimal(tLargoVehiculo.Text) || UtilidadesVerificacion.validadorNumeroEntero(tKilometraje.Text))
+                return true;
+            else
+                return false;
         }
 
         private void modificarCamion()
         {
-            Camion c = new Camion(tMarca.Text, tModelo.Text, tMatricula.Text, tNumBastidor.Text, camion.nBastidor, Convert.ToDouble(tLargoCaja.Text),
-                        Convert.ToDouble(tLargoVehiculo.Text), Convert.ToInt64(tKilometraje.Text), Convert.ToDouble(tGalibo.Text),
+            Camion c = new Camion(tMarca.Text, tModelo.Text, tMatricula.Text, tNumBastidor.Text, camion.nBastidor, Convert.ToDouble(tLargoCaja.Text, UtilidadesVerificacion.cogerProveedorDecimal()),
+                        Convert.ToDouble(tLargoVehiculo.Text, UtilidadesVerificacion.cogerProveedorDecimal()), Convert.ToInt64(tKilometraje.Text), Convert.ToDouble(tGalibo.Text, UtilidadesVerificacion.cogerProveedorDecimal()),
                         ((ComboBoxItem)cComustible.SelectedItem).Content.ToString());
             CamionesCRUD.modificarCamion(c);
         }
 
         private void añadirCamion()
         {
-            if (UtilidadesVentana.ComprobarCampos(gridPrincipal))
-            {
-                Camion c = new Camion(tMarca.Text, tModelo.Text, tMatricula.Text, tNumBastidor.Text, Convert.ToDouble(tLargoCaja.Text),
-                    Convert.ToDouble(tLargoVehiculo.Text), Convert.ToInt64(tKilometraje.Text), Convert.ToDouble(tGalibo.Text),
-                    ((ComboBoxItem)cComustible.SelectedItem).Content.ToString());
-                int salida = CamionesCRUD.añadirCamion(c);
+            Camion c = new Camion(tMarca.Text, tModelo.Text, tMatricula.Text, tNumBastidor.Text, Convert.ToDouble(tLargoCaja.Text, UtilidadesVerificacion.cogerProveedorDecimal()),
+                Convert.ToDouble(tLargoVehiculo.Text, UtilidadesVerificacion.cogerProveedorDecimal()), Convert.ToInt64(tKilometraje.Text), Convert.ToDouble(tGalibo.Text, UtilidadesVerificacion.cogerProveedorDecimal()),
+                ((ComboBoxItem)cComustible.SelectedItem).Content.ToString());
+            int salida = CamionesCRUD.añadirCamion(c);
 
-                if (salida == 1)
-                    UtilidadesVentana.LimpiarCampos(gridPrincipal);
-            }
-            else
-                MessageBox.Show("Debe introducir todos los campos.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+            if (salida == 1)
+                UtilidadesVentana.LimpiarCampos(gridPrincipal);
+
         }
     }
 }

@@ -1,0 +1,43 @@
+﻿<Window x:Class="GestorJRF.Ventanas.Facturas.VentanaFacturaResumenes"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestorJRF.Ventanas.Facturas"
+        mc:Ignorable="d"
+        Title="VentanaFactura" Height="368" Width="537" ResizeMode="NoResize" Closing="Window_Closing">
+    <Grid>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="308" Margin="10,10,0,0" VerticalAlignment="Top" Width="500">
+            <Grid x:Name="___Sin_nombre_">
+                <Label x:Name="label" Content="Cliente" HorizontalAlignment="Left" Margin="11,21,0,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="cCliente" HorizontalAlignment="Left" Margin="63,25,0,0" VerticalAlignment="Top" Width="425"/>
+                <Label x:Name="label2" Content="Mes" HorizontalAlignment="Left" Margin="11,52,0,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="cMes" HorizontalAlignment="Left" Margin="63,56,0,0" VerticalAlignment="Top" Width="96" SelectedIndex="0">
+                    <ComboBoxItem Content="ENERO"/>
+                    <ComboBoxItem Content="FEBRERO"/>
+                    <ComboBoxItem Content="MARZO"/>
+                    <ComboBoxItem Content="ABRIL"/>
+                    <ComboBoxItem Content="MAYO"/>
+                    <ComboBoxItem Content="JUNIO"/>
+                    <ComboBoxItem Content="JULIO"/>
+                    <ComboBoxItem Content="AGOSTO"/>
+                    <ComboBoxItem Content="SEPTIEMBRE"/>
+                    <ComboBoxItem Content="OCTUBRE"/>
+                    <ComboBoxItem Content="NOVIEMBRE"/>
+                    <ComboBoxItem Content="DICIEMBRE"/>
+                </ComboBox>
+                <TextBox x:Name="tAño" HorizontalAlignment="Left" Height="23" Margin="201,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" RenderTransformOrigin="0.872,1.435"/>
+                <CheckBox x:Name="checkReferencia" Content="Referencia" HorizontalAlignment="Left" Margin="271,59,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="tReferencia" HorizontalAlignment="Left" Height="23" Margin="351,56,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="137" IsEnabled="{Binding ElementName=checkReferencia, Path=IsChecked}"/>
+                <Button x:Name="bGenerarFactura" Content="GENERAR FACTURA" HorizontalAlignment="Left" Margin="75,151,0,0" VerticalAlignment="Top" Width="368" Height="110" Background="#FF9EFF9E" Click="bGenerarFactura_Click"/>
+                <Label x:Name="label3" Content="Año" HorizontalAlignment="Left" Margin="164,52,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.219,0.577"/>
+                <Label x:Name="label2_Copy" Content="Tipo factura" HorizontalAlignment="Center" Margin="173,90,253,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="cTipoFactura" HorizontalAlignment="Center" Margin="250,94,152,0" VerticalAlignment="Top" Width="96" SelectedIndex="0">
+                    <ComboBoxItem Content="FACTURA"/>
+                    <ComboBoxItem Content="ABONO"/>
+                </ComboBox>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Window>

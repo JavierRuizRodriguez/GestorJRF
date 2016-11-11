@@ -17,7 +17,7 @@
                 <Label x:Name="label_Copy6" Content="KILOMETRAJE (Km)" HorizontalAlignment="Left" Margin="10,134,0,0" VerticalAlignment="Top"/>
                 <Label x:Name="label_Copy7" Content="TIPO COMBUSTIBLE" HorizontalAlignment="Left" Margin="463,10,0,0" VerticalAlignment="Top"/>
                 <Label x:Name="label_Copy8" Content="GÁLIBO (m)" HorizontalAlignment="Left" Margin="463,134,0,0" VerticalAlignment="Top"/>
-                <ComboBox x:Name="cComustible" HorizontalAlignment="Left" Margin="588,14,0,0" VerticalAlignment="Top" Width="129" SelectedIndex="0" HorizontalContentAlignment="Center">
+                <ComboBox x:Name="cComustible" HorizontalAlignment="Left" Margin="588,14,0,0" VerticalAlignment="Top" Width="129" SelectedIndex="0">
                     <ComboBoxItem Content="DIÉSEL"/>
                     <ComboBoxItem Content="GASOLINA"/>
                 </ComboBox>

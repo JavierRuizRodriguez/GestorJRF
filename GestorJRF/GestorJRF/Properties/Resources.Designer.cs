@@ -61,12 +61,12 @@ namespace GestorJRF.Properties {
         }
         
         /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        ///   Busca un recurso adaptado de tipo System.Drawing.Icon similar a (Icono).
         /// </summary>
-        internal static System.Drawing.Bitmap IconoLupa {
+        internal static System.Drawing.Icon logo {
             get {
-                object obj = ResourceManager.GetObject("IconoLupa", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                object obj = ResourceManager.GetObject("logo", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
     }

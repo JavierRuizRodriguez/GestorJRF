@@ -5,13 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GestorJRF.Ventanas"
         mc:Ignorable="d"
-        Title="VentanaMenuPrincipal" Height="496.059" Width="418.98" ResizeMode="NoResize">
+        Title="VentanaMenuPrincipal" Height="463.059" Width="418.98" ResizeMode="NoResize" Closing="Window_Closing">
     <Grid>
-        <Button x:Name="bGestionResumenes" Content="GESTIÓN RESÚMENES" HorizontalAlignment="Left" Margin="54,29,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionResumenes_Click"/>
-        <Button x:Name="bGestionFacturas" Content="GESTIÓN FACTURAS" HorizontalAlignment="Left" Margin="54,99,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial"/>
-        <Button x:Name="bGestionDatosGenerales" Content="GESTIÓN DE DATOS GENERALES" HorizontalAlignment="Left" Margin="54,169,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionDatosGenerales_Click"/>
-        <Button x:Name="bGestionGastos" Content="GESTIÓN GASTOS" HorizontalAlignment="Left" Margin="54,239,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial"/>
-        <Button x:Name="bGestionDatos_Copy" Content="VISUALIZACIÓN DATOS" HorizontalAlignment="Left" Margin="54,309,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial"/>
-        <Button x:Name="bGestionDatos_Copy1" Content="ESTADÍSTICAS" HorizontalAlignment="Left" Margin="54,379,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="402" Margin="10,10,0,0" VerticalAlignment="Top" Width="381">
+            <Grid>
+                <Button x:Name="bMapas" Content="MAPAS Y RUTAS" HorizontalAlignment="Left" Margin="33,36,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bMapas_Click"/>
+                <Button x:Name="bGestionFacturas" Content="GESTIÓN FACTURAS" HorizontalAlignment="Left" Margin="33,106,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionFacturas_Click"/>
+                <Button x:Name="bGestionDatosGenerales" Content="GESTIÓN DE DATOS GENERALES" HorizontalAlignment="Left" Margin="33,176,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionDatosGenerales_Click"/>
+                <Button x:Name="bGestionGastos" Content="GESTIÓN GASTOS" HorizontalAlignment="Left" Margin="33,246,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionGastos_Click"/>
+                <Button x:Name="bEstadisticas" Content="ESTADÍSTICAS" HorizontalAlignment="Left" Margin="33,316,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bEstadisticas_Click"/>
+            </Grid>
+        </Border>
     </Grid>
 </Window>

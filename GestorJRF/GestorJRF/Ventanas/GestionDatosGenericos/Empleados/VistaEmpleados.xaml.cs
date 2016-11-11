@@ -2,7 +2,7 @@
 using System.Windows;
 using GestorJRF.POJOS;
 using System;
-using GestorJRF.CRUD.Empresas;
+using GestorJRF.CRUD;
 
 namespace GestorJRF.Ventanas.GestionDatosGenericos.Empleados
 {
@@ -16,7 +16,7 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Empleados
         public VistaEmpleados()
         {
             InitializeComponent();
-            UtilidadesVentana.SituarVentana(this);
+            UtilidadesVentana.SituarVentana(0, this);
         }
 
         private void CerrandoVentana(object sender, System.ComponentModel.CancelEventArgs e)
@@ -24,7 +24,7 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Empleados
             new VentanaMenuGestionDatos().Show();
         }
 
-        internal void MostrarCamionBuscado()
+        internal void MostrarEmpleadoBuscado()
         {
             tNombre.Text = empleado.nombre;
             tApellidos.Text = empleado.apellidos;
@@ -50,7 +50,10 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Empleados
                     int salida = EmpleadosCRUD.borrarEmpleado(empleado.dni);
 
                     if (salida == 1)
+                    {
                         UtilidadesVentana.LimpiarCampos(gridPrincipal);
+                        empleado = null;
+                    }
                 }
             }
             else
@@ -63,6 +66,7 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Empleados
             {
                 new VentanaGestionEmpleados(empleado).Show();
                 UtilidadesVentana.LimpiarCampos(gridPrincipal);
+                empleado = null;
             }
             else
                 MessageBox.Show("Debe seleccionar un empleado para modificarlo.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);

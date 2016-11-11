@@ -1,0 +1,13 @@
+﻿<Window x:Class="GestorJRF.Ventanas.GestionDatosGenericos.VentanaSeleccionGestionResumen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestorJRF.Ventanas.GestionDatosGenericos"
+        mc:Ignorable="d"
+        Title="VentanaSeleccionGestion" Height="175.23" Width="500.722" ResizeMode="NoResize" Closing="CerrandoVentana">
+    <Grid>
+        <Button x:Name="bGestionResumenesPrevios" Content="GESTIÓN RESÚMENES &#xD;&#xA;             PREVIOS" HorizontalAlignment="Left" Margin="32,27,0,0" VerticalAlignment="Top" Width="204" Height="82" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Background="#FFDDDDDD" Click="bGestionResumenesPrevios_Click"/>
+        <Button x:Name="bGestionResumenesFinales" Content="GESTIÓN RESÚMENES &#xD;&#xA;             FINALES" HorizontalAlignment="Left" Margin="256,27,0,0" VerticalAlignment="Top" Width="204" Height="82" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Background="#FFDDDDDD" Click="bGestionResumenesFinales_Click"/>
+    </Grid>
+</Window>

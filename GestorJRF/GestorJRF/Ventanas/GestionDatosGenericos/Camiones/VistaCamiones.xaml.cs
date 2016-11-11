@@ -1,4 +1,4 @@
-﻿using GestorJRF.CRUD.Empresas;
+﻿using GestorJRF.CRUD;
 using GestorJRF.MyBatis.NET;
 using GestorJRF.POJOS;
 using GestorJRF.Utilidades;
@@ -18,7 +18,7 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Camiones
         public VistaCamiones()
         {
             InitializeComponent();
-            UtilidadesVentana.SituarVentana(this);
+            UtilidadesVentana.SituarVentana(0, this);
         }
 
         private void CerrandoVentana(object sender, System.ComponentModel.CancelEventArgs e)
@@ -50,6 +50,7 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Camiones
             {
                 new VentanaGestionCamiones(camion).Show();
                 UtilidadesVentana.LimpiarCampos(gridPrincipal);
+                camion = null;
             }
             else
                 MessageBox.Show("Debe seleccionar un camión para modificarlo.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -64,7 +65,10 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Camiones
                     int salida = CamionesCRUD.borrarCamion(camion.nBastidor);
 
                     if(salida == 1)
-                        UtilidadesVentana.LimpiarCampos(gridPrincipal);                    
+                    {
+                        UtilidadesVentana.LimpiarCampos(gridPrincipal);
+                        camion = null;
+                    }                
                 }
                 
             }

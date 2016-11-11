@@ -1,0 +1,51 @@
+﻿<Window x:Class="GestorJRF.Ventanas.GestionGastos.VentanaGestionGastos"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestorJRF.Ventanas.GestionGastos"
+        mc:Ignorable="d"
+        Title="VentanaGestionGastos" Height="499" Width="434" Closing="Window_Closing">
+    <Grid>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="437" Margin="10,10,0,0" VerticalAlignment="Top" Width="394">
+            <Grid Name="gridPrincipal">
+                <CheckBox x:Name="checkGastoGenerico" Content="Gasto genérico" HorizontalAlignment="Left" Margin="10,11,0,0" VerticalAlignment="Top" Checked="checkGastoGenerico_Checked" Unchecked="checkGastoGenerico_Unchecked"/>
+                <Label x:Name="label" Content="Empleado" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="cEmpleado" HorizontalAlignment="Left" Margin="78,35,0,0" VerticalAlignment="Top" Width="304"/>
+                <Label x:Name="label_Copy" Content="Vehículo" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="cVehiculo" HorizontalAlignment="Left" Margin="78,66,0,0" VerticalAlignment="Top" Width="304"/>
+                <Label x:Name="label_Copy1" Content="Concepto" HorizontalAlignment="Left" Margin="10,93,0,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="cConcepto" HorizontalAlignment="Left" Margin="78,97,0,0" VerticalAlignment="Top" Width="304" SelectionChanged="cConcepto_SelectionChanged">
+                    <ComboBoxItem Content="COMBUSTIBLE" HorizontalAlignment="Left" Width="298"/>
+                    <ComboBoxItem Content="MANUTENCIÓN" HorizontalAlignment="Left" Width="298"/>
+                    <ComboBoxItem Content="MANTENIMIENTO" HorizontalAlignment="Left" Width="298"/>
+                    <ComboBoxItem Content="DOCUMENTACIÓN" HorizontalAlignment="Left" Width="298"/>
+                    <ComboBoxItem Content="TRANSPORTE" HorizontalAlignment="Left" Width="298"/>
+                    <ComboBoxItem Content="OTROS" HorizontalAlignment="Left" Width="298"/>
+                </ComboBox>
+                <Label x:Name="label_Copy5" Content="Proveedor" HorizontalAlignment="Left" Margin="10,124,0,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="cProveedor" HorizontalAlignment="Left" Margin="78,128,0,0" VerticalAlignment="Top" Width="241"/>
+                <Label x:Name="label_Copy6" Content="Referencia" HorizontalAlignment="Left" Margin="10,155,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="tReferencia" HorizontalAlignment="Left" Height="23" Margin="79,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="303"/>
+                <Label x:Name="lImporte" Content="Importe base" HorizontalAlignment="Left" Margin="10,186,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="tImporte" HorizontalAlignment="Left" Height="23" Margin="112,189,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="270"/>
+                <Label x:Name="label_Copy7" Content="IVA" HorizontalAlignment="Left" Margin="79,217,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="tIva" HorizontalAlignment="Left" Height="23" Margin="112,220,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="67"/>
+                <TextBox x:Name="tIrpf" HorizontalAlignment="Left" Height="23" Margin="239,220,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="67"/>
+                <Label x:Name="label_Copy2" Content="Fecha (dd/mm/yyyy)" HorizontalAlignment="Left" Margin="10,248,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="tFecha" HorizontalAlignment="Left" Height="23" Margin="133,251,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="249"/>
+                <Label x:Name="label_Copy3" Content="Descripción" HorizontalAlignment="Left" Margin="10,279,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="tDescripcion" HorizontalAlignment="Left" Height="23" Margin="87,282,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="295"/>
+                <GroupBox x:Name="groupBox3" Header="Acciones gastos" HorizontalAlignment="Left" Margin="10,310,0,0" VerticalAlignment="Top" Height="114" Width="372">
+                    <Grid>
+                        <Button x:Name="bNuevoGasto" Content="AÑADIR GASTO" HorizontalAlignment="Left" Margin="161,10,0,0" VerticalAlignment="Top" Width="189" Height="72" Background="#FF9EFF9E" Click="bNuevoGasto_Click"/>
+                        <Button x:Name="bLimpiarCampos" Content="LIMPIAR CAMPOS" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="146" Height="72" Background="#FFF4FF83" Click="bLimpiarCampos_Click"/>
+                    </Grid>
+                </GroupBox>
+                <Label x:Name="label1" Content="IRPF" HorizontalAlignment="Left" Margin="201,217,0,0" VerticalAlignment="Top"/>
+                <Button x:Name="bNuevoProveedor" Content="NUEVO" HorizontalAlignment="Left" Margin="324,128,0,0" VerticalAlignment="Top" Width="58" Height="22" Background="#FF9EFF9E" Click="bNuevoProveedor_Click"/>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Window>

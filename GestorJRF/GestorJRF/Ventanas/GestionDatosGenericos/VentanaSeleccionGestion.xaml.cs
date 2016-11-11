@@ -2,7 +2,9 @@
 using GestorJRF.Ventanas.GestionDatosGenericos.Alertas;
 using GestorJRF.Ventanas.GestionDatosGenericos.Camiones;
 using GestorJRF.Ventanas.GestionDatosGenericos.Empleados;
+using GestorJRF.Ventanas.GestionDatosGenericos.Proveedores;
 using GestorJRF.Ventanas.GestionDatosGenericos.Tarifas;
+using GestorJRF.Ventanas.GestionGastos;
 using System.Windows;
 
 namespace GestorJRF.Ventanas.GestionDatosGenericos
@@ -18,7 +20,7 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos
         public VentanaSeleccionGestion(string tipo)
         {
             InitializeComponent();
-            UtilidadesVentana.SituarVentana(this);
+            UtilidadesVentana.SituarVentana(0, this);
             this.tipo = tipo;
             Title = "Gestión " + tipo;
             botonPulsadoX = true;
@@ -38,7 +40,7 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos
                     Close();
                     break;
                 case "empresas":
-                    new VentanaGestionEmpresas().Show();
+                    new VentanaGestionEmpresas(false).Show();
                     Close();
                     break;
                 case "tarifas":
@@ -47,6 +49,14 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos
                     break;
                 case "alertas":
                     new VentanaGestionAlertas().Show();
+                    Close();
+                    break;
+                case "gastos":
+                    new VentanaGestionGastos().Show();
+                    Close();
+                    break;
+                case "proveedores":
+                    new VentanaGestionProveedores().Show();
                     Close();
                     break;
                 default:
@@ -81,6 +91,14 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos
                     new VistaAlertas().Show();
                     Close();
                     break;
+                case "gastos":
+                    new VistaGastos().Show();
+                    Close();
+                    break;
+                case "proveedores":
+                    new VistaProveedores().Show();
+                    Close();
+                    break;
                 default:
                     new VistaCamiones().Show();
                     Close();
@@ -90,9 +108,12 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos
 
         private void CerrandoVentana(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (botonPulsadoX) {
-                VentanaMenuGestionDatos vMenu = new VentanaMenuGestionDatos();
-                vMenu.Show();
+            if (botonPulsadoX)
+            {
+                if (!tipo.Equals("gastos"))
+                    new VentanaMenuGestionDatos().Show();
+                else
+                    new VentanaMenuPrincipal().Show();
             }
         }
     }

@@ -1,0 +1,26 @@
+﻿<Window x:Class="GestorJRF.Ventanas.Facturas.VentanaFacturaIva"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestorJRF.Ventanas.Facturas"
+        mc:Ignorable="d"
+        Title="VentanaFactura" Height="170.912" Width="251.377" ResizeMode="NoResize" Closing="Window_Closing">
+    <Grid>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="115" Margin="10,10,0,0" VerticalAlignment="Top" Width="218">
+            <Grid x:Name="___Sin_nombre_">
+                <Button x:Name="bGenerarFactura" Content="GENERAR FACTURA" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="196" Height="62" Background="#FF9EFF9E" Click="bGenerarFactura_Click"/>
+                <Label x:Name="label" Content="Trimestre" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="cTrimestre" HorizontalAlignment="Left" Margin="75,13,0,0" VerticalAlignment="Top" Width="41" Height="23" RenderTransformOrigin="0.203,0.5" SelectedIndex="0">
+                    <ComboBoxItem Content="1" HorizontalAlignment="Left" Width="92"/>
+                    <ComboBoxItem Content="2" HorizontalAlignment="Left" Width="92"/>
+                    <ComboBoxItem Content="3" HorizontalAlignment="Left" Width="92"/>
+                    <ComboBoxItem Content="4" HorizontalAlignment="Left" Width="92"/>
+                </ComboBox>
+                <Label x:Name="label_Copy" Content="Año" HorizontalAlignment="Left" Margin="121,10,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="tAño" HorizontalAlignment="Left" Height="23" Margin="158,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="48"/>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Window>

@@ -9,17 +9,12 @@
     <Grid>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="336" Margin="10,10,0,0" VerticalAlignment="Top" Width="875">
             <Grid>
-                <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="215" Width="854" IsEnabled="False">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{x:Null}" Width="*" Header="ETIQUETA"/>
-                        <DataGridTextColumn Binding="{x:Null}" Width="*" Header="PRECIO"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                <DataGrid x:Name="tabla" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Height="184" Width="854" IsEnabled="False" CanUserAddRows="False" CanUserDeleteRows="True" DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}" ItemsSource="{Binding listaComponentesTarifa}" ColumnWidth="*" AutoGeneratingColumn="tabla_AutoGeneratingColumn"/>
                 <GroupBox x:Name="groupBox" Header="Acciones" HorizontalAlignment="Left" Margin="295,230,0,0" VerticalAlignment="Top" Height="94" Width="569">
                     <Grid Margin="2,0,-2,0">
-                        <Button x:Name="bModificar" Content="MODIFICAR TARIFA" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="176" Height="52" Background="#FFF99F60"/>
-                        <Button x:Name="bBorrar" Content="BORRAR TARIFA" HorizontalAlignment="Left" Margin="191,10,0,0" VerticalAlignment="Top" Width="176" Height="52" Background="#FFFF8A8A"/>
-                        <Button x:Name="bBuscar" HorizontalAlignment="Left" Margin="372,10,0,0" VerticalAlignment="Top" Width="176" Height="52" Background="#FF80EEFF">
+                        <Button x:Name="bModificar" Content="MODIFICAR TARIFA" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="176" Height="52" Background="#FFF99F60" Click="bModificar_Click"/>
+                        <Button x:Name="bBorrar" Content="BORRAR TARIFA" HorizontalAlignment="Left" Margin="191,10,0,0" VerticalAlignment="Top" Width="176" Height="52" Background="#FFFF8A8A" Click="bBorrar_Click"/>
+                        <Button x:Name="bBuscar" HorizontalAlignment="Left" Margin="372,10,0,0" VerticalAlignment="Top" Width="176" Height="52" Background="#FF80EEFF" Click="bBuscar_Click">
                             <DockPanel LastChildFill="True" Width="157">
                                 <Image DockPanel.Dock="Left" Source="/GestorJRF;component/Iconos/lupa.png" Stretch="None" />
                                 <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" Width="97"><Run Text="BUSCAR "/><Run Text="TARIFA"/></TextBlock>
@@ -27,9 +22,10 @@
                         </Button>
                     </Grid>
                 </GroupBox>
+                <Label x:Name="label1" Content="DESCRIPCIÓN TARIFA" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="125"/>
+                <TextBox x:Name="tDescripcionTarifa" HorizontalAlignment="Left" Height="23" Margin="140,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="723" IsEnabled="False"/>
             </Grid>
         </Border>
-
     </Grid>
 </Window>
 

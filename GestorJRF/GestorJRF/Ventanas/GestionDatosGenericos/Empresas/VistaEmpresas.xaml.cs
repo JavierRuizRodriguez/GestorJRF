@@ -1,4 +1,4 @@
-﻿using GestorJRF.CRUD.Empresas;
+﻿using GestorJRF.CRUD;
 using GestorJRF.POJOS;
 using GestorJRF.Utilidades;
 using System;
@@ -18,7 +18,7 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos
         public VistaEmpresas()
         {
             InitializeComponent();
-            UtilidadesVentana.SituarVentana(this);
+            UtilidadesVentana.SituarVentana(0, this);
             listaPersonasContacto = new ObservableCollection<PersonaContacto>();
         }
 
@@ -27,7 +27,7 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos
             new VentanaMenuGestionDatos().Show();
         }
 
-        internal void MostrarCamionBuscado()
+        internal void MostrarEmpresaBuscada()
         {
             tNombre.Text = empresa.nombre;
             tNIF.Text = empresa.cif;
@@ -50,9 +50,15 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos
         {
             if (empresa != null)
             {
-                new VentanaGestionEmpresas(empresa).Show();
-                UtilidadesVentana.LimpiarCampos(gridPrincipal);
-                listaPersonasContacto.Clear();
+                if (!empresa.nombre.Equals("GENERAL"))
+                {
+                    new VentanaGestionEmpresas(empresa).Show();
+                    UtilidadesVentana.LimpiarCampos(gridPrincipal);
+                    listaPersonasContacto.Clear();
+                    empresa = null;
+                }
+                else
+                    MessageBox.Show("La empresa 'GENERAL' no puede ser modificada.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
                 MessageBox.Show("Debe seleccionar una empresa para modificarla.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -63,23 +69,29 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos
             if (e.Column.Header.ToString() == "cif")
                 e.Cancel = true;
             else
-                e.Column.Header = e.Column.Header.ToString().ToUpper();
+                e.Column.Header = UtilidadesVentana.generarEtiquetaFormatoColumna(e.Column.Header.ToString());
         }
 
         private void bEliminar_Click(object sender, RoutedEventArgs e)
         {
             if (empresa != null)
             {
-                if (MessageBox.Show("¿Desea borrar la empresa?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (!empresa.nombre.Equals("GENERAL"))
                 {
-                    int salida = EmpresasCRUD.borrarEmpresa(empresa.cif);
-
-                    if (salida == 1)
+                    if (MessageBox.Show("¿Desea borrar la empresa?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                     {
-                        UtilidadesVentana.LimpiarCampos(gridPrincipal);
-                        listaPersonasContacto.Clear();
+                        int salida = EmpresasCRUD.borrarEmpresa(empresa.cif);
+
+                        if (salida == 1)
+                        {
+                            UtilidadesVentana.LimpiarCampos(gridPrincipal);
+                            listaPersonasContacto.Clear();
+                            empresa = null;
+                        }
                     }
                 }
+                else
+                    MessageBox.Show("La empresa 'GENERAL' no puede ser borrada.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
                 MessageBox.Show("Debe seleccionar una empresa para borrarla.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);

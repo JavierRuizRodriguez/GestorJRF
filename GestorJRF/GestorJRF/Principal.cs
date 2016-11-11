@@ -1,15 +1,16 @@
-﻿using System.Windows;
+﻿using GestorJRF.Ventanas.GestionDatosGenericos.Alertas;
+using System.Globalization;
+using System.Windows;
+using System.Windows.Markup;
 
 namespace GestorJRF
 {
     public partial class Principal : Application
     {
-        private VentanaLogin vLogin;
-
         void Principal_startUp(object sender, StartupEventArgs e)
         {
-            vLogin = VentanaLogin.getInstancia();
-            vLogin.Show();
+            FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+            VentanaLogin.getInstancia().Show();
         }
     }
 }

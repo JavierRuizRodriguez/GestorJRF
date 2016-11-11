@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet2" targetNamespace="http://tempuri.org/DataSet2.xsd" xmlns:mstns="http://tempuri.org/DataSet2.xsd" xmlns="http://tempuri.org/DataSet2.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet2" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet2" msprop:Generator_UserDSName="DataSet2">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Resumen" msprop:Generator_TableClassName="ResumenDataTable" msprop:Generator_TableVarName="tableResumen" msprop:Generator_TablePropName="Resumen" msprop:Generator_RowDeletingName="ResumenRowDeleting" msprop:Generator_RowChangingName="ResumenRowChanging" msprop:Generator_RowEvHandlerName="ResumenRowChangeEventHandler" msprop:Generator_RowDeletedName="ResumenRowDeleted" msprop:Generator_UserTableName="Resumen" msprop:Generator_RowChangedName="ResumenRowChanged" msprop:Generator_RowEvArgName="ResumenRowChangeEvent" msprop:Generator_RowClassName="ResumenRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id" msprop:Generator_ColumnVarNameInTable="columnid" msprop:Generator_ColumnPropNameInRow="id" msprop:Generator_ColumnPropNameInTable="idColumn" msprop:Generator_UserColumnName="id" type="xs:long" minOccurs="0" />
+              <xs:element name="idAntiguo" msprop:Generator_ColumnVarNameInTable="columnidAntiguo" msprop:Generator_ColumnPropNameInRow="idAntiguo" msprop:Generator_ColumnPropNameInTable="idAntiguoColumn" msprop:Generator_UserColumnName="idAntiguo" type="xs:string" minOccurs="0" />
+              <xs:element name="referencia" msprop:Generator_ColumnVarNameInTable="columnreferencia" msprop:Generator_ColumnPropNameInRow="referencia" msprop:Generator_ColumnPropNameInTable="referenciaColumn" msprop:Generator_UserColumnName="referencia" type="xs:string" minOccurs="0" />
+              <xs:element name="cif" msprop:Generator_ColumnVarNameInTable="columncif" msprop:Generator_ColumnPropNameInRow="cif" msprop:Generator_ColumnPropNameInTable="cifColumn" msprop:Generator_UserColumnName="cif" type="xs:string" minOccurs="0" />
+              <xs:element name="nombreCliente" msprop:Generator_ColumnVarNameInTable="columnnombreCliente" msprop:Generator_ColumnPropNameInRow="nombreCliente" msprop:Generator_ColumnPropNameInTable="nombreClienteColumn" msprop:Generator_UserColumnName="nombreCliente" type="xs:string" minOccurs="0" />
+              <xs:element name="kilometrosIda" msprop:Generator_ColumnVarNameInTable="columnkilometrosIda" msprop:Generator_ColumnPropNameInRow="kilometrosIda" msprop:Generator_ColumnPropNameInTable="kilometrosIdaColumn" msprop:Generator_UserColumnName="kilometrosIda" type="xs:long" minOccurs="0" />
+              <xs:element name="kilometrosVuelta" msprop:Generator_ColumnVarNameInTable="columnkilometrosVuelta" msprop:Generator_ColumnPropNameInRow="kilometrosVuelta" msprop:Generator_ColumnPropNameInTable="kilometrosVueltaColumn" msprop:Generator_UserColumnName="kilometrosVuelta" type="xs:long" minOccurs="0" />
+              <xs:element name="nombreTarifa" msprop:Generator_ColumnVarNameInTable="columnnombreTarifa" msprop:Generator_ColumnPropNameInRow="nombreTarifa" msprop:Generator_ColumnPropNameInTable="nombreTarifaColumn" msprop:Generator_UserColumnName="nombreTarifa" type="xs:string" minOccurs="0" />
+              <xs:element name="etiqueta" msprop:Generator_ColumnVarNameInTable="columnetiqueta" msprop:Generator_ColumnPropNameInRow="etiqueta" msprop:Generator_ColumnPropNameInTable="etiquetaColumn" msprop:Generator_UserColumnName="etiqueta" type="xs:string" minOccurs="0" />
+              <xs:element name="tipoCamion" msprop:Generator_ColumnVarNameInTable="columntipoCamion" msprop:Generator_ColumnPropNameInRow="tipoCamion" msprop:Generator_ColumnPropNameInTable="tipoCamionColumn" msprop:Generator_UserColumnName="tipoCamion" type="xs:string" minOccurs="0" />
+              <xs:element name="fechaPorte" msprop:Generator_ColumnVarNameInTable="columnfechaPorte" msprop:Generator_ColumnPropNameInRow="fechaPorte" msprop:Generator_ColumnPropNameInTable="fechaPorteColumn" msprop:Generator_UserColumnName="fechaPorte" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="precioFinal" msprop:Generator_ColumnVarNameInTable="columnprecioFinal" msprop:Generator_ColumnPropNameInRow="precioFinal" msprop:Generator_ColumnPropNameInTable="precioFinalColumn" msprop:Generator_UserColumnName="precioFinal" type="xs:double" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1">
+      <xs:selector xpath=".//mstns:Resumen" />
+      <xs:field xpath="mstns:id" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

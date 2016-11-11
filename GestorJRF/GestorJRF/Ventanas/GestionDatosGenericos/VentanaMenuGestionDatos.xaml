@@ -5,12 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GestorJRF.Ventanas"
         mc:Ignorable="d"
-        Title="VentanaMenuGestionDatos" Height="421.824" Width="418.98" Closing="CerrandoVentana" ResizeMode="NoResize">
+        Title="VentanaMenuGestionDatos" Height="571.546" Width="418.98" Closing="CerrandoVentana" ResizeMode="NoResize">
     <Grid>
         <Button x:Name="bGestionEmpleados" Content="GESTIÓN EMPLEADOS" HorizontalAlignment="Left" Margin="54,29,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionEmpleados_Click"/>
         <Button x:Name="bGestionEmpresas" Content="GESTIÓN EMPRESAS" HorizontalAlignment="Left" Margin="54,99,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionEmpresas_Click"/>
         <Button x:Name="bGestionCamiones" Content="GESTIÓN CAMIONES" HorizontalAlignment="Left" Margin="54,169,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionCamiones_Click"/>
         <Button x:Name="bGestionTarifas" Content="GESTIÓN TARIFAS" HorizontalAlignment="Left" Margin="54,239,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionTarifas_Click"/>
         <Button x:Name="bGestionAlertas" Content="GESTIÓN ALERTAS" HorizontalAlignment="Left" Margin="54,309,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionAlertas_Click"/>
+        <Button x:Name="bGestionResumenes" Content="GESTIÓN RESÚMENES" HorizontalAlignment="Left" Margin="54,379,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionResumenes_Click"/>
+        <Button x:Name="bGestionProveedores" Content="GESTIÓN PROVEEDORES" HorizontalAlignment="Left" Margin="54,449,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionProveedores_Click"/>
     </Grid>
 </Window>

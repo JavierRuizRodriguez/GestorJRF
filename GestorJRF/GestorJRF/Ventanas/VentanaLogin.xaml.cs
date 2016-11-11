@@ -1,5 +1,8 @@
-﻿using GestorJRF.Utilidades;
+﻿using GestorJRF.CRUD;
+using GestorJRF.POJOS;
+using GestorJRF.Utilidades;
 using GestorJRF.Ventanas;
+using GestorJRF.Ventanas.GestionDatosGenericos.Alertas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +27,10 @@ namespace GestorJRF
         public VentanaLogin()
         {
             InitializeComponent();
-            UtilidadesVentana.SituarVentana(this);
+            UtilidadesVentana.SituarVentana(0, this);
+
+            hipervinculo.Inlines.Add("Modificar la contraseña");
+            hipervinculo1.Inlines.Add("Crear nuevo usuario");
         }
 
         internal static VentanaLogin getInstancia()
@@ -35,12 +41,32 @@ namespace GestorJRF
             return instancia;
         }
 
+        private void hipervinculo_Click(object sender, RoutedEventArgs e)
+        {
+            new VentanaOpcionesModificacionUsuario().Show();
+        }
+
+        private void hipervinculo1_Click(object sender, RoutedEventArgs e)
+        {
+            new VentanaNuevoUsuarioSistema().Show();
+        }
+
         private void bEntrar_Click(object sender, RoutedEventArgs e)
         {
-            //hacer comprobación usuario contraseña.
-            VentanaMenuPrincipal vMenuPrincipal = new VentanaMenuPrincipal();
-            vMenuPrincipal.Show();
-            this.Close();
+            UsuarioSistema usuario = new UsuarioSistema(tUsuario.Text, tContraseña.Password, "");
+            Object usuarioBuscado = UsuarioSistemaCRUD.cogerUsuarioSistema(usuario);
+            if (usuarioBuscado != null)
+            {
+                new VentanaMenuPrincipal().Show();
+                new AvisoAlerta().Show();
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("El usuario o la contraseña son incorrectos.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+                tUsuario.Text = "";
+                tContraseña.Password = "";
+            }
         }
     }
 }

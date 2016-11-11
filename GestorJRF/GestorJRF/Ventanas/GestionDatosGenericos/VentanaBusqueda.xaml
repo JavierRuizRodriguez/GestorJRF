@@ -10,9 +10,15 @@
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="172" Margin="10,10,0,0" VerticalAlignment="Top" Width="431">
             <Grid Margin="0,0,-1,-1">
                 <Label x:Name="label" Content="Buscar por" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                <ComboBox x:Name="cBusqueda" HorizontalAlignment="Left" Margin="81,14,0,0" VerticalAlignment="Top" Width="339" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <ComboBox x:Name="cBusqueda" HorizontalAlignment="Left" Margin="81,14,0,0" VerticalAlignment="Top" Width="339">
+                </ComboBox>
                 <Label x:Name="label_Copy" Content="Valor" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="tBusqueda" HorizontalAlignment="Left" Height="23" Margin="81,53,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="339"/>
+                <Label x:Name="lTipoAlerta" Content="Tipo alerta" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" Visibility="Hidden"/>
+                <ComboBox x:Name="cAlerta" HorizontalAlignment="Left" Margin="10,112,0,0" VerticalAlignment="Top" Width="154" Visibility="Hidden" SelectionChanged="cAlerta_SelectionChanged">
+                    <ComboBoxItem Content="FECHA" HorizontalAlignment="Left" Width="152"/>
+                    <ComboBoxItem Content="KILOMETRAJE" HorizontalAlignment="Left" Width="152"/>
+                </ComboBox>
                 <GroupBox x:Name="groupBox" Header="Acciones" HorizontalAlignment="Left" Margin="169,81,0,0" VerticalAlignment="Top" Height="80" Width="251">
                     <Grid Margin="2,0,-2,0">
                         <Button x:Name="bListadoCompleto" Content="LISTADO COMPLETO" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="174" Height="38" Background="#FFF9EB60" Click="bListadoCompleto_Click"/>
@@ -23,6 +29,7 @@
                         </Button>
                     </Grid>
                 </GroupBox>
+
             </Grid>
         </Border>
 

@@ -34,7 +34,17 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Iconos\logo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>GestorJRF.Principal</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FastMember, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastMember.1.1.0\lib\net40\FastMember.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="IBatisNet.Common, Version=1.6.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MyBatis.NET.1.6.4\lib\IBatisNet.Common.dll</HintPath>
       <Private>True</Private>
@@ -43,6 +53,10 @@
       <HintPath>..\packages\MyBatis.NET.1.6.4\lib\IBatisNet.DataMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Maps.MapControl.WPF">
+      <HintPath>..\..\..\..\Programas instalados\BingMapsWPF\V1\Libraries\Microsoft.Maps.MapControl.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="MyBatis.Common, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MyBatis.Common.3.0.0\lib\MyBatis.Common.dll</HintPath>
       <Private>True</Private>
@@ -51,9 +65,18 @@
       <HintPath>..\packages\Npgsql.3.1.8\lib\net451\Npgsql.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ReachFramework" />
+    <Reference Include="sapbusinessobjects.wpf.viewer, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="SAPBusinessObjects.WPF.ViewerShared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="system.windows.controls.datavisualization.toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -66,29 +89,127 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WPFToolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CRUD\Empresas\CamionesCRUD.cs" />
-    <Compile Include="CRUD\Empresas\EmpleadosCRUD.cs" />
-    <Compile Include="CRUD\Empresas\EmpresasCRUD.cs" />
+    <Compile Include="CRUD\AlertasCRUD.cs" />
+    <Compile Include="CRUD\CamionesCRUD.cs" />
+    <Compile Include="CRUD\EmpleadosCRUD.cs" />
+    <Compile Include="CRUD\EmpresasCRUD.cs" />
+    <Compile Include="CRUD\GastosCRUD.cs" />
+    <Compile Include="CRUD\ProveedoresCRUD.cs" />
+    <Compile Include="CRUD\ResumenesCRUD.cs" />
+    <Compile Include="CRUD\TarifasCRUD.cs" />
+    <Compile Include="CRUD\UsuarioSistemaCRUD.cs" />
     <Compile Include="MyBatis.NET\InstanciaPostgreSQL.cs" />
     <Compile Include="POJOS\Alerta.cs" />
+    <Compile Include="POJOS\AlertaFecha.cs" />
+    <Compile Include="POJOS\AlertaKM.cs" />
+    <Compile Include="POJOS\Cadena.cs" />
     <Compile Include="POJOS\Camion.cs" />
+    <Compile Include="POJOS\Comision.cs" />
+    <Compile Include="POJOS\ComponenteTarifa.cs" />
     <Compile Include="POJOS\Empleado.cs" />
     <Compile Include="POJOS\Empresa.cs" />
-    <Compile Include="POJOS\Nombre.cs" />
+    <Compile Include="POJOS\DobleCadena.cs" />
+    <Compile Include="POJOS\Estadisticas\BusquedaEstadisticas.cs" />
+    <Compile Include="POJOS\Estadisticas\GastoEstadistica.cs" />
+    <Compile Include="POJOS\Estadisticas\ResumenEstadistica.cs" />
+    <Compile Include="POJOS\Facturas\BusquedaFactura.cs" />
+    <Compile Include="POJOS\Fechas.cs" />
+    <Compile Include="POJOS\Gasto.cs" />
+    <Compile Include="POJOS\Mapas\Itinerario.cs" />
+    <Compile Include="POJOS\Mapas\Ruta.cs" />
     <Compile Include="POJOS\PersonaContacto.cs" />
+    <Compile Include="POJOS\Proveedor.cs" />
+    <Compile Include="POJOS\Resumen.cs" />
     <Compile Include="POJOS\Tarifa.cs" />
+    <Compile Include="POJOS\UsuarioSistema.cs" />
+    <Compile Include="REST MAPAS\DataContracts.cs" />
+    <Compile Include="REST MAPAS\BingREST.cs" />
     <Compile Include="Utilidades\UtilidadesVentana.cs" />
+    <Compile Include="Utilidades\UtilidadesVerificacion.cs" />
+    <Compile Include="Ventanas\Estadisticas\VentanaEstadisticas.xaml.cs">
+      <DependentUpon>VentanaEstadisticas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\Estadisticas\VentanaOpcionesGeneralEmpresaEmpleado.xaml.cs">
+      <DependentUpon>VentanaOpcionesGeneralEmpresaEmpleado.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\Estadisticas\VentanaOpcionesTrimestralAnualEmpresaEmpleado.xaml.cs">
+      <DependentUpon>VentanaOpcionesTrimestralAnualEmpresaEmpleado.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\Estadisticas\VentanaOpcionesMensualEmpresaEmpleado.xaml.cs">
+      <DependentUpon>VentanaOpcionesMensualEmpresaEmpleado.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\Estadisticas\VentanaOpcionesTrimestralAnual.xaml.cs">
+      <DependentUpon>VentanaOpcionesTrimestralAnual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\Estadisticas\VentanaOpcionesMensual.xaml.cs">
+      <DependentUpon>VentanaOpcionesMensual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\Facturas\DataSet1.cs">
+      <DependentUpon>DataSet1.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\Facturas\DataSet1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet1.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\Facturas\DataSet2.cs">
+      <DependentUpon>DataSet2.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\Facturas\DataSet2.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet2.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\Facturas\DataSet3.cs">
+      <DependentUpon>DataSet3.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\Facturas\DataSet3.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet3.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\Facturas\DataSet4.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet4.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\Facturas\VentanaFacturaIva.xaml.cs">
+      <DependentUpon>VentanaFacturaIva.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\Facturas\VentanaFacturaResumenes.xaml.cs">
+      <DependentUpon>VentanaFacturaResumenes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\Facturas\VentanaImpresionFactura.xaml.cs">
+      <DependentUpon>VentanaImpresionFactura.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\Facturas\VentanaSeleccionFacturacion.xaml.cs">
+      <DependentUpon>VentanaSeleccionFacturacion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\Genericas\VistaCompletaDosTablas.xaml.cs">
+      <DependentUpon>VistaCompletaDosTablas.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ventanas\Genericas\VistaCompletaTabla.xaml.cs">
       <DependentUpon>VistaCompletaTabla.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Alertas\AvisoAlerta.xaml.cs">
+      <DependentUpon>AvisoAlerta.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ventanas\GestionDatosGenericos\Alertas\VentanaGestionAlertas.xaml.cs">
       <DependentUpon>VentanaGestionAlertas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Alertas\VentanaSeleccionGestionAlertas.xaml.cs">
+      <DependentUpon>VentanaSeleccionGestionAlertas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Alertas\VistaAvisoAlerta.xaml.cs">
+      <DependentUpon>VistaAvisoAlerta.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ventanas\GestionDatosGenericos\Alertas\VistaAlertas.xaml.cs">
       <DependentUpon>VistaAlertas.xaml</DependentUpon>
@@ -108,6 +229,21 @@
     <Compile Include="Ventanas\GestionDatosGenericos\Empresas\VentanaGestionEmpresas.xaml.cs">
       <DependentUpon>VentanaGestionEmpresas.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Proveedores\VistaProveedores.xaml.cs">
+      <DependentUpon>VistaProveedores.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Proveedores\VentanaGestionProveedores.xaml.cs">
+      <DependentUpon>VentanaGestionProveedores.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Resumenes\VentanaGestionResumenesPrevio.xaml.cs">
+      <DependentUpon>VentanaGestionResumenesPrevio.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Resumenes\VentanaGestionResumenesFinal.xaml.cs">
+      <DependentUpon>VentanaGestionResumenesFinal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Resumenes\VentanaSeleccionGestionResumen.xaml.cs">
+      <DependentUpon>VentanaSeleccionGestionResumen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ventanas\GestionDatosGenericos\Tarifas\VentanaGestionTarifas.xaml.cs">
       <DependentUpon>VentanaGestionTarifas.xaml</DependentUpon>
     </Compile>
@@ -126,16 +262,93 @@
     <Compile Include="Ventanas\GestionDatosGenericos\VentanaSeleccionGestion.xaml.cs">
       <DependentUpon>VentanaSeleccionGestion.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ventanas\GestionGastos\VistaGastos.xaml.cs">
+      <DependentUpon>VistaGastos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionGastos\VentanaGestionGastos.xaml.cs">
+      <DependentUpon>VentanaGestionGastos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\Mapas\VentanaMapa.xaml.cs">
+      <DependentUpon>VentanaMapa.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ventanas\VentanaMenuPrincipal.xaml.cs">
       <DependentUpon>VentanaMenuPrincipal.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ventanas\VentanaNuevoUsuarioSistema.xaml.cs">
+      <DependentUpon>VentanaNuevoUsuarioSistema.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\VentanaModificarUsuarioSistema.xaml.cs">
+      <DependentUpon>VentanaModificarUsuarioSistema.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\VentanaOpcionesModificacionUsuario.xaml.cs">
+      <DependentUpon>VentanaOpcionesModificacionUsuario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\VentanaPassOlvidada.xaml.cs">
+      <DependentUpon>VentanaPassOlvidada.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Ventanas\Estadisticas\VentanaEstadisticas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\Estadisticas\VentanaOpcionesGeneralEmpresaEmpleado.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\Estadisticas\VentanaOpcionesTrimestralAnualEmpresaEmpleado.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ventanas\Estadisticas\VentanaOpcionesMensualEmpresaEmpleado.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ventanas\Estadisticas\VentanaOpcionesTrimestralAnual.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ventanas\Estadisticas\VentanaOpcionesMensual.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\Facturas\VentanaFacturaIva.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ventanas\Facturas\VentanaFacturaResumenes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\Facturas\VentanaImpresionFactura.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\Facturas\VentanaSeleccionFacturacion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\Genericas\VistaCompletaDosTablas.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Ventanas\Genericas\VistaCompletaTabla.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Alertas\AvisoAlerta.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Ventanas\GestionDatosGenericos\Alertas\VentanaGestionAlertas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Alertas\VentanaSeleccionGestionAlertas.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Alertas\VistaAvisoAlerta.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Ventanas\GestionDatosGenericos\Alertas\VistaAlertas.xaml">
       <SubType>Designer</SubType>
@@ -165,6 +378,26 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Proveedores\VistaProveedores.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Proveedores\VentanaGestionProveedores.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Resumenes\VentanaGestionResumenesPrevio.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Resumenes\VentanaGestionResumenesFinal.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Resumenes\VentanaSeleccionGestionResumen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Ventanas\GestionDatosGenericos\Tarifas\VentanaGestionTarifas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -178,6 +411,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Ventanas\GestionDatosGenericos\VentanaSeleccionGestion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionGastos\VistaGastos.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ventanas\GestionGastos\VentanaGestionGastos.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\Mapas\VentanaMapa.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -202,6 +447,22 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Ventanas\VentanaNuevoUsuarioSistema.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\VentanaModificarUsuarioSistema.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ventanas\VentanaOpcionesModificacionUsuario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\VentanaPassOlvidada.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -222,22 +483,73 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Ventanas\Facturas\Report1.rdlc" />
+    <EmbeddedResource Include="Ventanas\Facturas\Report2.rdlc" />
     <None Include="bin\Debug\providers.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="bin\Debug\SqlMap.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\GestorJRF.POJOS.Empresa.datasource" />
+    <None Include="Properties\DataSources\GestorJRF.POJOS.Resumen.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Ventanas\Facturas\DataSet1.xsc">
+      <DependentUpon>DataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="Ventanas\Facturas\DataSet1.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet1.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Ventanas\Facturas\DataSet1.xss">
+      <DependentUpon>DataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="Ventanas\Facturas\DataSet2.xsc">
+      <DependentUpon>DataSet2.xsd</DependentUpon>
+    </None>
+    <None Include="Ventanas\Facturas\DataSet2.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet2.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Ventanas\Facturas\DataSet2.xss">
+      <DependentUpon>DataSet2.xsd</DependentUpon>
+    </None>
+    <None Include="Ventanas\Facturas\DataSet3.xsc">
+      <DependentUpon>DataSet3.xsd</DependentUpon>
+    </None>
+    <None Include="Ventanas\Facturas\DataSet3.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet3.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Ventanas\Facturas\DataSet3.xss">
+      <DependentUpon>DataSet3.xsd</DependentUpon>
+    </None>
+    <None Include="Ventanas\Facturas\DataSet4.xsc">
+      <DependentUpon>DataSet4.xsd</DependentUpon>
+    </None>
+    <None Include="Ventanas\Facturas\DataSet4.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet4.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Ventanas\Facturas\DataSet4.xss">
+      <DependentUpon>DataSet4.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Iconos\lupa.png" />
@@ -250,6 +562,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MyBatis.NET\Mapas\" />
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Iconos\actualizar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Iconos\logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

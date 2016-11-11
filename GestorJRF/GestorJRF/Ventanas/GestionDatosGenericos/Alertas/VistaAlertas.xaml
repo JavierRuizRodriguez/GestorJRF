@@ -8,22 +8,22 @@
         Title="VistaAlertas" Height="272" Width="682.554" Closing="CerrandoVentana">
     <Grid>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="210" Margin="10,10,0,0" VerticalAlignment="Top" Width="644">
-            <Grid>
+            <Grid Name="gridPrincipal">
                 <Label x:Name="label" Content="CAMIÓN" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="label_Copy" Content="TIPO AVISO" HorizontalAlignment="Left" Margin="336,10,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label_Copy" Content="TIPO AVISO" HorizontalAlignment="Left" Margin="347,13,0,0" VerticalAlignment="Top"/>
                 <Label x:Name="label_Copy1" Content="DESCRIPCIÓN AVISO" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="tCamion" HorizontalAlignment="Left" Height="23" Margin="72,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="242"/>
-                <TextBox x:Name="tTipo" HorizontalAlignment="Left" Height="23" Margin="413,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="216"/>
+                <TextBox x:Name="tCamion" HorizontalAlignment="Left" Height="23" Margin="72,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="242" IsEnabled="False"/>
+                <TextBox x:Name="tTipoAviso" HorizontalAlignment="Left" Height="23" Margin="424,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="205" IsEnabled="False"/>
                 <TextBox x:Name="tDescripcion" HorizontalAlignment="Left" Height="23" Margin="136,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="493" IsEnabled="False"/>
-                <Label x:Name="label1" Content="DÍAS ANTELACIÓN AVISO" HorizontalAlignment="Left" Margin="319,72,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="tAntelacion" HorizontalAlignment="Left" Height="23" Margin="471,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="158" IsEnabled="False"/>
-                <Label x:Name="label1_Copy" Content="DÍAS ANTELACIÓN AVISO" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="tLimite" HorizontalAlignment="Left" Height="23" Margin="162,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="152" IsEnabled="False"/>
+                <Label x:Name="lLimite" Content="FECHA DE AVISO" HorizontalAlignment="Left" Margin="319,72,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="tLimite" HorizontalAlignment="Left" Height="23" Margin="424,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="205" IsEnabled="False"/>
+                <Label x:Name="lAntelacion" Content="DÍAS ANTELACIÓN AVISO" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="tAntelacion" HorizontalAlignment="Left" Height="23" Margin="162,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="152" IsEnabled="False"/>
                 <GroupBox x:Name="groupBox" Header="Acciones" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top" Height="94" Width="622">
                     <Grid Margin="2,0,-2,0">
-                        <Button x:Name="bModificar" Content="MODIFICAR ALERTA" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="185" Height="52" Background="#FFF99F60"/>
-                        <Button x:Name="bBorrar" Content="BORRAR ALERTA" HorizontalAlignment="Left" Margin="200,10,0,0" VerticalAlignment="Top" Width="202" Height="52" Background="#FFFF8A8A"/>
-                        <Button x:Name="bBuscar" HorizontalAlignment="Left" Margin="407,10,0,0" VerticalAlignment="Top" Width="193" Height="52" Background="#FF80EEFF">
+                        <Button x:Name="bModificar" Content="MODIFICAR ALERTA" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="185" Height="52" Background="#FFF99F60" Click="bModificar_Click"/>
+                        <Button x:Name="bBorrar" Content="BORRAR ALERTA" HorizontalAlignment="Left" Margin="200,10,0,0" VerticalAlignment="Top" Width="202" Height="52" Background="#FFFF8A8A" Click="bBorrar_Click"/>
+                        <Button x:Name="bBuscar" HorizontalAlignment="Left" Margin="407,10,0,0" VerticalAlignment="Top" Width="193" Height="52" Background="#FF80EEFF" Click="bBuscar_Click">
                             <DockPanel LastChildFill="True" Width="157">
                                 <Image DockPanel.Dock="Left" Source="/GestorJRF;component/Iconos/lupa.png" Stretch="None" />
                                 <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" Text="BUSCAR ALERTA" Width="97"/>

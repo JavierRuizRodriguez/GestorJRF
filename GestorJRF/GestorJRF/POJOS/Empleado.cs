@@ -40,5 +40,10 @@ namespace GestorJRF.POJOS
             this.telefono = telefono;
             this.email = email;
         }
+
+        public string getNombreApellidos()
+        {
+            return nombre + " " + apellidos;
+        }
     }
 }
