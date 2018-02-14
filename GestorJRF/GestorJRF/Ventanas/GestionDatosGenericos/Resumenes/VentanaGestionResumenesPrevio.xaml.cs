@@ -2,13 +2,19 @@
 using GestorJRF.POJOS;
 using GestorJRF.POJOS.Mapas;
 using GestorJRF.Utilidades;
+using GestorJRF.Ventanas;
+using GestorJRF.Ventanas.GestionDatosGenericos;
+using GestorJRF.Ventanas.GestionDatosGenericos.Resumenes;
 using System;
-using System.Collections;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
+using System.Windows.Markup;
 
 namespace GestorJRF.Ventanas.GestionDatosGenericos.Resumenes
 {
@@ -17,132 +23,230 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Resumenes
     /// </summary>
     public partial class VentanaGestionResumenesPrevio : Window
     {
-        private IList listaEmpleados;
-        private IList listaVehículos;
-        public ObservableCollection<Itinerario> listaItinerarios { get; set; }
-        public ObservableCollection<Comision> listaComisiones { get; set; }
-        public Resumen resumen { get; set; }
+        private List<Empleado> listaEmpleados;
+
+        private List<Camion> listaVehículos;
+
+        private int nPaletsTotales;
 
         private string valorAntiguo;
-        private string valorAntiguoPorcentaje;
+
         private double comisionTotal;
 
-        public VentanaGestionResumenesPrevio()
+        private bool esResumenDirecto;
+
+        private bool esModificacionResumenFinal;
+
+        private bool esConfiguracionVentana;
+
+        public ObservableCollection<Itinerario> listaItinerarios
         {
-            InitializeComponent();
+            get;
+            set;
+        }
+
+        public ObservableCollection<Comision> listaComisiones
+        {
+            get;
+            set;
+        }
+
+        public Resumen resumen
+        {
+            get;
+            set;
+        }
+
+        public VentanaGestionResumenesPrevio(bool esResumenDirecto)
+        {
+            this.InitializeComponent();
+            this.esResumenDirecto = esResumenDirecto;
             UtilidadesVentana.SituarVentana(1, this);
-            listaEmpleados = EmpleadosCRUD.cogerTodosEmpleados();
-            listaVehículos = CamionesCRUD.cogerTodosCamiones();
-            listaItinerarios = new ObservableCollection<Itinerario>();
-            listaComisiones = new ObservableCollection<Comision>();
-
-            foreach (Empleado empleado in listaEmpleados)
+            this.listaEmpleados = EmpleadosCRUD.cogerTodosEmpleados().Cast<Empleado>().ToList();
+            this.listaEmpleados = new List<Empleado>(from e in this.listaEmpleados
+                                                     orderby e.nombre
+                                                     select e);
+            this.listaVehículos = CamionesCRUD.cogerTodosCamiones().Cast<Camion>().ToList();
+            this.listaVehículos = new List<Camion>(from c in this.listaVehículos
+                                                   orderby c.matricula
+                                                   select c);
+            this.listaItinerarios = new ObservableCollection<Itinerario>();
+            this.listaComisiones = new ObservableCollection<Comision>();
+            foreach (Empleado listaEmpleado in this.listaEmpleados)
             {
-                cConductor.Items.Add(empleado.getNombreApellidos());
-                cConductorComision.Items.Add(empleado.getNombreApellidos());
+                this.cConductor.Items.Add(listaEmpleado.getNombreApellidos());
+                this.cConductorComision.Items.Add(listaEmpleado.getNombreApellidos());
             }
-            cConductor.SelectedIndex = 0;
-            cConductorComision.SelectedIndex = 0;
-
-            foreach (Camion camion in listaVehículos)
-                cVehiculo.Items.Add(camion.matricula);
-            cVehiculo.SelectedIndex = 0;
-
-            comisionTotal = 0;
+            this.cConductor.SelectedIndex = -1;
+            this.cConductorComision.SelectedIndex = -1;
+            foreach (Camion listaVehículo in this.listaVehículos)
+            {
+                this.cVehiculo.Items.Add(listaVehículo.matricula);
+            }
+            this.cVehiculo.SelectedIndex = -1;
+            this.comisionTotal = 0.0;
+            this.nPaletsTotales = 0;
         }
 
         private void tablaItinerarios_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
-            if (e.Column.Header.ToString().Equals("id") || e.Column.Header.ToString().Equals("latitud") ||
-                e.Column.Header.ToString().Equals("longitud") || e.Column.Header.ToString().Equals("idResumen"))
+            if (e.Column.Header.ToString().Equals("id") || e.Column.Header.ToString().Equals("latitud") || e.Column.Header.ToString().Equals("longitud") || e.Column.Header.ToString().Equals("idResumen") || e.Column.Header.ToString().Equals("direccion"))
+            {
                 e.Cancel = true;
-
-            e.Column.Width = e.Column.Header.ToString().Equals("punto") ? new DataGridLength(50, DataGridLengthUnitType.Pixel) :
-                (e.Column.Header.ToString().Equals("esEtapa") ? new DataGridLength(70, DataGridLengthUnitType.Pixel) :
-                (e.Column.Header.ToString().Equals("dni") || (e.Column.Header.ToString().Equals("matricula"))) ? new DataGridLength(80, DataGridLengthUnitType.Pixel) :
-                e.Column.Header.ToString().Equals("kilometrosVehiculo") ? new DataGridLength(140, DataGridLengthUnitType.Pixel) : new DataGridLength(1, DataGridLengthUnitType.Star));
-
+            }
+            e.Column.Width = (e.Column.Header.ToString().Equals("punto") ? new DataGridLength(50.0, DataGridLengthUnitType.Pixel) : (e.Column.Header.ToString().Equals("esEtapa") ? new DataGridLength(70.0, DataGridLengthUnitType.Pixel) : ((e.Column.Header.ToString().Equals("dni") || e.Column.Header.ToString().Equals("matricula")) ? new DataGridLength(80.0, DataGridLengthUnitType.Pixel) : (e.Column.Header.ToString().Equals("kilometrosVehiculo") ? new DataGridLength(140.0, DataGridLengthUnitType.Pixel) : (e.Column.Header.ToString().Equals("palets") ? new DataGridLength(50.0, DataGridLengthUnitType.Pixel) : new DataGridLength(1.0, DataGridLengthUnitType.Star))))));
             e.Column.Header = UtilidadesVentana.generarEtiquetaFormatoColumna(e.Column.Header.ToString());
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
-            new VentanaMenuGestionDatos().Show();
+            if (!this.esResumenDirecto)
+            {
+                new VentanaMenuGestionDatos().Show();
+            }
         }
 
         private void bNuevoResumenFinal_Click(object sender, RoutedEventArgs e)
         {
-            if (comprobarDniItinerarios())
+            if (this.comprobarDniItinerarios())
             {
-                if (comprobarMatriculaItinerarios())
+                if (this.comprobarMatriculaItinerarios())
                 {
-                    if (comprobarKilometrosVehiculoItinerarios())
+                    if (this.listaComisiones.Count > 0)
                     {
-                        if(listaComisiones.Count > 0 && comisionTotal == 100)
+                        double porcentajeTotalComisiones = 0.0;
+                        foreach (Comision listaComisione in this.listaComisiones)
                         {
-                            resumen.listaItinerarios = new List<Itinerario>(listaItinerarios);
-                            resumen.listaComisiones = new List<Comision>(listaComisiones);
-                            if (!tReferencia.Text.Equals(""))
-                                resumen.referencia = tReferencia.Text;
-
-                            int salida = ResumenesCRUD.añadirResumenFinal(resumen);
-                            if (salida == 1)
+                            porcentajeTotalComisiones += listaComisione.porcentaje;
+                        }
+                        if (porcentajeTotalComisiones == 100.0)
+                        {
+                            this.resumen.precioFinal = Convert.ToDouble(this.tPrecioFinal.Text);
+                            if (!this.esModificacionResumenFinal)
                             {
-                                UtilidadesVentana.LimpiarCampos(gridPrincipal);
-                                listaItinerarios.Clear();
-                                listaComisiones.Clear();
-                                comisionTotal = 0;
+                                this.altaResumenFinal();
+                            }
+                            else
+                            {
+                                this.modificacionResumenFinal();
                             }
                         }
                         else
-                            MessageBox.Show("Debe asignar las comisiones del resumen correctamente.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);                        
+                        {
+                            MessageBox.Show("El total de las comisiones debe ser del 100%.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
+                        }
                     }
                     else
-                        MessageBox.Show("Debe introducir los kilometros del vehículo para cada itinerario que no sea ETAPA.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    {
+                        MessageBox.Show("Debe asignar las comisiones del resumen correctamente en la BBDD.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
+                    }
                 }
                 else
-                    MessageBox.Show("Debe introducir un vehículo para cada itinerario que no sea ETAPA.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+                {
+                    MessageBox.Show("Debe introducir un vehículo para cada itinerario que no sea ETAPA.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
+                }
             }
             else
-                MessageBox.Show("Debe introducir un conductor para cada itinerario que no sea ETAPA.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+            {
+                MessageBox.Show("Debe introducir un conductor para cada itinerario que no sea ETAPA.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
+            }
         }
 
-        private bool comprobarKilometrosVehiculoItinerarios()
+        private void modificacionResumenFinal()
         {
-            foreach (Itinerario i in listaItinerarios)
+            this.resumen.idAntiguo = this.resumen.id;
+            this.resumen.listaItinerarios = new List<Itinerario>(this.listaItinerarios);
+            this.resumen.listaComisiones = new List<Comision>(this.listaComisiones);
+            if (!this.tReferencia.Text.Equals(""))
             {
-                if (!i.esEtapa && i.kilometrosVehiculo == 0)
-                    return false;
+                this.resumen.referencia = this.tReferencia.Text;
             }
-            return true;
+            if (UtilidadesVerificacion.validadorFechas(this.tFecha.Text) && UtilidadesVerificacion.validadorNumeroDecimal(this.tPrecioPorte.Text))
+            {
+                this.resumen.precioFinal = Convert.ToDouble(this.tPrecioFinal.Text.Replace(",", "."), UtilidadesVerificacion.cogerProveedorDecimal());
+                this.resumen.fechaPorte = Convert.ToDateTime(this.tFecha.Text);
+                int salida = ResumenesCRUD.modificarResumenFinal(this.resumen);
+                if (salida == 1)
+                {
+                    UtilidadesVentana.LimpiarCampos(this.gridPrincipal);
+                    this.tPrecioFinal.Text = "0";
+                    this.tPrecioPalets.Text = "0";
+                    this.tPrecioFinal.Text = "0";
+                    this.esConfiguracionVentana = true;
+                    this.listaItinerarios.Clear();
+                    this.listaComisiones.Clear();
+                    this.comisionTotal = 0.0;
+                    if (this.esResumenDirecto)
+                    {
+                        base.Close();
+                    }
+                }
+            }
+        }
+
+        private void altaResumenFinal()
+        {
+            this.resumen.listaItinerarios = new List<Itinerario>(this.listaItinerarios);
+            this.resumen.listaComisiones = new List<Comision>(this.listaComisiones);
+            if (!this.tReferencia.Text.Equals(""))
+            {
+                this.resumen.referencia = this.tReferencia.Text;
+            }
+            int salida = ResumenesCRUD.añadirResumenFinal(this.resumen);
+            if (salida == 1)
+            {
+                UtilidadesVentana.LimpiarCampos(this.gridPrincipal);
+                this.tPrecioFinal.Text = "0";
+                this.tPrecioPalets.Text = "0";
+                this.tPrecioFinal.Text = "0";
+                this.esConfiguracionVentana = true;
+                this.listaItinerarios.Clear();
+                this.listaComisiones.Clear();
+                this.comisionTotal = 0.0;
+                if (this.esResumenDirecto)
+                {
+                    base.Close();
+                }
+            }
         }
 
         private bool comprobarMatriculaItinerarios()
         {
-            foreach (Itinerario i in listaItinerarios)
+            foreach (Itinerario listaItinerario in this.listaItinerarios)
             {
-                if (!i.esEtapa && (i.matricula == null || i.matricula.Equals("")))
+                if (!listaItinerario.esEtapa && (listaItinerario.matricula == null || listaItinerario.matricula.Equals("")))
+                {
                     return false;
+                }
             }
             return true;
         }
 
         private bool comprobarDniItinerarios()
         {
-            foreach (Itinerario i in listaItinerarios)
+            foreach (Itinerario listaItinerario in this.listaItinerarios)
             {
-                if (!i.esEtapa && i.dni == null)
+                if (!listaItinerario.esEtapa && listaItinerario.dni == null)
+                {
                     return false;
+                }
             }
             return true;
         }
 
         private void bNuevoConductorItinerario_Click(object sender, RoutedEventArgs e)
         {
-            if (tablaItinerarios.SelectedIndex != -1)
-                listaItinerarios[tablaItinerarios.SelectedIndex].dni = ((Empleado)listaEmpleados[cConductor.SelectedIndex]).dni;
+            if (this.tablaItinerarios.SelectedItems.Count > 0 && this.cConductor.SelectedIndex != -1)
+            {
+                foreach (object selectedItem in this.tablaItinerarios.SelectedItems)
+                {
+                    ((Itinerario)selectedItem).dni = this.listaEmpleados[this.cConductor.SelectedIndex].dni;
+                }
+            }
             else
-                MessageBox.Show("Debe seleccionar un itinerario para añadir el conductor.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            {
+                MessageBox.Show("Debe seleccionar un itinerario para añadir el conductor.", "Error", MessageBoxButton.OK, MessageBoxImage.Hand);
+            }
         }
 
         private void bBuscar_Click(object sender, RoutedEventArgs e)
@@ -152,145 +256,293 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Resumenes
 
         public void MostrarResumenBuscado()
         {
-            if (resumen != null)
+            this.esConfiguracionVentana = true;
+            if (this.resumen != null)
             {
-                var nombreEmpresa = EmpresasCRUD.cogerEmpresa("cif", resumen.cif).nombre;
-                tEmpresa.Text = nombreEmpresa != null ? nombreEmpresa : "";
-                if (resumen.nombreTarifa == null)
-                    checkEsGrupaje.IsChecked = true;
+                string nombreEmpresa = EmpresasCRUD.cogerEmpresa("cif", this.resumen.cif).nombre;
+                this.tEmpresa.Text = ((nombreEmpresa != null) ? nombreEmpresa : "");
+                if (this.resumen.nombreTarifa == null)
+                {
+                    this.checkEsGrupaje.IsChecked = true;
+                }
                 else
                 {
-                    tNombreTarifa.Text = resumen.nombreTarifa;
-                    tEtiquetaTarifa.Text = resumen.etiqueta;
+                    this.tNombreTarifa.Text = this.resumen.nombreTarifa;
+                    this.tEtiquetaTarifa.Text = this.resumen.etiqueta;
                 }
-                tKmIda.Text = Convert.ToString(resumen.kilometrosIda);
-                tKmVuelta.Text = Convert.ToString(resumen.kilometrosVuelta);
-                tFecha.Text = resumen.fechaPorte.Date.ToString("dd/MM/yyyy");
-                tTipoCamion.Text = resumen.tipoCamion;
-                tPrecio.Text = Convert.ToString(resumen.precioFinal);
-                foreach (Itinerario itinerario in resumen.listaItinerarios)
-                    listaItinerarios.Add(itinerario);
+                this.tKmIda.Text = Convert.ToString(this.resumen.kilometrosIda);
+                this.tKmVuelta.Text = Convert.ToString(this.resumen.kilometrosVuelta);
+                TextBox textBox = this.tFecha;
+                DateTime dateTime = this.resumen.fechaPorte;
+                dateTime = dateTime.Date;
+                textBox.Text = dateTime.ToString("dd/MM/yyyy");
+                this.tTipoCamion.Text = this.resumen.tipoCamion;
+                this.tPrecioPorte.Text = Convert.ToString(this.resumen.precioFinal);
+                this.tPrecioPalets.Text = "0";
+                this.tPrecioFinal.Text = Convert.ToString(this.resumen.precioFinal);
+                this.listaItinerarios.Clear();
+                foreach (Itinerario listaItinerario in this.resumen.listaItinerarios)
+                {
+                    this.listaItinerarios.Add(listaItinerario);
+                }
+                this.esModificacionResumenFinal = false;
             }
+            this.esConfiguracionVentana = false;
+        }
+
+        public void MostrarResumenFinalModificacion()
+        {
+            this.esConfiguracionVentana = true;
+            if (this.resumen != null)
+            {
+                string nombreEmpresa = EmpresasCRUD.cogerEmpresa("cif", this.resumen.cif).nombre;
+                this.tEmpresa.Text = ((nombreEmpresa != null) ? nombreEmpresa : "");
+                if (this.resumen.nombreTarifa == null)
+                {
+                    this.checkEsGrupaje.IsChecked = true;
+                }
+                else
+                {
+                    this.tNombreTarifa.Text = this.resumen.nombreTarifa;
+                    this.tEtiquetaTarifa.Text = this.resumen.etiqueta;
+                }
+                this.tKmIda.Text = Convert.ToString(this.resumen.kilometrosIda);
+                this.tKmVuelta.Text = Convert.ToString(this.resumen.kilometrosVuelta);
+                TextBox textBox = this.tFecha;
+                DateTime dateTime = this.resumen.fechaPorte;
+                dateTime = dateTime.Date;
+                textBox.Text = dateTime.ToString("dd/MM/yyyy");
+                this.tTipoCamion.Text = this.resumen.tipoCamion;
+                this.tReferencia.Text = this.resumen.referencia;
+                if (this.resumen.listaComisiones.Count > 0)
+                {
+                    this.listaComisiones.Clear();
+                    foreach (Comision listaComisione in this.resumen.listaComisiones)
+                    {
+                        this.listaComisiones.Add(listaComisione);
+                    }
+                }
+                this.listaItinerarios.Clear();
+                int precioPalets = 0;
+                foreach (Itinerario listaItinerario in this.resumen.listaItinerarios)
+                {
+                    this.listaItinerarios.Add(listaItinerario);
+                    if (listaItinerario.palets > 0)
+                    {
+                        precioPalets += listaItinerario.palets;
+                    }
+                }
+                this.tPrecioPorte.Text = Convert.ToString(this.resumen.precioFinal - (double)precioPalets);
+                this.tPrecioPalets.Text = Convert.ToString(precioPalets);
+                this.tPrecioFinal.Text = Convert.ToString(this.resumen.precioFinal);
+                this.esModificacionResumenFinal = true;
+                this.bNuevoResumenFinal.Content = "MODIFICAR RESUMEN FINAL";
+                this.tFecha.IsEnabled = true;
+                this.tPrecioPorte.IsEnabled = true;
+                this.bBorrarResumenPrevio.IsEnabled = false;
+                this.bBuscar.IsEnabled = false;
+                this.tPrecioFinal.Text = this.tPrecioFinal.Text.Replace(",", ".");
+                this.tPrecioPorte.Text = this.tPrecioPorte.Text.Replace(",", ".");
+            }
+            this.esConfiguracionVentana = false;
         }
 
         private void tablaItinerarios_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
-            if (!e.Column.Header.ToString().Equals("DNI") && !e.Column.Header.ToString().Equals("MATRICULA") && !e.Column.Header.ToString().Equals("KILOMETROS VEHICULO"))
+            if (!e.Column.Header.ToString().Equals("DNI") && !e.Column.Header.ToString().Equals("MATRICULA") && !e.Column.Header.ToString().Equals("KILOMETROS VEHICULO") && !e.Column.Header.ToString().Equals("CLIENTE DE CLIENTE") && !e.Column.Header.ToString().Equals("PALETS"))
+            {
                 e.Cancel = true;
-            else {
-                if (e.EditingEventArgs.Source is TextBlock)
-                    valorAntiguo = ((TextBlock)e.EditingEventArgs.Source).Text;
+            }
+            else
+            {
+                object item = this.tablaItinerarios.SelectedItem;
+                string a = e.Column.Header.ToString();
+                DataGridCellInfo dataGridCellInfo;
+                if (!(a == "CLIENTE DE CLIENTE"))
+                {
+                    if (a == "PALETS")
+                    {
+                        dataGridCellInfo = this.tablaItinerarios.SelectedCells[6];
+                        this.valorAntiguo = (dataGridCellInfo.Column.GetCellContent(item) as TextBlock).Text;
+                    }
+                }
                 else
-                    valorAntiguo = ((DataGridCell)e.EditingEventArgs.Source).DataContext as string;
+                {
+                    dataGridCellInfo = this.tablaItinerarios.SelectedCells[5];
+                    this.valorAntiguo = (dataGridCellInfo.Column.GetCellContent(item) as TextBlock).Text;
+                }
             }
         }
 
         private void bBorrarResumenPrevio_Click(object sender, RoutedEventArgs e)
         {
-            if (resumen != null)
+            if (this.resumen != null)
             {
-                if (MessageBox.Show("¿Desea borrar el resumen previo?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("¿Desea borrar el resumen previo?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
                 {
-                    int salida = ResumenesCRUD.borrarResumenPrevio(resumen.id);
+                    int salida = ResumenesCRUD.borrarResumenPrevio(this.resumen.id);
                     if (salida == 1)
                     {
-                        resumen = null;
-                        UtilidadesVentana.LimpiarCampos(gridPrincipal);
-                        listaItinerarios.Clear();
+                        this.resumen = null;
+                        UtilidadesVentana.LimpiarCampos(this.gridPrincipal);
+                        this.esConfiguracionVentana = true;
+                        this.listaItinerarios.Clear();
                     }
                 }
             }
             else
-                MessageBox.Show("Debe seleccionar un resumen para borrarlo.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            {
+                MessageBox.Show("Debe seleccionar un resumen para borrarlo.", "Error", MessageBoxButton.OK, MessageBoxImage.Hand);
+            }
         }
 
         private void tablaItinerarios_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            if (!e.Column.Header.ToString().Equals("KILOMETROS VEHICULO") && !((TextBox)e.EditingElement).Text.Equals("") && !((TextBox)e.EditingElement).Text.Equals(valorAntiguo))
+            int num;
+            if ((e.Column.Header.ToString().Equals("DNI") || e.Column.Header.ToString().Equals("MATRICULA")) && !((TextBox)e.EditingElement).Text.Equals(""))
+            {
+                num = ((!((TextBox)e.EditingElement).Text.Equals(this.valorAntiguo)) ? 1 : 0);
+                goto IL_0076;
+            }
+            num = 0;
+            goto IL_0076;
+        IL_0076:
+            if (num != 0)
             {
                 ((TextBox)e.EditingElement).Text = "";
-                MessageBox.Show("Únicamente se puede borrar el valor.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Únicamente se puede borrar el valor.", "Error", MessageBoxButton.OK, MessageBoxImage.Hand);
+            }
+            else if (e.Column.Header.ToString().Equals("PALETS"))
+            {
+                if (((TextBox)e.EditingElement).Text.Equals(""))
+                {
+                    ((TextBox)e.EditingElement).Text = "0";
+                }
+                else
+                {
+                    string valorCampo = ((TextBox)e.EditingElement).Text;
+                    if (UtilidadesVerificacion.validadorNumeroEntero(valorCampo))
+                    {
+                        if (Convert.ToInt32(this.valorAntiguo) > Convert.ToInt32(valorCampo))
+                        {
+                            this.nPaletsTotales -= Convert.ToInt32(this.valorAntiguo) - Convert.ToInt32(((TextBox)e.EditingElement).Text);
+                        }
+                        else if (Convert.ToInt32(this.valorAntiguo) < Convert.ToInt32(((TextBox)e.EditingElement).Text))
+                        {
+                            this.nPaletsTotales += Convert.ToInt32(((TextBox)e.EditingElement).Text) - Convert.ToInt32(this.valorAntiguo);
+                        }
+                        this.tPrecioPalets.Text = this.nPaletsTotales.ToString() + ".00";
+                        this.tPrecioFinal.Text = Convert.ToString((double)this.nPaletsTotales + this.resumen.precioFinal);
+                    }
+                    else
+                    {
+                        ((TextBox)e.EditingElement).Text = this.valorAntiguo;
+                    }
+                }
             }
         }
 
         private void bNuevoVehiculo_Click(object sender, RoutedEventArgs e)
         {
-            if (tablaItinerarios.SelectedIndex != -1)
-                listaItinerarios[tablaItinerarios.SelectedIndex].matricula = ((Camion)listaVehículos[cVehiculo.SelectedIndex]).matricula;
+            if (this.tablaItinerarios.SelectedItems.Count > 0 && this.cVehiculo.SelectedIndex != -1)
+            {
+                foreach (object selectedItem in this.tablaItinerarios.SelectedItems)
+                {
+                    ((Itinerario)selectedItem).matricula = this.listaVehículos[this.cVehiculo.SelectedIndex].matricula;
+                }
+            }
             else
-                MessageBox.Show("Debe seleccionar un itinerario para añadir el vehículo.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            {
+                MessageBox.Show("Debe seleccionar un itinerario para añadir el vehículo.", "Error", MessageBoxButton.OK, MessageBoxImage.Hand);
+            }
         }
 
         private void dataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
             if (e.Column.Header.ToString().Equals("idResumenFinal") || e.Column.Header.ToString().Equals("id"))
+            {
                 e.Cancel = true;
-
-            e.Column.Width = e.Column.Header.ToString().Equals("porcentaje") ? new DataGridLength(90, DataGridLengthUnitType.Pixel) : new DataGridLength(1, DataGridLengthUnitType.Star);
-
+            }
+            e.Column.Width = (e.Column.Header.ToString().Equals("porcentaje") ? new DataGridLength(90.0, DataGridLengthUnitType.Pixel) : new DataGridLength(1.0, DataGridLengthUnitType.Star));
             e.Column.Header = UtilidadesVentana.generarEtiquetaFormatoColumna(e.Column.Header.ToString());
         }
 
         private void dataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
             if (!e.Column.Header.ToString().Equals("PORCENTAJE"))
+            {
                 e.Cancel = true;
-            else {
-                if (e.EditingEventArgs.Source is TextBlock)
-                    valorAntiguoPorcentaje = ((TextBlock)e.EditingEventArgs.Source).Text;
-                else
-                    valorAntiguoPorcentaje = ((DataGridCell)e.EditingEventArgs.Source).DataContext as string;
             }
         }
 
         private void bNuevoEmpleadoComision_Click(object sender, RoutedEventArgs e)
         {
-            var empleado = (Empleado)listaEmpleados[cConductorComision.SelectedIndex];
-            if (comisionTotal == 0)
+            if (this.cConductorComision.SelectedIndex != -1)
             {
-                listaComisiones.Add(new Comision(empleado.dni, 100));
-                comisionTotal = 100;
+                Empleado empleado = this.listaEmpleados[this.cConductorComision.SelectedIndex];
+                if (this.comisionTotal == 0.0)
+                {
+                    this.listaComisiones.Add(new Comision(empleado.dni, 100.0));
+                    this.comisionTotal = 100.0;
+                }
+                else if (!this.estaEnComisiones(empleado))
+                {
+                    this.listaComisiones.Add(new Comision(empleado.dni, 0.0));
+                }
+                else
+                {
+                    MessageBox.Show("El conductor seleccionado ya está en la tabla de comisiones.", "Error", MessageBoxButton.OK, MessageBoxImage.Hand);
+                }
             }
             else
             {
-                if (!estaEnComisiones(empleado))
-                    listaComisiones.Add(new Comision(empleado.dni, 0));
-                else
-                    MessageBox.Show("El conductor seleccionado ya está en la tabla de comisiones.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Debe seleccionar un conductor.", "Error", MessageBoxButton.OK, MessageBoxImage.Hand);
             }
         }
 
         private bool estaEnComisiones(Empleado e)
         {
-            foreach (Comision c in listaComisiones)
+            foreach (Comision listaComisione in this.listaComisiones)
             {
-                if (c.dni.Equals(e.dni))
+                if (listaComisione.dni.Equals(e.dni))
+                {
                     return true;
+                }
             }
             return false;
         }
 
-        private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        private void tablaItinerarios_AutoGeneratedColumns(object sender, EventArgs e)
         {
-            if (e.Column.Header.ToString().Equals("PORCENTAJE") && !((TextBox)e.EditingElement).Text.Equals(""))
+            foreach (DataGridColumn column in this.tablaItinerarios.Columns)
             {
-                double comisionActual = Convert.ToDouble(((TextBox)e.EditingElement).Text);
-                if (comisionActual + comisionTotal - Convert.ToDouble(valorAntiguoPorcentaje) <= 100 && comisionActual + comisionTotal - Convert.ToDouble(valorAntiguoPorcentaje) >= 0)
-                    comisionTotal += comisionActual - Convert.ToDouble(valorAntiguoPorcentaje);
-                else
+                if (column.Header.Equals("POBLACION"))
                 {
-                    ((TextBox)e.EditingElement).Text = valorAntiguoPorcentaje;
-                    MessageBox.Show("La comision total debe ser del 100%.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    column.DisplayIndex = 1;
                 }
             }
         }
 
-        private void dataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void tPrecioPorte_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (e.Key == Key.Delete)
+            if (!this.esConfiguracionVentana)
             {
-                comisionTotal -= ((Comision)dataGrid.SelectedItem).porcentaje;
+                if (UtilidadesVerificacion.validadorNumeroDecimal(this.tPrecioPorte.Text))
+                {
+                    this.tPrecioFinal.Text = Convert.ToString(Convert.ToDouble(this.tPrecioPorte.Text, UtilidadesVerificacion.cogerProveedorDecimal()) + Convert.ToDouble(this.tPrecioPalets.Text, UtilidadesVerificacion.cogerProveedorDecimal()));
+                }
+                else
+                {
+                    this.tPrecioPorte.Text = "0";
+                    this.tPrecioFinal.Text = this.tPrecioPalets.Text;
+                }
             }
+        }
+
+        private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            TextBox t = e.EditingElement as TextBox;
+            t.Text = t.Text.Replace(".", ",");
         }
     }
 }

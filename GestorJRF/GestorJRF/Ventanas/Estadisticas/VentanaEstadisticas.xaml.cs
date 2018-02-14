@@ -2,20 +2,19 @@
 using GestorJRF.POJOS;
 using GestorJRF.POJOS.Estadisticas;
 using GestorJRF.Utilidades;
+using GestorJRF.Ventanas;
+using GestorJRF.Ventanas.Estadisticas;
+using GestorJRF.Ventanas.Login;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.DataVisualization.Charting;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.Windows.Markup;
 
 namespace GestorJRF.Ventanas.Estadisticas
 {
@@ -25,54 +24,73 @@ namespace GestorJRF.Ventanas.Estadisticas
     public partial class VentanaEstadisticas : Window
     {
         public BusquedaEstadisticas opciones { get; set; }
+
         public VentanaEstadisticas()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             UtilidadesVentana.SituarVentana(2, this);
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             new VentanaMenuPrincipal().Show();
         }
 
         private void mostrarGrafico(int tipo)
         {
-            if (tipo == 0)
+            switch (tipo)
             {
-                graficoBarras.Visibility = Visibility.Hidden;
-                graficoLineas.Visibility = Visibility.Hidden;
-            }
-            else if (tipo == 1)
-            {
-                graficoBarras.Visibility = Visibility.Hidden;
-                graficoLineas.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                graficoLineas.Visibility = Visibility.Hidden;
-                graficoBarras.Visibility = Visibility.Visible;
+                case 0:
+                    this.graficoBarras.Visibility = Visibility.Hidden;
+                    this.graficoLineas.Visibility = Visibility.Hidden;
+                    break;
+                case 1:
+                    this.graficoBarras.Visibility = Visibility.Hidden;
+                    this.graficoLineas.Visibility = Visibility.Visible;
+                    break;
+                default:
+                    this.graficoLineas.Visibility = Visibility.Hidden;
+                    this.graficoBarras.Visibility = Visibility.Visible;
+                    break;
             }
         }
 
         public void generarGraficoBarras()
         {
-            List<KeyValuePair<string, double>> resultados = new List<KeyValuePair<string, double>>();
-
-            if (opciones.tipo.Contains("Facturacion"))
+            List<KeyValuePair<string, double>> resultados2 = new List<KeyValuePair<string, double>>();
+            DateTime dateTime;
+            if (this.opciones.tipo.Contains("Facturacion"))
             {
-                if (opciones.tipo.Contains("Empleado"))
+                if (this.opciones.tipo.Contains("Empleado"))
                 {
-                    List<Empleado> empleados = EmpleadosCRUD.cogerTodosEmpleados().Cast<Empleado>().ToList();
-                    if (empleados != null)
+                    List<Empleado> empleados2 = EmpleadosCRUD.cogerTodosEmpleados().Cast<Empleado>().ToList();
+                    if (empleados2 != null)
                     {
-                        foreach (Empleado e in empleados)
+                        foreach (Empleado item in empleados2)
                         {
-                            opciones.dni = e.dni;
-                            var sumartorio = ResumenesCRUD.cogerResumenesFinalesPorDni(opciones);
-                            if (sumartorio > 0)
-                                resultados.Add(new KeyValuePair<string, double>(e.getNombreApellidos(), sumartorio));
+                            this.opciones.dni = item.dni;
+                            double sumartorio4 = ResumenesCRUD.cogerResumenesFinalesPorDni(this.opciones);
+                            if (sumartorio4 > 0.0)
+                            {
+                                resultados2.Add(new KeyValuePair<string, double>(item.getNombreApellidos(), Math.Round(sumartorio4, 2)));
+                            }
                         }
+                        Chart chart = this.graficoBarras;
+                        string[] obj = new string[5]
+                        {
+                        "FACTURACIÓN EMPLEADO [",
+                        null,
+                        null,
+                        null,
+                        null
+                        };
+                        dateTime = this.opciones.fechaInicio;
+                        obj[1] = dateTime.ToString("dd-MM-yyyy");
+                        obj[2] = "  ||  ";
+                        dateTime = this.opciones.fechaFinal;
+                        obj[3] = dateTime.ToString("dd-MM-yyyy");
+                        obj[4] = "]";
+                        chart.Title = string.Concat(obj);
                     }
                 }
                 else
@@ -80,107 +98,262 @@ namespace GestorJRF.Ventanas.Estadisticas
                     List<Empresa> empresas = EmpresasCRUD.cogerTodasEmpresas().Cast<Empresa>().ToList();
                     if (empresas != null)
                     {
-                        foreach (Empresa e in empresas)
+                        foreach (Empresa item2 in empresas)
                         {
-                            opciones.cif = e.cif;
-                            var sumartorio = ResumenesCRUD.cogerResumenesFinalesPorCif(opciones);
-                            if (sumartorio > 0)
-                                resultados.Add(new KeyValuePair<string, double>(e.nombre, sumartorio));
+                            this.opciones.cif = item2.cif;
+                            double sumartorio3 = ResumenesCRUD.cogerResumenesFinalesPorCif(this.opciones);
+                            if (sumartorio3 > 0.0)
+                            {
+                                resultados2.Add(new KeyValuePair<string, double>(item2.nombre, sumartorio3));
+                            }
+                        }
+                        Chart chart2 = this.graficoBarras;
+                        string[] obj2 = new string[5]
+                        {
+                        "FACTURACIÓN EMPRESA [",
+                        null,
+                        null,
+                        null,
+                        null
+                        };
+                        dateTime = this.opciones.fechaInicio;
+                        obj2[1] = dateTime.ToString("dd-MM-yyyy");
+                        obj2[2] = "  ||  ";
+                        dateTime = this.opciones.fechaFinal;
+                        obj2[3] = dateTime.ToString("dd-MM-yyyy");
+                        obj2[4] = "]";
+                        chart2.Title = string.Concat(obj2);
+                    }
+                }
+            }
+            else if (this.opciones.tipo.Contains("Empleado"))
+            {
+                List<Empleado> empleados = EmpleadosCRUD.cogerTodosEmpleados().Cast<Empleado>().ToList();
+                if (empleados != null)
+                {
+                    foreach (Empleado item3 in empleados)
+                    {
+                        this.opciones.dni = item3.dni;
+                        double sumartorio2 = GastosCRUD.cogerSumatorioGastosParaEstadisticaPorEmpleado(this.opciones);
+                        if (sumartorio2 > 0.0)
+                        {
+                            resultados2.Add(new KeyValuePair<string, double>(item3.getNombreApellidos(), sumartorio2));
                         }
                     }
+                    Chart chart3 = this.graficoBarras;
+                    string[] obj3 = new string[5]
+                    {
+                    "GASTO EMPLEADO [",
+                    null,
+                    null,
+                    null,
+                    null
+                    };
+                    dateTime = this.opciones.fechaInicio;
+                    obj3[1] = dateTime.ToString("dd-MM-yyyy");
+                    obj3[2] = "  ||  ";
+                    dateTime = this.opciones.fechaFinal;
+                    obj3[3] = dateTime.ToString("dd-MM-yyyy");
+                    obj3[4] = "]";
+                    chart3.Title = string.Concat(obj3);
                 }
             }
             else
             {
-                if (opciones.tipo.Contains("Empleado"))
+                List<Proveedor> proveedores = ProveedoresCRUD.cogerTodosProveedores().Cast<Proveedor>().ToList();
+                if (proveedores != null)
                 {
-                    List<Empleado> empleados = EmpleadosCRUD.cogerTodosEmpleados().Cast<Empleado>().ToList();
-                    if (empleados != null)
+                    foreach (Proveedor item4 in proveedores)
                     {
-                        foreach (Empleado e in empleados)
+                        this.opciones.cif = item4.cif;
+                        double sumartorio = GastosCRUD.cogerSumatorioGastosParaEstadisticaPorProveedor(this.opciones);
+                        if (sumartorio > 0.0)
                         {
-                            opciones.dni = e.dni;
-                            var sumartorio = GastosCRUD.cogerSumatorioGastosParaEstadisticaPorEmpleado(opciones);
-                            if (sumartorio > 0)
-                                resultados.Add(new KeyValuePair<string, double>(e.getNombreApellidos(), sumartorio));
+                            resultados2.Add(new KeyValuePair<string, double>(item4.nombre, sumartorio));
                         }
                     }
-                }
-                else
-                {
-                    List<Proveedor> proveedores = ProveedoresCRUD.cogerTodosProveedores().Cast<Proveedor>().ToList();
-                    if (proveedores != null)
+                    Chart chart4 = this.graficoBarras;
+                    string[] obj4 = new string[5]
                     {
-                        foreach (Proveedor p in proveedores)
-                        {
-                            opciones.cif = p.cif;
-                            var sumartorio = GastosCRUD.cogerSumatorioGastosParaEstadisticaPorProveedor(opciones);
-                            if (sumartorio > 0)
-                                resultados.Add(new KeyValuePair<string, double>(p.nombre, sumartorio));
-                        }
-                    }
+                    "GASTO EMPRESA [",
+                    null,
+                    null,
+                    null,
+                    null
+                    };
+                    dateTime = this.opciones.fechaInicio;
+                    obj4[1] = dateTime.ToString("dd-MM-yyyy");
+                    obj4[2] = "  ||  ";
+                    dateTime = this.opciones.fechaFinal;
+                    obj4[3] = dateTime.ToString("dd-MM-yyyy");
+                    obj4[4] = "]";
+                    chart4.Title = string.Concat(obj4);
                 }
             }
-            
-            if (resultados.Count > 0)
+            if (resultados2.Count > 0)
             {
-                ((ColumnSeries)graficoBarras.Series[0]).ItemsSource = resultados;
-                mostrarGrafico(2);
+                resultados2 = ((resultados2.Count <= 10) ? new List<KeyValuePair<string, double>>(from c in resultados2
+                                                                                                  orderby c.Value descending
+                                                                                                  select c) : new List<KeyValuePair<string, double>>(this.filtrarResultados(resultados2)));
+                ((ColumnSeries)this.graficoBarras.Series[0]).ItemsSource = resultados2;
+                this.mostrarGrafico(2);
             }
             else
-                MessageBox.Show("No hay datos para generar la gráfica", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Information);
+            {
+                MessageBox.Show("No hay datos para generar la gráfica", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+            }
         }
 
         public void generarGraficaLineal()
         {
             bool hayDatos = false;
-
             List<ResumenEstadistica> resumenes;
+            DateTime dateTime;
             List<GastoEstadistica> gastos;
-
-            if (opciones.tipo.Contains("facturacion"))
+            if (this.opciones.tipo.Contains("facturacion"))
             {
-                if (opciones.tipo.Contains("Empleado"))
-                    resumenes = ResumenesCRUD.cogerResumenesParaEstadisticaPorEmpleado(opciones).Cast<ResumenEstadistica>().ToList();
-                else if (opciones.tipo.Contains("Empresa"))
-                    resumenes = ResumenesCRUD.cogerResumenesParaEstadisticaPorEmpresa(opciones).Cast<ResumenEstadistica>().ToList();
+                if (this.opciones.tipo.Contains("Empleado"))
+                {
+                    resumenes = ResumenesCRUD.cogerResumenesParaEstadisticaPorEmpleado(this.opciones).Cast<ResumenEstadistica>().ToList();
+                    Chart chart = this.graficoLineas;
+                    string[] obj = new string[5]
+                    {
+                    "FACTURACIÓN EMPLEADO [",
+                    null,
+                    null,
+                    null,
+                    null
+                    };
+                    dateTime = this.opciones.fechaInicio;
+                    obj[1] = dateTime.ToString("dd-MM-yyyy");
+                    obj[2] = "  ||  ";
+                    dateTime = this.opciones.fechaFinal;
+                    obj[3] = dateTime.ToString("dd-MM-yyyy");
+                    obj[4] = "]";
+                    chart.Title = string.Concat(obj);
+                }
+                else if (this.opciones.tipo.Contains("Empresa"))
+                {
+                    resumenes = ResumenesCRUD.cogerResumenesParaEstadisticaPorEmpresa(this.opciones).Cast<ResumenEstadistica>().ToList();
+                    Chart chart2 = this.graficoLineas;
+                    string[] obj2 = new string[5]
+                    {
+                    "FACTURACIÓN EMPRESA [",
+                    null,
+                    null,
+                    null,
+                    null
+                    };
+                    dateTime = this.opciones.fechaInicio;
+                    obj2[1] = dateTime.ToString("dd-MM-yyyy");
+                    obj2[2] = "  ||  ";
+                    dateTime = this.opciones.fechaFinal;
+                    obj2[3] = dateTime.ToString("dd-MM-yyyy");
+                    obj2[4] = "]";
+                    chart2.Title = string.Concat(obj2);
+                }
                 else
-                    resumenes = ResumenesCRUD.cogerResumenesParaEstadistica(opciones).Cast<ResumenEstadistica>().ToList();
-
+                {
+                    resumenes = ResumenesCRUD.cogerResumenesParaEstadistica(this.opciones).Cast<ResumenEstadistica>().ToList();
+                    Chart chart3 = this.graficoLineas;
+                    string[] obj3 = new string[5]
+                    {
+                    "FACTURACIÓN GENERAL [",
+                    null,
+                    null,
+                    null,
+                    null
+                    };
+                    dateTime = this.opciones.fechaInicio;
+                    obj3[1] = dateTime.ToString("dd-MM-yyyy");
+                    obj3[2] = "  ||  ";
+                    dateTime = this.opciones.fechaFinal;
+                    obj3[3] = dateTime.ToString("dd-MM-yyyy");
+                    obj3[4] = "]";
+                    chart3.Title = string.Concat(obj3);
+                }
                 gastos = null;
-
                 if (resumenes.Count > 0)
+                {
                     hayDatos = true;
+                }
             }
             else
             {
-                if (opciones.tipo.Contains("Empleado"))
-                    gastos = GastosCRUD.cogerTodosGastosParaEstadisticaPorEmpleado(opciones).Cast<GastoEstadistica>().ToList();
-                else if (opciones.tipo.Contains("Empresa"))
-                    gastos = GastosCRUD.cogerTodosGastosParaEstadisticaPorProveedor(opciones).Cast<GastoEstadistica>().ToList();
+                if (this.opciones.tipo.Contains("Empleado"))
+                {
+                    gastos = GastosCRUD.cogerTodosGastosParaEstadisticaPorEmpleado(this.opciones).Cast<GastoEstadistica>().ToList();
+                    Chart chart4 = this.graficoLineas;
+                    string[] obj4 = new string[5]
+                    {
+                    "GASTO EMPLEADO [",
+                    null,
+                    null,
+                    null,
+                    null
+                    };
+                    dateTime = this.opciones.fechaInicio;
+                    obj4[1] = dateTime.ToString("dd-MM-yyyy");
+                    obj4[2] = "  ||  ";
+                    dateTime = this.opciones.fechaFinal;
+                    obj4[3] = dateTime.ToString("dd-MM-yyyy");
+                    obj4[4] = "]";
+                    chart4.Title = string.Concat(obj4);
+                }
+                else if (this.opciones.tipo.Contains("Empresa"))
+                {
+                    gastos = GastosCRUD.cogerTodosGastosParaEstadisticaPorProveedor(this.opciones).Cast<GastoEstadistica>().ToList();
+                    Chart chart5 = this.graficoLineas;
+                    string[] obj5 = new string[5]
+                    {
+                    "GASTO PROVEEDOR [",
+                    null,
+                    null,
+                    null,
+                    null
+                    };
+                    dateTime = this.opciones.fechaInicio;
+                    obj5[1] = dateTime.ToString("dd-MM-yyyy");
+                    obj5[2] = "  ||  ";
+                    dateTime = this.opciones.fechaFinal;
+                    obj5[3] = dateTime.ToString("dd-MM-yyyy");
+                    obj5[4] = "]";
+                    chart5.Title = string.Concat(obj5);
+                }
                 else
-                    gastos = GastosCRUD.cogerTodosGastosParaEstadistica(opciones).Cast<GastoEstadistica>().ToList();
-
+                {
+                    gastos = GastosCRUD.cogerTodosGastosParaEstadistica(this.opciones).Cast<GastoEstadistica>().ToList();
+                    Chart chart6 = this.graficoLineas;
+                    string[] obj6 = new string[5]
+                    {
+                    "GASTO GENERAL [",
+                    null,
+                    null,
+                    null,
+                    null
+                    };
+                    dateTime = this.opciones.fechaInicio;
+                    obj6[1] = dateTime.ToString("dd-MM-yyyy");
+                    obj6[2] = "  ||  ";
+                    dateTime = this.opciones.fechaFinal;
+                    obj6[3] = dateTime.ToString("dd-MM-yyyy");
+                    obj6[4] = "]";
+                    chart6.Title = string.Concat(obj6);
+                }
                 resumenes = null;
-
                 if (gastos.Count > 0)
+                {
                     hayDatos = true;
+                }
             }
-
             if (hayDatos)
             {
                 List<KeyValuePair<DateTime, double>> listaPares = new List<KeyValuePair<DateTime, double>>();
                 Style estilo = new Style(typeof(DateTimeAxisLabel));
-
                 DateTimeAxis axisX = new DateTimeAxis();
                 axisX.Orientation = AxisOrientation.X;
                 axisX.ShowGridLines = true;
-
-                double sumatorio;
-
-                //CAMBIAR TITULO DEL GRAFICO DEPENDIENDO DE EL TIPO
-
-                switch (opciones.tipo)
+                switch (this.opciones.tipo)
                 {
                     case "gastoMensualEmpleado":
                     case "gastoMensualProveedor":
@@ -188,29 +361,23 @@ namespace GestorJRF.Ventanas.Estadisticas
                     case "facturacionMensualEmpleado":
                     case "facturacionMensualEmpresa":
                     case "facturacionMensual":
-                        estilo.Setters.Add(new Setter(DateTimeAxisLabel.StringFormatProperty, "{0:dd}"));
-
+                        estilo.Setters.Add(new Setter(AxisLabel.StringFormatProperty, "{0:dd}"));
                         axisX.Title = "DÍAS DEL MES";
-                        axisX.Interval = 1;
+                        axisX.Interval = 1.0;
                         axisX.IntervalType = DateTimeIntervalType.Days;
                         axisX.AxisLabelStyle = estilo;
-
                         break;
-
                     case "gastoTrimestralEmpleado":
                     case "gastoTrimestralProveedor":
                     case "gastoTrimestral":
                     case "facturacionTrimestralEmpleado":
                     case "facturacionTrimestralEmpresa":
                     case "facturacionTrimestral":
-                        estilo.Setters.Add(new Setter(DateTimeAxisLabel.StringFormatProperty, "{0:dd-MMMM}"));
-
+                        estilo.Setters.Add(new Setter(AxisLabel.StringFormatProperty, "{0:dd-MMMM}"));
                         axisX.Title = "DÍAS DEL TRIMESTRE";
-                        axisX.Interval = 7;
+                        axisX.Interval = 7.0;
                         axisX.IntervalType = DateTimeIntervalType.Days;
-
                         break;
-
                     case "gastoAnualEmpleado":
                     case "gastoAnualProveedor":
                     case "gastoAnual":
@@ -223,301 +390,315 @@ namespace GestorJRF.Ventanas.Estadisticas
                     case "facturacionGeneralEmpleado":
                     case "facturacionGeneralEmpresa":
                     case "facturacionGeneral":
-                        estilo.Setters.Add(new Setter(DateTimeAxisLabel.StringFormatProperty, "{0:MMMM-yyyy}"));
-
+                        estilo.Setters.Add(new Setter(AxisLabel.StringFormatProperty, "{0:MMMM-yyyy}"));
                         axisX.Title = "MESES AÑO";
-                        axisX.Interval = 1;
+                        axisX.Interval = 1.0;
                         axisX.IntervalType = DateTimeIntervalType.Months;
                         break;
-                    default:
-                        break;
                 }
-
-                sumatorio = 0;
-                if (opciones.tipo.Contains("facturacion"))
+                double sumatorio = 0.0;
+                if (this.opciones.tipo.Contains("facturacion"))
                 {
-                    foreach (ResumenEstadistica r in resumenes)
+                    foreach (ResumenEstadistica item in resumenes)
                     {
-                        sumatorio += r.sumaDiaria;
-                        listaPares.Add(new KeyValuePair<DateTime, double>(r.fechaPorte, Math.Round(sumatorio, 2)));
+                        sumatorio += item.sumaDiaria;
+                        listaPares.Add(new KeyValuePair<DateTime, double>(item.fechaPorte, Math.Round(sumatorio, 2)));
                     }
                 }
                 else
                 {
-                    foreach (GastoEstadistica g in gastos)
+                    foreach (GastoEstadistica item2 in gastos)
                     {
-                        sumatorio += g.sumaImporteBase;
-                        listaPares.Add(new KeyValuePair<DateTime, double>(g.fecha, Math.Round(sumatorio, 2)));
+                        sumatorio += item2.sumaImporteBase;
+                        listaPares.Add(new KeyValuePair<DateTime, double>(item2.fecha, Math.Round(sumatorio, 2)));
                     }
                 }
-
-
-
-                axisX.Maximum = opciones.fechaFinal.Date;
-                axisX.Minimum = opciones.fechaInicio.Date;
+                DateTimeAxis dateTimeAxis = axisX;
+                dateTime = this.opciones.fechaFinal;
+                dateTimeAxis.Maximum = dateTime.Date;
+                DateTimeAxis dateTimeAxis2 = axisX;
+                dateTime = this.opciones.fechaInicio;
+                dateTimeAxis2.Minimum = dateTime.Date;
                 axisX.AxisLabelStyle = estilo;
-                _graficoLineas.IndependentAxis = axisX;
-
+                this._graficoLineas.IndependentAxis = axisX;
                 LinearAxis axisY = new LinearAxis();
                 axisY.Orientation = AxisOrientation.Y;
                 axisY.Title = "CUENTA ACUMULADA";
-                axisY.Minimum = 0;
-                axisY.Maximum = sumatorio + sumatorio / 3;
-                _graficoLineas.DependentRangeAxis = axisY;
-
-
-                ((LineSeries)graficoLineas.Series[0]).ItemsSource = listaPares;
-                mostrarGrafico(1);
+                axisY.Minimum = 0.0;
+                axisY.Maximum = sumatorio + sumatorio / 3.0;
+                this._graficoLineas.DependentRangeAxis = axisY;
+                ((LineSeries)this.graficoLineas.Series[0]).ItemsSource = listaPares;
+                this.mostrarGrafico(1);
             }
             else
-                MessageBox.Show("No hay datos para generar la gráfica", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Information);
+            {
+                MessageBox.Show("No hay datos para generar la gráfica", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+            }
+        }
 
+        private List<KeyValuePair<string, double>> filtrarResultados(List<KeyValuePair<string, double>> resultados)
+        {
+            List<KeyValuePair<string, double>> resultadosAux = new List<KeyValuePair<string, double>>();
+            List<KeyValuePair<string, double>> listaOrdenada = new List<KeyValuePair<string, double>>(from c in resultados
+                                                                                                      orderby c.Value descending
+                                                                                                      select c);
+            for (int x2 = 0; x2 <= 9; x2++)
+            {
+                resultadosAux.Add(listaOrdenada[x2]);
+            }
+            double sumatorioOtrosValores = 0.0;
+            for (int x = 10; x <= resultados.Count - 1; x++)
+            {
+                sumatorioOtrosValores += listaOrdenada[x].Value;
+            }
+            resultadosAux.Add(new KeyValuePair<string, double>("OTROS", sumatorioOtrosValores));
+            return resultadosAux;
         }
 
         private void bFacturacionMensual_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesMensual(this, "facturacionMensual").Show();
         }
 
         private void bFacturacionTrimestral_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesTrimestralAnual(this, "facturacionTrimestral").Show();
         }
 
         private void bFacturacionAnual_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesTrimestralAnual(this, "facturacionAnual").Show();
         }
 
         private void bFacturacionGeneral_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
-            opciones = new BusquedaEstadisticas(new DateTime(2016, 1, 1), DateTime.Now, "facturacionGeneral");
-            generarGraficaLineal();
+            this.mostrarGrafico(0);
+            this.opciones = new BusquedaEstadisticas(new DateTime(2016, 1, 1), DateTime.Now, "facturacionGeneral");
+            this.generarGraficaLineal();
         }
 
         private void bFacturacionMensualEmpresas_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesMensualEmpresaEmpleado(this, "facturacionMensualEmpresa").Show();
         }
 
         private void bFacturacionTrimestralEmpresas_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesTrimestralAnualEmpresaEmpleado(this, "facturacionTrimestralEmpresa").Show();
         }
 
         private void bFacturacionAnualEmpresas_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesTrimestralAnualEmpresaEmpleado(this, "facturacionAnualEmpresa").Show();
         }
 
         private void bFacturacionGeneralEmpresas_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesGeneralEmpresaEmpleado(this, "facturacionGeneralEmpresa").Show();
         }
 
         private void bFacturacionMensualEmpleado_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesMensualEmpresaEmpleado(this, "facturacionMensualEmpleado").Show();
         }
 
         private void bFacturacionTrimestralEmpleado_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesTrimestralAnualEmpresaEmpleado(this, "facturacionTrimestralEmpleado").Show();
         }
 
         private void bFacturacionAnualEmpleado_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesTrimestralAnualEmpresaEmpleado(this, "facturacionAnualEmpleado").Show();
         }
 
         private void bFacturacionGeneralEmpleado_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesGeneralEmpresaEmpleado(this, "facturacionGeneralEmpleado").Show();
         }
 
         private void bGastosMensual_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesMensual(this, "gastoMensual").Show();
         }
 
         private void bGastosTrimestral_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesTrimestralAnual(this, "gastoTrimestral").Show();
         }
 
         private void bGastosAnual_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesTrimestralAnual(this, "gastoAnual").Show();
         }
 
         private void bGastosGeneral_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
-            opciones = new BusquedaEstadisticas(new DateTime(2016, 1, 1), DateTime.Now, "gastoGeneral");
-            generarGraficaLineal();
+            this.mostrarGrafico(0);
+            this.opciones = new BusquedaEstadisticas(new DateTime(2016, 1, 1), DateTime.Now, "gastoGeneral");
+            this.generarGraficaLineal();
         }
 
         private void bGastosMensualProveedor_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesMensualEmpresaEmpleado(this, "gastoMensualProveedor").Show();
         }
 
         private void bGastosTrimestralProveedor_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesTrimestralAnualEmpresaEmpleado(this, "gastoTrimestralProveedor").Show();
         }
 
         private void bGastosAnualProveedor_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesTrimestralAnualEmpresaEmpleado(this, "gastoAnualProveedor").Show();
         }
 
         private void bGastosGeneralProveedor_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesGeneralEmpresaEmpleado(this, "gastoGeneralProveedor").Show();
         }
 
         private void bGastosMensualEmpleado_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesMensualEmpresaEmpleado(this, "gastoMensualEmpleado").Show();
         }
 
         private void bGastosTrimestralEmpleado_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesTrimestralAnualEmpresaEmpleado(this, "gastoTrimestralEmpleado").Show();
         }
 
         private void bGastosAnualEmpleado_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesTrimestralAnualEmpresaEmpleado(this, "gastoAnualEmpleado").Show();
         }
 
         private void bGastosGeneralEmpleado_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesGeneralEmpresaEmpleado(this, "gastoGeneralEmpleado").Show();
         }
 
         private void bCompFactMensualEmpresas_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesMensual(this, "comparativaFacturacionEmpresasMenusal").Show();
         }
 
         private void bCompFactTrimestralEmpresas_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesTrimestralAnual(this, "comparativaFacturacionEmpresasTrimestral").Show();
         }
 
         private void bCompFactAnualEmpresas_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesTrimestralAnual(this, "comparativaFacturacionEmpresasAnual").Show();
         }
 
         private void bCompFactGeneralEmpresas_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
-            opciones = new BusquedaEstadisticas(new DateTime(2016, 1, 1), DateTime.Now, "comparativaFacturacionEmpresasGeneral");
-            generarGraficoBarras();
+            this.mostrarGrafico(0);
+            this.opciones = new BusquedaEstadisticas(new DateTime(2016, 1, 1), DateTime.Now, "comparativaFacturacionEmpresasGeneral");
+            this.generarGraficoBarras();
         }
 
         private void bCompFactMensualEmpleados_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesMensual(this, "comparativaFacturacionEmpleadosMenusal").Show();
         }
 
         private void bCompFactTrimestralEmpleados_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesTrimestralAnual(this, "comparativaFacturacionEmpleadosTrimestral").Show();
         }
 
         private void bCompFactAnualEmpleados_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesTrimestralAnual(this, "comparativaFacturacionEmpleadosAnual").Show();
         }
 
         private void bCompFactGeneralEmpleados_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
-            opciones = new BusquedaEstadisticas(new DateTime(2016, 1, 1), DateTime.Now, "comparativaFacturacionEmpleadosGeneral");
-            generarGraficoBarras();
+            this.mostrarGrafico(0);
+            this.opciones = new BusquedaEstadisticas(new DateTime(2016, 1, 1), DateTime.Now, "comparativaFacturacionEmpleadosGeneral");
+            this.generarGraficoBarras();
         }
 
         private void bCompGastosMensualProveedores_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesMensual(this, "comparativaGastosProveedoresMenusal").Show();
         }
 
         private void bCompGastosTrimestralProveedores_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesTrimestralAnual(this, "comparativaGastosProveedoresTrimestral").Show();
         }
 
         private void bCompGastosAnualProveedores_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesTrimestralAnual(this, "comparativaGastosProveedoresAnual").Show();
         }
 
         private void bCompGastosGeneralProveedores_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
-            opciones = new BusquedaEstadisticas(new DateTime(2016, 1, 1), DateTime.Now, "comparativaGastosProveedoresGeneral");
-            generarGraficoBarras();
+            this.mostrarGrafico(0);
+            this.opciones = new BusquedaEstadisticas(new DateTime(2016, 1, 1), DateTime.Now, "comparativaGastosProveedoresGeneral");
+            this.generarGraficoBarras();
         }
 
         private void bCompGastosMensualEmpleados_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesMensual(this, "comparativaGastosEmpleadosMenusal").Show();
         }
 
         private void bCompGastosTrimestralEmpleados_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesTrimestralAnual(this, "comparativaGastosEmpleadosTrimestral").Show();
         }
 
         private void bCompGastosAnualEmpleados_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
+            this.mostrarGrafico(0);
             new VentanaOpcionesTrimestralAnual(this, "comparativaGastosEmpleadosAnual").Show();
         }
 
         private void bCompGastosGeneralEmpleados_Click(object sender, RoutedEventArgs e)
         {
-            mostrarGrafico(0);
-            opciones = new BusquedaEstadisticas(new DateTime(2016, 1, 1), DateTime.Now, "comparativaGastosEmpleadosGeneral");
-            generarGraficoBarras();
+            this.mostrarGrafico(0);
+            this.opciones = new BusquedaEstadisticas(new DateTime(2016, 1, 1), DateTime.Now, "comparativaGastosEmpleadosGeneral");
+            this.generarGraficoBarras();
         }
     }
 }

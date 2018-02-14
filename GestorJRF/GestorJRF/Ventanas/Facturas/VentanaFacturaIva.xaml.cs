@@ -1,11 +1,15 @@
-﻿using GestorJRF.CRUD;
-using GestorJRF.POJOS;
-using GestorJRF.POJOS.Facturas;
+﻿using GestorJRF.POJOS.Facturas;
 using GestorJRF.Utilidades;
+using GestorJRF.Ventanas;
+using GestorJRF.Ventanas.Facturas;
+using GestorJRF.Ventanas.Login;
 using System;
-using System.Collections;
+using System.CodeDom.Compiler;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
 
 namespace GestorJRF.Ventanas.Facturas
 {
@@ -15,58 +19,84 @@ namespace GestorJRF.Ventanas.Facturas
     public partial class VentanaFacturaIva : Window
     {
         private bool pulsadoBotonX;
+        private string tipo;
 
         public VentanaFacturaIva()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             UtilidadesVentana.SituarVentana(0, this);
-            tAño.Text = Convert.ToString(DateTime.Now.Year);
-            pulsadoBotonX = true;
+            this.tAño.Content = DateTime.Now.Year.ToString();
+            this.pulsadoBotonX = true;
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        public VentanaFacturaIva(string tipo)
         {
-            if (pulsadoBotonX)
+            this.InitializeComponent();
+            UtilidadesVentana.SituarVentana(0, this);
+            this.tAño.Content = DateTime.Now.Year.ToString();
+            this.pulsadoBotonX = true;
+            this.cTipo.IsEnabled = false;
+            this.isAnual.IsChecked = true;
+            this.isAnual.IsEnabled = false;
+            this.tipo = tipo;
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            if (this.pulsadoBotonX)
+            {
                 new VentanaMenuPrincipal().Show();
+            }
         }
 
         private void bGenerarFactura_Click(object sender, RoutedEventArgs e)
         {
-            DateTime inicio;
-            DateTime final;
-
-            if (UtilidadesVerificacion.validadorNumeroEntero(tAño.Text))
+            if (cTipo.SelectedIndex > -1 || this.tipo.Equals("facturacioAnual"))
             {
-                int año = Convert.ToInt32(tAño.Text);
-                switch (cTrimestre.SelectedIndex)
+                if (this.isAnual.IsEnabled)
                 {
-                    case 0:
-                        inicio = new DateTime(año, 1, 1);
-                        final = new DateTime(año, 3, 31);
-                        break;
-                    case 1:
-                        inicio = new DateTime(año, 4, 1);
-                        final = new DateTime(año, 6, 30);
-                        break;
-                    case 2:
-                        inicio = new DateTime(año, 7, 1);
-                        final = new DateTime(año, 9, 30);
-                        break;
-                    case 3:
-                        inicio = new DateTime(año, 10, 1);
-                        final = new DateTime(año, 12, 31);
-                        break;
-                    default:
-                        inicio = new DateTime(año, 1, 1);
-                        final = new DateTime(año, 3, 31);
-                        break;
-                }
+                    base.Hide();
+                    var tipo = ((ComboBoxItem)this.cTipo.SelectedItem).Content.Equals("IVA") ? "ivaNormal" : "ivaBienes";
 
-                BusquedaFactura busqueda = new BusquedaFactura(inicio, final, "iva");
-                new VentanaImpresionFactura(busqueda).Show();
-                pulsadoBotonX = false;
-                Close();
-            }         
+                    if (this.isAnual.IsChecked == true)
+                    {
+                        new VentanaImpresionFactura(tipo, 0, Convert.ToInt32(this.tAño.Content));
+                    }
+                    else
+                    {
+                        new VentanaImpresionFactura(tipo, this.cTrimestre.SelectedIndex + 1, Convert.ToInt32(this.tAño.Content));
+                    }
+                }
+                else
+                {
+                    var fechaInicio = new DateTime(Convert.ToInt32(this.tAño.Content),1, 1);
+                    var fechaFinal = new DateTime(Convert.ToInt32(this.tAño.Content), 12,31);
+                    BusquedaFactura busqueda = new BusquedaFactura(null, fechaInicio, fechaFinal, "facturacionAnual");
+                    new VentanaImpresionFactura(busqueda);
+                }
+                
+                this.pulsadoBotonX = false;
+                base.Close();
+            }
+            else
+            {
+                    MessageBox.Show("Debe seleccionar el tipo de IVA", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
+            }
+        }
+
+        private void isAnual_Checked(object sender, RoutedEventArgs e)
+        {
+            this.cTrimestre.IsEnabled = ((CheckBox)sender).IsChecked == false ? true : false;
+        }
+
+        private void bArriba_Click(object sender, RoutedEventArgs e)
+        {
+            tAño.Content = (int.Parse(tAño.Content.ToString()) + 1).ToString();
+        }
+
+        private void bAbajo_Click(object sender, RoutedEventArgs e)
+        {
+            tAño.Content = (int.Parse(tAño.Content.ToString()) - 1).ToString();
         }
     }
 }

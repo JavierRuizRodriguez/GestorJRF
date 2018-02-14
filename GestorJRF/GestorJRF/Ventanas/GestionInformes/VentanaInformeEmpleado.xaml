@@ -1,0 +1,35 @@
+﻿<Window x:Class="GestorJRF.Ventanas.GestionInformes.VentanaInformeEmpleado" Title="Ventana de selección - GESTOR JRF" Height="254" Width="456" Closing="Window_Closing" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:GestorJRF.Ventanas.GestionInformes">
+    <Grid>
+        <Border BorderBrush="#FF000000" BorderThickness="1" HorizontalAlignment="Left" Height="191" Margin="10,10,0,0" VerticalAlignment="Top" Width="417">
+            <Grid>
+                <Label Name="lEmpleado" Content="Empleado" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" />
+                <ComboBox Name="cEmpleado" HorizontalAlignment="Left" Margin="78,14,0,0" VerticalAlignment="Top" Width="327" />
+                <ComboBox Name="cMes" HorizontalAlignment="Left" Margin="78,43,0,0" VerticalAlignment="Top" Width="96" SelectedIndex="0">
+                    <ComboBoxItem Content="ENERO" />
+                    <ComboBoxItem Content="FEBRERO" />
+                    <ComboBoxItem Content="MARZO" />
+                    <ComboBoxItem Content="ABRIL" />
+                    <ComboBoxItem Content="MAYO" />
+                    <ComboBoxItem Content="JUNIO" />
+                    <ComboBoxItem Content="JULIO" />
+                    <ComboBoxItem Content="AGOSTO" />
+                    <ComboBoxItem Content="SEPTIEMBRE" />
+                    <ComboBoxItem Content="OCTUBRE" />
+                    <ComboBoxItem Content="NOVIEMBRE" />
+                    <ComboBoxItem Content="DICIEMBRE" />
+                </ComboBox>
+                <ComboBox Name="cCuatrimestre" HorizontalAlignment="Left" Margin="108,44,0,0" VerticalAlignment="Top" Width="45" Height="21" Visibility="Hidden" SelectedIndex="0">
+                    <ComboBoxItem Content="1" HorizontalAlignment="Left" Width="45" />
+                    <ComboBoxItem Content="2" HorizontalAlignment="Left" Width="45" />
+                    <ComboBoxItem Content="3" HorizontalAlignment="Left" Width="44" />
+                    <ComboBoxItem Content="4" HorizontalAlignment="Left" Width="44" />
+                </ComboBox>
+                <Label Name="lCuatrimestre" Content="TRIMESTRE" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Visibility="Hidden" />
+                <Label Name="lMes" Content="MES" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" />
+                <Button Name="bGenerarInforme" Content="GENERAR INFORME" Margin="42,93,36,23" Background="#FF9EFF9E" Click="bGenerarInforme_Click" />
+                <TextBox Name="tAño" HorizontalAlignment="Left" Height="23" Margin="228,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" RenderTransformOrigin="0.872,1.435" />
+                <Label Name="label3" Content="Año" HorizontalAlignment="Left" Margin="191,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.219,0.577" />
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

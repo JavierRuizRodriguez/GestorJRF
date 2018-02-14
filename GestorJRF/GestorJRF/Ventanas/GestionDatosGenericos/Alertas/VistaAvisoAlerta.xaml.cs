@@ -15,45 +15,54 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Alertas
     /// </summary>
     public partial class VistaAvisoAlerta : Window
     {
-        public Alerta alerta { get; set; }
         private List<AlertaFecha> alertasFecha;
+
         private List<AlertaKM> alertasKm;
+
+        public Alerta alerta
+        {
+            get;
+            set;
+        }
 
         public VistaAvisoAlerta(List<AlertaFecha> alertasFecha, List<AlertaKM> alertasKm)
         {
-            InitializeComponent();
+            this.InitializeComponent();
             UtilidadesVentana.SituarVentana(0, this);
             this.alertasFecha = new List<AlertaFecha>(alertasFecha);
             this.alertasKm = new List<AlertaKM>(alertasKm);
-
             for (int x = 1; x <= alertasFecha.Count + alertasKm.Count; x++)
-                cAlertas.Items.Add(new ComboBoxItem().Content = x);
-
-            cAlertas.SelectedIndex = 0;
+            {
+                ItemCollection items = this.cAlertas.Items;
+                ComboBoxItem comboBoxItem = new ComboBoxItem();
+                object newItem = comboBoxItem.Content = x;
+                items.Add(newItem);
+            }
+            this.cAlertas.SelectedIndex = -1;
         }
 
         internal void MostrarAlertaBuscada()
         {
-            AlertaFecha alertaFecha;
-            AlertaKM alertaKM;
-            tCamion.Text = (alerta.matricula == null) ? "" : alerta.matricula;
-            tTipoAviso.Text = alerta.tipoAviso;
-            tDescripcion.Text = alerta.descripcion;
-            if (alerta.tipoAviso.Equals("fecha"))
+            this.tCamion.Text = ((this.alerta.matricula == null) ? "" : this.alerta.matricula);
+            this.tTipoAviso.Text = this.alerta.tipoAviso;
+            this.tDescripcion.Text = this.alerta.descripcion;
+            if (this.alerta.tipoAviso.Equals("fecha"))
             {
-                alertaFecha = (AlertaFecha)alerta;
-                tAntelacion.Text = Convert.ToString(alertaFecha.diasAntelacion);
-                tLimite.Text = alertaFecha.fechaLimite.Date.ToString("dd/MM/yyyy");
+                AlertaFecha alertaFecha = (AlertaFecha)this.alerta;
+                this.tAntelacion.Text = Convert.ToString(alertaFecha.diasAntelacion);
+                TextBox textBox = this.tLimite;
+                DateTime dateTime = alertaFecha.fechaLimite;
+                dateTime = dateTime.Date;
+                textBox.Text = dateTime.ToString("dd/MM/yyyy");
             }
             else
             {
-                lAntelacion.Content = "KM ANTELACIÓN AVISO";
-                lLimite.Content = "KM PARA AVISO";
-                alertaKM = (AlertaKM)alerta;
-                tAntelacion.Text = Convert.ToString(alertaKM.kmAntelacion);
-                tLimite.Text = Convert.ToString(alertaKM.kmLimite);
+                this.lAntelacion.Content = "KM ANTELACIÓN AVISO";
+                this.lLimite.Content = "KM PARA AVISO";
+                AlertaKM alertaKM = (AlertaKM)this.alerta;
+                this.tAntelacion.Text = Convert.ToString(alertaKM.kmAntelacion);
+                this.tLimite.Text = Convert.ToString(alertaKM.kmLimite);
             }
-
         }
 
         private void bBuscar_Click(object sender, RoutedEventArgs e)
@@ -63,90 +72,106 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Alertas
 
         private void bBorrar_Click(object sender, RoutedEventArgs e)
         {
-            if (alerta != null)
+            if (this.alerta != null)
             {
-                if (MessageBox.Show("¿Desea borrar la alerta?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("¿Desea borrar la alerta?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
                 {
-                    int salida = AlertasCRUD.borrarAlerta(alerta.id);
-
+                    int salida = AlertasCRUD.borrarAlerta(this.alerta.id);
                     if (salida == 1)
                     {
-                        UtilidadesVentana.LimpiarCampos(gridPrincipal);
-                        alerta = null;
+                        UtilidadesVentana.LimpiarCampos(this.gridPrincipal);
+                        this.alerta = null;
                     }
                 }
-
             }
             else
-                MessageBox.Show("Debe seleccionar un camión para borrarlo.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+            {
+                MessageBox.Show("Debe seleccionar un camión para borrarlo.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
+            }
         }
 
         private void bModificar_Click(object sender, RoutedEventArgs e)
         {
-            if (alerta != null)
+            if (this.alerta != null)
             {
-                new VentanaGestionAlertas(alerta).Show();
-                UtilidadesVentana.LimpiarCampos(gridPrincipal);
-                alerta = null;
+                new VentanaGestionAlertas(this.alerta).Show();
+                UtilidadesVentana.LimpiarCampos(this.gridPrincipal);
+                this.alerta = null;
             }
             else
-                MessageBox.Show("Debe seleccionar una alerta para modificarla.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+            {
+                MessageBox.Show("Debe seleccionar una alerta para modificarla.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
+            }
         }
 
-        private void tablaAlertas_BeginningEdit(object sender, System.Windows.Controls.DataGridBeginningEditEventArgs e)
+        private void tablaAlertas_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
             e.Cancel = true;
         }
 
         private void cAlertas_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cAlertas.SelectedIndex != -1)
+            if (this.cAlertas.SelectedIndex != -1)
             {
-                var id = cAlertas.SelectedIndex + 1;
-                if (id <= alertasFecha.Count)
-                    alerta = alertasFecha[cAlertas.SelectedIndex];
+                int id = this.cAlertas.SelectedIndex + 1;
+                if (id <= this.alertasFecha.Count)
+                {
+                    this.alerta = this.alertasFecha[this.cAlertas.SelectedIndex];
+                }
                 else
                 {
-                    alerta = alertasKm[cAlertas.SelectedIndex - alertasFecha.Count];
+                    this.alerta = this.alertasKm[this.cAlertas.SelectedIndex - this.alertasFecha.Count];
                 }
-                MostrarAlertaBuscada();
+                this.MostrarAlertaBuscada();
             }
         }
 
         private void bEliminarAlerta_Click(object sender, RoutedEventArgs e)
         {
-            if (alerta != null)
+            if (this.alerta != null)
             {
-                if (MessageBox.Show("¿Desea borrar la alerta?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("¿Desea borrar la alerta?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
                 {
-                    int salida = AlertasCRUD.borrarAlerta(alerta.id);
-
+                    int salida = AlertasCRUD.borrarAlerta(this.alerta.id);
                     if (salida == 1)
-                        reconstruirVista(alerta);
+                    {
+                        this.reconstruirVista(this.alerta);
+                    }
                 }
-
             }
             else
-                MessageBox.Show("Debe seleccionar una alerta para borrarla.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+            {
+                MessageBox.Show("Debe seleccionar una alerta para borrarla.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
+            }
         }
 
         private void reconstruirVista(Alerta alertaEliminada)
         {
-            cAlertas.Items.Clear();
+            this.cAlertas.Items.Clear();
             if (alertaEliminada.tipoAviso.Equals("fecha"))
-                alertasFecha.Remove((AlertaFecha)alertaEliminada);
+            {
+                this.alertasFecha.Remove((AlertaFecha)alertaEliminada);
+            }
             else
-                alertasKm.Remove((AlertaKM)alertaEliminada);
-
-            for (int x = 1; x <= alertasFecha.Count + alertasKm.Count; x++)
-                cAlertas.Items.Add(new ComboBoxItem().Content = x);
-
-            alerta = null;
-
-            if (cAlertas.Items.Count > 0)
-                cAlertas.SelectedIndex = 0;
+            {
+                this.alertasKm.Remove((AlertaKM)alertaEliminada);
+            }
+            for (int x = 1; x <= this.alertasFecha.Count + this.alertasKm.Count; x++)
+            {
+                ItemCollection items = this.cAlertas.Items;
+                ComboBoxItem comboBoxItem = new ComboBoxItem();
+                object newItem = comboBoxItem.Content = x;
+                items.Add(newItem);
+            }
+            this.alerta = null;
+            if (this.cAlertas.Items.Count > 0)
+            {
+                this.cAlertas.SelectedIndex = -1;
+            }
             else
-                UtilidadesVentana.LimpiarCampos(gridPrincipal);
+            {
+                base.Close();
+            }
         }
     }
 }

@@ -25,72 +25,99 @@ namespace GestorJRF.Ventanas.Estadisticas
 
         public VentanaOpcionesMensualEmpresaEmpleado(VentanaEstadisticas ventanaPadre, string tipo)
         {
-            InitializeComponent();
+            this.InitializeComponent();
             UtilidadesVentana.SituarVentana(0, this);
             this.ventanaPadre = ventanaPadre;
             this.tipo = tipo;
-            tAño.Text = DateTime.Now.Year.ToString();
-
+            this.tAño.Text = DateTime.Now.Year.ToString();
             if (tipo.Contains("gasto"))
             {
-                if (!this.tipo.Contains("Proveedor"))
+                if (this.tipo.Contains("Proveedor"))
                 {
-                    lNombre.Content = "Proveedor";
-                    var lista = ProveedoresCRUD.cogerTodosProveedores().Cast<Proveedor>().ToList();
-                    proveedores = new List<Proveedor>(lista.OrderBy(p => p.nombre));
-                    foreach (Proveedor p in proveedores)
-                        cNombres.Items.Add(new ComboBoxItem().Content = p.nombre);
+                    this.lNombre.Content = "Proveedor";
+                    List<Proveedor> lista4 = ProveedoresCRUD.cogerTodosProveedores().Cast<Proveedor>().ToList();
+                    this.proveedores = new List<Proveedor>(from p in lista4
+                                                           orderby p.nombre
+                                                           select p);
+                    foreach (Proveedor proveedore in this.proveedores)
+                    {
+                        ItemCollection items = this.cNombres.Items;
+                        ComboBoxItem comboBoxItem = new ComboBoxItem();
+                        object newItem = comboBoxItem.Content = proveedore.nombre;
+                        items.Add(newItem);
+                    }
                 }
                 else
                 {
-                    lNombre.Content = "Empleado";
-                    var lista = EmpleadosCRUD.cogerTodosEmpleados().Cast<Empleado>().ToList();
-                    empleados = new List<Empleado>(lista.OrderBy(e => e.nombre));
-                    foreach (Empleado e in empleados)
-                        cNombres.Items.Add(new ComboBoxItem().Content = e.getNombreApellidos());
+                    this.lNombre.Content = "Empleado";
+                    List<Empleado> lista3 = EmpleadosCRUD.cogerTodosEmpleados().Cast<Empleado>().ToList();
+                    this.empleados = new List<Empleado>(from e in lista3
+                                                        orderby e.nombre
+                                                        select e);
+                    foreach (Empleado empleado in this.empleados)
+                    {
+                        ItemCollection items2 = this.cNombres.Items;
+                        ComboBoxItem comboBoxItem2 = new ComboBoxItem();
+                        object newItem = comboBoxItem2.Content = empleado.getNombreApellidos();
+                        items2.Add(newItem);
+                    }
+                }
+            }
+            else if (!this.tipo.Contains("Empleado"))
+            {
+                List<Empresa> lista2 = EmpresasCRUD.cogerTodasEmpresas().Cast<Empresa>().ToList();
+                this.empresas = new List<Empresa>(from e in lista2
+                                                  orderby e.nombre
+                                                  select e);
+                foreach (Empresa empresa in this.empresas)
+                {
+                    ItemCollection items3 = this.cNombres.Items;
+                    ComboBoxItem comboBoxItem3 = new ComboBoxItem();
+                    object newItem = comboBoxItem3.Content = empresa.nombre;
+                    items3.Add(newItem);
                 }
             }
             else
             {
-                if (!this.tipo.Contains("Empleado"))
+                this.lNombre.Content = "Empleado";
+                List<Empleado> lista = EmpleadosCRUD.cogerTodosEmpleados().Cast<Empleado>().ToList();
+                this.empleados = new List<Empleado>(from e in lista
+                                                    orderby e.nombre
+                                                    select e);
+                foreach (Empleado empleado2 in this.empleados)
                 {
-                    var lista = EmpresasCRUD.cogerTodasEmpresas().Cast<Empresa>().ToList();
-                    empresas = new List<Empresa>(lista.OrderBy(e => e.nombre));
-                    foreach (Empresa e in empresas)
-                        cNombres.Items.Add(new ComboBoxItem().Content = e.nombre);
-                }
-                else
-                {
-                    lNombre.Content = "Empleado";
-                    var lista = EmpleadosCRUD.cogerTodosEmpleados().Cast<Empleado>().ToList();
-                    empleados = new List<Empleado>(lista.OrderBy(e => e.nombre));
-                    foreach (Empleado e in empleados)
-                        cNombres.Items.Add(new ComboBoxItem().Content = e.getNombreApellidos());
+                    ItemCollection items4 = this.cNombres.Items;
+                    ComboBoxItem comboBoxItem4 = new ComboBoxItem();
+                    object newItem = comboBoxItem4.Content = empleado2.getNombreApellidos();
+                    items4.Add(newItem);
                 }
             }
-            cNombres.SelectedIndex = 0;
-
+            this.cNombres.SelectedIndex = -1;
         }
 
         private void bGenerarEstadistica_Click(object sender, RoutedEventArgs e)
         {
-            if (UtilidadesVerificacion.validadorNumeroEntero(tAño.Text))
+            if (UtilidadesVerificacion.validadorNumeroEntero(this.tAño.Text))
             {
-                DateTime inicio = new DateTime(Convert.ToInt32(tAño.Text), cMes.SelectedIndex + 1, 1);
-                DateTime final = new DateTime(Convert.ToInt32(tAño.Text), cMes.SelectedIndex + 1, DateTime.DaysInMonth(Convert.ToInt32(tAño.Text), cMes.SelectedIndex + 1));
-
-                if (!tipo.Contains("Empleado"))
+                DateTime inicio = new DateTime(Convert.ToInt32(this.tAño.Text), this.cMes.SelectedIndex + 1, 1);
+                DateTime final = new DateTime(Convert.ToInt32(this.tAño.Text), this.cMes.SelectedIndex + 1, DateTime.DaysInMonth(Convert.ToInt32(this.tAño.Text), this.cMes.SelectedIndex + 1));
+                if (!this.tipo.Contains("Empleado"))
                 {
-                    if (tipo.Contains("gasto"))
-                        ventanaPadre.opciones = new BusquedaEstadisticas(inicio, final, tipo, proveedores[cNombres.SelectedIndex].cif);
+                    if (this.tipo.Contains("gasto"))
+                    {
+                        this.ventanaPadre.opciones = new BusquedaEstadisticas(inicio, final, this.tipo, this.proveedores[this.cNombres.SelectedIndex].cif);
+                    }
                     else
-                        ventanaPadre.opciones = new BusquedaEstadisticas(inicio, final, tipo, empresas[cNombres.SelectedIndex].cif);
+                    {
+                        this.ventanaPadre.opciones = new BusquedaEstadisticas(inicio, final, this.tipo, this.empresas[this.cNombres.SelectedIndex].cif);
+                    }
                 }
                 else
-                    ventanaPadre.opciones = new BusquedaEstadisticas(empleados[cNombres.SelectedIndex].dni, inicio, final, tipo);
-
-                ventanaPadre.generarGraficaLineal();
-                Close();
+                {
+                    this.ventanaPadre.opciones = new BusquedaEstadisticas(this.empleados[this.cNombres.SelectedIndex].dni, inicio, final, this.tipo);
+                }
+                this.ventanaPadre.generarGraficaLineal();
+                base.Close();
             }
         }
     }

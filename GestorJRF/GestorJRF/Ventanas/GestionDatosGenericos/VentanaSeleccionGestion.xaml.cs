@@ -2,10 +2,18 @@
 using GestorJRF.Ventanas.GestionDatosGenericos.Alertas;
 using GestorJRF.Ventanas.GestionDatosGenericos.Camiones;
 using GestorJRF.Ventanas.GestionDatosGenericos.Empleados;
+using GestorJRF.Ventanas.GestionDatosGenericos.Empresas;
+using GestorJRF.Ventanas.GestionDatosGenericos.Gastos;
 using GestorJRF.Ventanas.GestionDatosGenericos.Proveedores;
 using GestorJRF.Ventanas.GestionDatosGenericos.Tarifas;
-using GestorJRF.Ventanas.GestionGastos;
+using GestorJRF.Ventanas.Login;
+using System;
+using System.CodeDom.Compiler;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Markup;
 
 namespace GestorJRF.Ventanas.GestionDatosGenericos
 {
@@ -19,101 +27,105 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos
 
         public VentanaSeleccionGestion(string tipo)
         {
-            InitializeComponent();
+            this.InitializeComponent();
             UtilidadesVentana.SituarVentana(0, this);
             this.tipo = tipo;
-            Title = "Gestión " + tipo;
-            botonPulsadoX = true;
+            base.Title = "Gestión " + tipo;
+            this.botonPulsadoX = true;
         }
 
         private void bAlta_Click(object sender, RoutedEventArgs e)
         {
-            botonPulsadoX = false;
-            switch (tipo)
+            this.botonPulsadoX = false;
+            switch (this.tipo)
             {
                 case "camiones":
                     new VentanaGestionCamiones().Show();
-                    Close();
+                    base.Close();
                     break;
                 case "empleados":
                     new VentanaGestionEmpleados().Show();
-                    Close();
+                    base.Close();
                     break;
                 case "empresas":
-                    new VentanaGestionEmpresas(false).Show();
-                    Close();
+                    new VentanaGestionEmpresas(null, false).Show();
+                    base.Close();
                     break;
                 case "tarifas":
                     new VentanaGestionTarifas().Show();
-                    Close();
+                    base.Close();
                     break;
                 case "alertas":
                     new VentanaGestionAlertas().Show();
-                    Close();
+                    base.Close();
                     break;
                 case "gastos":
                     new VentanaGestionGastos().Show();
-                    Close();
+                    base.Close();
                     break;
                 case "proveedores":
                     new VentanaGestionProveedores().Show();
-                    Close();
+                    base.Close();
                     break;
                 default:
                     new VentanaGestionCamiones().Show();
-                    Close();
+                    base.Close();
                     break;
             }
         }
 
         private void bVisualizacion_Click(object sender, RoutedEventArgs e)
         {
-            botonPulsadoX = false;
-            switch (tipo)
+            this.botonPulsadoX = false;
+            switch (this.tipo)
             {
                 case "camiones":
                     new VistaCamiones().Show();
-                    Close();
+                    base.Close();
                     break;
                 case "empleados":
                     new VistaEmpleados().Show();
-                    Close();
+                    base.Close();
                     break;
                 case "empresas":
                     new VistaEmpresas().Show();
-                    Close();
+                    base.Close();
                     break;
                 case "tarifas":
                     new VistaTarifas().Show();
-                    Close();
+                    base.Close();
                     break;
                 case "alertas":
                     new VistaAlertas().Show();
-                    Close();
+                    base.Close();
                     break;
                 case "gastos":
                     new VistaGastos().Show();
-                    Close();
+                    base.Close();
                     break;
                 case "proveedores":
                     new VistaProveedores().Show();
-                    Close();
+                    base.Close();
                     break;
                 default:
                     new VistaCamiones().Show();
-                    Close();
+                    base.Close();
                     break;
             }
         }
 
-        private void CerrandoVentana(object sender, System.ComponentModel.CancelEventArgs e)
+        private void CerrandoVentana(object sender, CancelEventArgs e)
         {
-            if (botonPulsadoX)
+            if (this.botonPulsadoX)
             {
-                if (!tipo.Equals("gastos"))
+                if (!this.tipo.Equals("gastos"))
+                {
                     new VentanaMenuGestionDatos().Show();
+                }
                 else
+                {
                     new VentanaMenuPrincipal().Show();
+                }
             }
         }
     }

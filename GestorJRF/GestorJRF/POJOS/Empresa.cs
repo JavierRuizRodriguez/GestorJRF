@@ -1,23 +1,66 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace GestorJRF.POJOS
 {
     public class Empresa
     {
-        public string nombre { get; set; }
-        public string cif { get; set; }
-        public string cifAntiguo { get; set; }
-        public string domicilio { get; set; }
-        public string localidad { get; set; }
-        public string provincia { get; set; }
-        public int cp { get; set; }
-        public int telefono { get; set; }
-        public string email { get; set; }
         public List<PersonaContacto> personasContacto;
-        public Empresa() { }
 
-        public Empresa(string nombre, string cif, string domicilio, string localidad, string provincia, int cp, int telefono, string email, ObservableCollection<PersonaContacto> personasContacto)
+        public string nombre
+        {
+            get;
+            set;
+        }
+
+        public string cif
+        {
+            get;
+            set;
+        }
+
+        public string cifAntiguo
+        {
+            get;
+            set;
+        }
+
+        public string domicilio
+        {
+            get;
+            set;
+        }
+
+        public string localidad
+        {
+            get;
+            set;
+        }
+
+        public string provincia
+        {
+            get;
+            set;
+        }
+
+        public string cp
+        {
+            get;
+            set;
+        }
+
+        public int telefono
+        {
+            get;
+            set;
+        }
+
+        public Empresa()
+        {
+        }
+
+        public Empresa(string nombre, string cif, string domicilio, string localidad, string provincia, string cp, int telefono, ObservableCollection<PersonaContacto> personasContacto)
         {
             this.nombre = nombre;
             this.cif = cif;
@@ -26,11 +69,10 @@ namespace GestorJRF.POJOS
             this.provincia = provincia;
             this.cp = cp;
             this.telefono = telefono;
-            this.email = email;
             this.personasContacto = new List<PersonaContacto>(personasContacto);
         }
 
-        public Empresa(string nombre, string cif, string cifAntiguo, string domicilio, string localidad, string provincia, int cp, int telefono, string email, ObservableCollection<PersonaContacto> personasContacto)
+        public Empresa(string nombre, string cif, string cifAntiguo, string domicilio, string localidad, string provincia, string cp, int telefono, ObservableCollection<PersonaContacto> personasContacto)
         {
             this.nombre = nombre;
             this.cif = cif;
@@ -40,8 +82,12 @@ namespace GestorJRF.POJOS
             this.provincia = provincia;
             this.cp = cp;
             this.telefono = telefono;
-            this.email = email;
             this.personasContacto = new List<PersonaContacto>(personasContacto);
+        }
+
+        internal string generarDireccion()
+        {
+            return (domicilio + " ," + localidad + " ," + provincia + " ," + cp).ToUpper();
         }
     }
 }

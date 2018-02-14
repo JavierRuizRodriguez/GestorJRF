@@ -2,10 +2,21 @@
 {
     class DobleCadena
     {
-        public string cadena1 { get; set; }
-        public string cadena2 { get; set; }
+        public string cadena1
+        {
+            get;
+            set;
+        }
 
-        public DobleCadena() { }
+        public string cadena2
+        {
+            get;
+            set;
+        }
+
+        public DobleCadena()
+        {
+        }
 
         public DobleCadena(string cadena1, string cadena2)
         {

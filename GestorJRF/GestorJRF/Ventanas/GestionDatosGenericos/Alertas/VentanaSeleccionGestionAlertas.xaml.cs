@@ -1,13 +1,15 @@
 ﻿using GestorJRF.Utilidades;
+using GestorJRF.Ventanas;
 using GestorJRF.Ventanas.GestionDatosGenericos.Alertas;
-using GestorJRF.Ventanas.GestionDatosGenericos.Camiones;
-using GestorJRF.Ventanas.GestionDatosGenericos.Empleados;
-using GestorJRF.Ventanas.GestionDatosGenericos.Proveedores;
-using GestorJRF.Ventanas.GestionDatosGenericos.Tarifas;
-using GestorJRF.Ventanas.GestionGastos;
+using System;
+using System.CodeDom.Compiler;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Markup;
 
-namespace GestorJRF.Ventanas.GestionDatosGenericos
+namespace GestorJRF.Ventanas.GestionDatosGenericos.Alertas
 {
     /// <summary>
     /// Lógica de interacción para VentanaSeleccionGestion.xaml
@@ -18,35 +20,37 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos
 
         public VentanaSeleccionGestionAlertas()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             UtilidadesVentana.SituarVentana(0, this);
-            botonPulsadoX = true;
+            this.botonPulsadoX = true;
         }
 
         private void bAlta_Click(object sender, RoutedEventArgs e)
         {
-            botonPulsadoX = false;
+            this.botonPulsadoX = false;
             new VentanaGestionAlertas().Show();
-            Close();
+            base.Close();
         }
 
         private void bVisualizacion_Click(object sender, RoutedEventArgs e)
         {
-            botonPulsadoX = false;
+            this.botonPulsadoX = false;
             new VistaAlertas().Show();
-            Close();
+            base.Close();
         }
 
-        private void CerrandoVentana(object sender, System.ComponentModel.CancelEventArgs e)
+        private void CerrandoVentana(object sender, CancelEventArgs e)
         {
-            if (botonPulsadoX)
+            if (this.botonPulsadoX)
+            {
                 new VentanaMenuGestionDatos().Show();
+            }
         }
 
         private void bAlertasEnFecha_Click(object sender, RoutedEventArgs e)
         {
             new AvisoAlerta().Show();
-            Close();
+            base.Close();
         }
     }
 }

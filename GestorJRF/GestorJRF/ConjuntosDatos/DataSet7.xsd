@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet7" targetNamespace="http://tempuri.org/DataSet7.xsd" xmlns:mstns="http://tempuri.org/DataSet7.xsd" xmlns="http://tempuri.org/DataSet7.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet7" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet7" msprop:Generator_UserDSName="DataSet7">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ResumenGasto" msprop:Generator_TableClassName="ResumenGastoDataTable" msprop:Generator_TableVarName="tableResumenGasto" msprop:Generator_RowChangedName="ResumenGastoRowChanged" msprop:Generator_TablePropName="ResumenGasto" msprop:Generator_RowDeletingName="ResumenGastoRowDeleting" msprop:Generator_RowChangingName="ResumenGastoRowChanging" msprop:Generator_RowEvHandlerName="ResumenGastoRowChangeEventHandler" msprop:Generator_RowDeletedName="ResumenGastoRowDeleted" msprop:Generator_RowClassName="ResumenGastoRow" msprop:Generator_UserTableName="ResumenGasto" msprop:Generator_RowEvArgName="ResumenGastoRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="importeBaseTotal" msprop:Generator_ColumnVarNameInTable="columnimporteBaseTotal" msprop:Generator_ColumnPropNameInRow="importeBaseTotal" msprop:Generator_ColumnPropNameInTable="importeBaseTotalColumn" msprop:Generator_UserColumnName="importeBaseTotal" type="xs:string" minOccurs="0" />
+              <xs:element name="iva" msprop:Generator_ColumnVarNameInTable="columniva" msprop:Generator_ColumnPropNameInRow="iva" msprop:Generator_ColumnPropNameInTable="ivaColumn" msprop:Generator_UserColumnName="iva" type="xs:string" minOccurs="0" />
+              <xs:element name="ivaTotal" msprop:Generator_ColumnVarNameInTable="columnivaTotal" msprop:Generator_ColumnPropNameInRow="ivaTotal" msprop:Generator_ColumnPropNameInTable="ivaTotalColumn" msprop:Generator_UserColumnName="ivaTotal" type="xs:string" minOccurs="0" />
+              <xs:element name="irpfTotal" msprop:Generator_ColumnVarNameInTable="columnirpfTotal" msprop:Generator_ColumnPropNameInRow="irpfTotal" msprop:Generator_ColumnPropNameInTable="irpfTotalColumn" msprop:Generator_UserColumnName="irpfTotal" type="xs:string" minOccurs="0" />
+              <xs:element name="tasasTotales" msprop:Generator_ColumnVarNameInTable="columntasasTotales" msprop:Generator_ColumnPropNameInRow="tasasTotales" msprop:Generator_ColumnPropNameInTable="tasasTotalesColumn" msprop:Generator_UserColumnName="tasasTotales" type="xs:string" minOccurs="0" />
+              <xs:element name="cuotaDeducibleTotal" msprop:Generator_ColumnVarNameInTable="columncuotaDeducibleTotal" msprop:Generator_ColumnPropNameInRow="cuotaDeducibleTotal" msprop:Generator_ColumnPropNameInTable="cuotaDeducibleTotalColumn" msprop:Generator_UserColumnName="cuotaDeducibleTotal" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

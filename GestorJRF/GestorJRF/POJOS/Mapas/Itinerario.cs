@@ -4,86 +4,155 @@ namespace GestorJRF.POJOS.Mapas
 {
     public class Itinerario : INotifyPropertyChanged
     {
-        public long id { get; set; }
         private char _punto;
+
+        public long id
+        {
+            get;
+            set;
+        }
+
         public char punto
         {
-            get { return _punto; }
+            get
+            {
+                return this._punto;
+            }
             set
             {
-                if (value != _punto)
+                if (value != this._punto)
                 {
-                    _punto = value;
-                    OnPropertyChanged("Punto");
+                    this._punto = value;
+                    this.OnPropertyChanged("Punto");
                 }
             }
         }
-        public string direccion { get; set; }
-        public double latitud { get; set; }
-        public double longitud { get; set; }
-        public long idResumen { get; set; }
-        public bool esEtapa { get; set; }
-        private string _dni { get; set; }
+
+        public string direccion
+        {
+            get;
+            set;
+        }
+
+        public double latitud
+        {
+            get;
+            set;
+        }
+
+        public double longitud
+        {
+            get;
+            set;
+        }
+
+        public long idResumen
+        {
+            get;
+            set;
+        }
+
+        public bool esEtapa
+        {
+            get;
+            set;
+        }
+
+        private string _dni
+        {
+            get;
+            set;
+        }
+
         public string dni
         {
             get
             {
-                return _dni;
+                return this._dni;
             }
             set
             {
-                if (value != _dni)
+                if (value != this._dni)
                 {
-                    _dni = value;
-                    OnPropertyChanged("Dni");
+                    this._dni = value;
+                    this.OnPropertyChanged("Dni");
                 }
             }
         }
-        private string _matricula { get; set; }
+
+        private string _matricula
+        {
+            get;
+            set;
+        }
+
         public string matricula
         {
             get
             {
-                return _matricula;
+                return this._matricula;
             }
             set
             {
-                if (value != _matricula)
+                if (value != this._matricula)
                 {
-                    _matricula = value;
-                    OnPropertyChanged("Matricula");
+                    this._matricula = value;
+                    this.OnPropertyChanged("Matricula");
                 }
             }
         }
-        private long _kilometrosVehiculo { get; set; }
-        public long kilometrosVehiculo
+
+        private string _clienteDeCliente
+        {
+            get;
+            set;
+        }
+
+        public string clienteDeCliente
         {
             get
             {
-                return _kilometrosVehiculo;
+                return this._clienteDeCliente;
             }
             set
             {
-                if (value != _kilometrosVehiculo)
+                if (value != this._clienteDeCliente)
                 {
-                    _kilometrosVehiculo = value;
-                    OnPropertyChanged("KilometrosVehiculo");
+                    this._clienteDeCliente = value;
+                    this.OnPropertyChanged("ClienteDeCliente");
                 }
             }
         }
 
-        public Itinerario() { }
+        public string poblacion
+        {
+            get;
+            set;
+        }
 
-        public Itinerario(char punto, string direccion, double latitud, double longitud, bool esEtapa)
+        public int palets
+        {
+            get;
+            set;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public Itinerario()
+        {
+        }
+
+        public Itinerario(char punto, string direccion, double latitud, double longitud, bool esEtapa, string poblacion)
         {
             this.punto = punto;
             this.direccion = direccion;
             this.latitud = latitud;
             this.longitud = longitud;
             this.esEtapa = esEtapa;
+            this.poblacion = poblacion;
         }
 
-        public Itinerario(char punto, string direccion, double latitud, double longitud, bool esEtapa, string dni, string matricula, long kilometrosVehiculo)
+        public Itinerario(char punto, string direccion, double latitud, double longitud, bool esEtapa, string dni, string matricula, string poblacion, string clienteDeCliente, int palets)
         {
             this.punto = punto;
             this.direccion = direccion;
@@ -92,10 +161,11 @@ namespace GestorJRF.POJOS.Mapas
             this.esEtapa = esEtapa;
             this.dni = dni;
             this.matricula = matricula;
-            this.kilometrosVehiculo = kilometrosVehiculo;
+            this.clienteDeCliente = clienteDeCliente;
+            this.palets = palets;
         }
 
-        public Itinerario(long id, char punto, string direccion, long idResumen, bool esEtapa, string dni, string matricula, long kilometrosVehiculo)
+        public Itinerario(long id, char punto, string direccion, long idResumen, bool esEtapa, string dni, string matricula, string poblacion, string clienteDeCliente, int palets)
         {
             this.id = id;
             this.punto = punto;
@@ -104,14 +174,13 @@ namespace GestorJRF.POJOS.Mapas
             this.esEtapa = esEtapa;
             this.dni = dni;
             this.matricula = matricula;
-            this.kilometrosVehiculo = kilometrosVehiculo;
+            this.clienteDeCliente = clienteDeCliente;
+            this.palets = palets;
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string punto)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
+            PropertyChangedEventHandler handler = this.PropertyChanged;
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(punto));

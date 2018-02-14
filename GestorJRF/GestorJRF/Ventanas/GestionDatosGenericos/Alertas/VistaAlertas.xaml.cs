@@ -1,8 +1,16 @@
 ﻿using GestorJRF.CRUD;
 using GestorJRF.POJOS;
 using GestorJRF.Utilidades;
+using GestorJRF.Ventanas;
+using GestorJRF.Ventanas.GestionDatosGenericos;
+using GestorJRF.Ventanas.GestionDatosGenericos.Alertas;
 using System;
+using System.CodeDom.Compiler;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Markup;
 
 namespace GestorJRF.Ventanas.GestionDatosGenericos.Alertas
 {
@@ -11,40 +19,45 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Alertas
     /// </summary>
     public partial class VistaAlertas : Window
     {
-        public Alerta alerta { get; set; }
+        public Alerta alerta
+        {
+            get;
+            set;
+        }
+
         public VistaAlertas()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             UtilidadesVentana.SituarVentana(0, this);
         }
 
-        private void CerrandoVentana(object sender, System.ComponentModel.CancelEventArgs e)
+        private void CerrandoVentana(object sender, CancelEventArgs e)
         {
             new VentanaMenuGestionDatos().Show();
         }
 
         internal void MostrarAlertaBuscada()
         {
-            AlertaFecha alertaFecha;
-            AlertaKM alertaKM;
-            tCamion.Text = (alerta.matricula == null) ? "" : alerta.matricula;
-            tTipoAviso.Text = alerta.tipoAviso;
-            tDescripcion.Text = alerta.descripcion;
-            if (alerta.tipoAviso.Equals("fecha"))
+            this.tCamion.Text = ((this.alerta.matricula == null) ? "" : this.alerta.matricula);
+            this.tTipoAviso.Text = this.alerta.tipoAviso;
+            this.tDescripcion.Text = this.alerta.descripcion;
+            if (this.alerta.tipoAviso.Equals("fecha"))
             {
-                alertaFecha = (AlertaFecha)alerta;                
-                tAntelacion.Text = Convert.ToString(alertaFecha.diasAntelacion);
-                tLimite.Text = alertaFecha.fechaLimite.Date.ToString("dd/MM/yyyy");
+                AlertaFecha alertaFecha = (AlertaFecha)this.alerta;
+                this.tAntelacion.Text = Convert.ToString(alertaFecha.diasAntelacion);
+                TextBox textBox = this.tLimite;
+                DateTime dateTime = alertaFecha.fechaLimite;
+                dateTime = dateTime.Date;
+                textBox.Text = dateTime.ToString("dd/MM/yyyy");
             }
             else
             {
-                lAntelacion.Content = "KM ANTELACIÓN AVISO";
-                lLimite.Content = "KM PARA AVISO";
-                alertaKM = (AlertaKM)alerta;
-                tAntelacion.Text = Convert.ToString(alertaKM.kmAntelacion);
-                tLimite.Text = Convert.ToString(alertaKM.kmLimite);
+                this.lAntelacion.Content = "KM ANTELACIÓN AVISO";
+                this.lLimite.Content = "KM PARA AVISO";
+                AlertaKM alertaKM = (AlertaKM)this.alerta;
+                this.tAntelacion.Text = Convert.ToString(alertaKM.kmAntelacion);
+                this.tLimite.Text = Convert.ToString(alertaKM.kmLimite);
             }
-            
         }
 
         private void bBuscar_Click(object sender, RoutedEventArgs e)
@@ -54,34 +67,36 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Alertas
 
         private void bBorrar_Click(object sender, RoutedEventArgs e)
         {
-            if (alerta != null)
+            if (this.alerta != null)
             {
-                if (MessageBox.Show("¿Desea borrar la alerta?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("¿Desea borrar la alerta?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
                 {
-                    int salida = AlertasCRUD.borrarAlerta(alerta.id);
-
+                    int salida = AlertasCRUD.borrarAlerta(this.alerta.id);
                     if (salida == 1)
                     {
-                        UtilidadesVentana.LimpiarCampos(gridPrincipal);
-                        alerta = null;
+                        UtilidadesVentana.LimpiarCampos(this.gridPrincipal);
+                        this.alerta = null;
                     }
                 }
-
             }
             else
-                MessageBox.Show("Debe seleccionar una alerta para borrarla.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+            {
+                MessageBox.Show("Debe seleccionar una alerta para borrarla.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
+            }
         }
 
         private void bModificar_Click(object sender, RoutedEventArgs e)
         {
-            if (alerta != null)
+            if (this.alerta != null)
             {
-                new VentanaGestionAlertas(alerta).Show();
-                UtilidadesVentana.LimpiarCampos(gridPrincipal);
-                alerta = null;
+                new VentanaGestionAlertas(this.alerta).Show();
+                UtilidadesVentana.LimpiarCampos(this.gridPrincipal);
+                this.alerta = null;
             }
             else
-                MessageBox.Show("Debe seleccionar una alerta para borrarla.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+            {
+                MessageBox.Show("Debe seleccionar una alerta para borrarla.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
+            }
         }
     }
 }

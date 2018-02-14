@@ -2,12 +2,33 @@
 {
     public class ComponenteTarifa
     {
-        public string nombreTarifa { get; set; }
-        public string etiqueta { get; set; }
-        public double precio { get; set; }
-        public string tipoCamion { get; set; }
+        public string nombreTarifa
+        {
+            get;
+            set;
+        }
 
-        public ComponenteTarifa() { }
+        public string etiqueta
+        {
+            get;
+            set;
+        }
+
+        public double precio
+        {
+            get;
+            set;
+        }
+
+        public string tipoCamion
+        {
+            get;
+            set;
+        }
+
+        public ComponenteTarifa()
+        {
+        }
 
         public ComponenteTarifa(string etiqueta, double precio, string tipoCamion)
         {

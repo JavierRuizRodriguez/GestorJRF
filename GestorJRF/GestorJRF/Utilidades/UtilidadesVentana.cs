@@ -14,53 +14,59 @@ namespace GestorJRF.Utilidades
             double screenHeight = SystemParameters.PrimaryScreenHeight;
             double windowWidth = ventana.Width;
             double windowHeight = ventana.Height;
-
-            if (tipo == 0)
+            switch (tipo)
             {
-                ventana.Left = (screenWidth / 2) - (windowWidth / 2);
-                ventana.Top = (screenHeight / 3) - (windowHeight / 2);
-            }
-            else if(tipo == 1)
-            {
-                ventana.Left = (screenWidth / 2) - (windowWidth / 2);
-                ventana.Top = (screenHeight / 2.5) - (windowHeight / 2);
-            }
-            else if(tipo == 2)
-            {
-                ventana.Left = 0;
-                ventana.Top = 0;
-            }
-            else
-            {
-                ventana.Left = screenWidth - ventana.Width;
-                ventana.Top = screenHeight - ventana.Height - 30;
+                case 0:
+                    ventana.Left = screenWidth / 2.0 - windowWidth / 2.0;
+                    ventana.Top = screenHeight / 3.0 - windowHeight / 2.0;
+                    break;
+                case 1:
+                    ventana.Left = screenWidth / 2.0 - windowWidth / 2.0;
+                    ventana.Top = screenHeight / 2.5 - windowHeight / 2.0;
+                    break;
+                case 2:
+                    ventana.Left = 0.0;
+                    ventana.Top = 0.0;
+                    break;
+                default:
+                    ventana.Left = screenWidth - ventana.Width;
+                    ventana.Top = screenHeight - ventana.Height - 30.0;
+                    break;
             }
         }
 
         internal static bool ComprobarCampos(Grid grid)
         {
-            var todosRellenos = true;
-
-            foreach (UIElement elemento in grid.Children)
+            bool todosRellenos = true;
+            foreach (UIElement child in grid.Children)
             {
-                if (elemento.GetType() == typeof(TextBox))
+                if (child.GetType() == typeof(TextBox))
                 {
-                    TextBox txt = (TextBox)elemento;
-                    if (txt.Text.Equals("") && txt.IsEnabled)
+                    TextBox txt2 = (TextBox)child;
+                    if (txt2.Text.Equals("") && txt2.IsEnabled)
+                    {
                         todosRellenos = false;
+                    }
+                }
+                else if (child.GetType() == typeof(PasswordBox))
+                {
+                    PasswordBox txt = (PasswordBox)child;
+                    if (txt.Password.Equals("") && txt.IsEnabled)
+                    {
+                        todosRellenos = false;
+                    }
                 }
             }
-
             return todosRellenos;
         }
 
         internal static void LimpiarCampos(Grid grid)
         {
-            foreach (UIElement elemento in grid.Children)
+            foreach (UIElement child in grid.Children)
             {
-                if (elemento.GetType() == typeof(TextBox) || elemento.GetType() == typeof(TextBlock))
+                if (child.GetType() == typeof(TextBox) || child.GetType() == typeof(TextBlock))
                 {
-                    TextBox txt = (TextBox)elemento;
+                    TextBox txt = (TextBox)child;
                     txt.Text = "";
                 }
             }
@@ -68,13 +74,15 @@ namespace GestorJRF.Utilidades
 
         internal static void LimpiarCamposHabilitados(Grid grid)
         {
-            foreach (UIElement elemento in grid.Children)
+            foreach (UIElement child in grid.Children)
             {
-                if (elemento.GetType() == typeof(TextBox))
+                if (child.GetType() == typeof(TextBox))
                 {
-                    TextBox txt = (TextBox)elemento;
-                    if(txt.IsEnabled)
+                    TextBox txt = (TextBox)child;
+                    if (txt.IsEnabled)
+                    {
                         txt.Text = "";
+                    }
                 }
             }
         }
@@ -82,21 +90,21 @@ namespace GestorJRF.Utilidades
         internal static object generarEtiquetaFormatoColumna(string etiqueta)
         {
             List<int> idMayusclas = new List<int>();
-            for(int x=0;x<=etiqueta.Length - 1;x++)
+            for (int x = 0; x <= etiqueta.Length - 1; x++)
             {
-                if (Char.IsUpper(etiqueta[x]))
+                if (char.IsUpper(etiqueta[x]))
+                {
                     idMayusclas.Add(x);
+                }
             }
-
             int contador = 0;
-            foreach(int indice in idMayusclas)
+            foreach (int item in idMayusclas)
             {
-                var p1 = etiqueta.Substring(0, indice + contador) + " ";
-                var p2 = etiqueta.Substring(indice + contador);
-                etiqueta = p1 + p2; 
+                string p3 = etiqueta.Substring(0, item + contador) + " ";
+                string p2 = etiqueta.Substring(item + contador);
+                etiqueta = p3 + p2;
                 contador++;
             }
-
             return etiqueta.ToUpper();
         }
     }

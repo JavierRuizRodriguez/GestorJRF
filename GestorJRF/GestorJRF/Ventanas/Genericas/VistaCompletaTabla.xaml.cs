@@ -1,12 +1,16 @@
 ﻿using GestorJRF.CRUD;
 using GestorJRF.POJOS;
 using GestorJRF.Utilidades;
+using System;
+using System.CodeDom.Compiler;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Markup;
 
 namespace GestorJRF.Ventanas.Genericas
 {
@@ -16,176 +20,260 @@ namespace GestorJRF.Ventanas.Genericas
     public partial class VistaCompletaTabla : Window
     {
         private ObservableCollection<Camion> listaCamiones;
+
         private ObservableCollection<Empleado> listaEmpleados;
+
         private ObservableCollection<Empresa> listaEmpresas;
+
         private ObservableCollection<Tarifa> listaTarifas;
+
         private ObservableCollection<AlertaFecha> listaAlertasFecha;
+
         private ObservableCollection<AlertaKM> listaAlertasKM;
-        private ObservableCollection<Gasto> listaGastos;
+
+        private ObservableCollection<GastoNormal> listaGastosNormales;
+
+        private ObservableCollection<GastoBienInversion> listaGastosBienInversion;
+
         private ObservableCollection<Proveedor> listaProveedores;
 
         private string tipo;
 
         public VistaCompletaTabla(string tipo)
         {
-            InitializeComponent();
+            this.InitializeComponent();
             this.tipo = tipo;
-
             switch (tipo)
             {
                 case "camion":
-                    listaCamiones = new ObservableCollection<Camion>();
-                    crearColumnasCamion();
-                    IList camiones = CamionesCRUD.cogerTodosCamiones();
-                    if (camiones != null)
                     {
-                        foreach (Camion camion in camiones)
-                            listaCamiones.Add(camion);
+                        this.listaCamiones = new ObservableCollection<Camion>();
+                        this.crearColumnasCamion();
+                        IList camiones = CamionesCRUD.cogerTodosCamiones();
+                        if (camiones != null)
+                        {
+                            foreach (Camion item in camiones)
+                            {
+                                this.listaCamiones.Add(item);
+                            }
+                        }
+                        break;
                     }
-                    break;
                 case "empleado":
-                    listaEmpleados = new ObservableCollection<Empleado>();
-                    crearColumnasEmpleado();
-                    IList empleados = EmpleadosCRUD.cogerTodosEmpleados();
-                    foreach (Empleado empleado in empleados)
                     {
-                        empleado.fechaAlta = empleado.fechaAlta.Date;
-                        empleado.fechaNacimiento = empleado.fechaNacimiento.Date;
-                        listaEmpleados.Add(empleado);
+                        this.listaEmpleados = new ObservableCollection<Empleado>();
+                        this.crearColumnasEmpleado();
+                        IList empleados = EmpleadosCRUD.cogerTodosEmpleados();
+                        foreach (Empleado item2 in empleados)
+                        {
+                            Empleado empleado2 = item2;
+                            DateTime dateTime = item2.fechaAlta;
+                            empleado2.fechaAlta = dateTime.Date;
+                            Empleado empleado3 = item2;
+                            dateTime = item2.fechaNacimiento;
+                            empleado3.fechaNacimiento = dateTime.Date;
+                            this.listaEmpleados.Add(item2);
+                        }
+                        break;
                     }
-                    break;
                 case "empresa":
-                    listaEmpresas = new ObservableCollection<Empresa>();
-                    crearColumnasEmpresa();
-                    IList empresas = EmpresasCRUD.cogerTodasEmpresas();
-                    if (empresas != null)
                     {
-                        foreach (Empresa empresa in empresas)
-                            listaEmpresas.Add(empresa);
+                        this.listaEmpresas = new ObservableCollection<Empresa>();
+                        this.crearColumnasEmpresa();
+                        IList empresas = EmpresasCRUD.cogerTodasEmpresas();
+                        if (empresas != null)
+                        {
+                            foreach (Empresa item3 in empresas)
+                            {
+                                this.listaEmpresas.Add(item3);
+                            }
+                        }
+                        break;
                     }
-                    break;
                 case "tarifa":
-                    listaTarifas = new ObservableCollection<Tarifa>();
-                    crearColumnasTarifa();
-                    IList tarifas = TarifasCRUD.cogerTodasTarifas();
-                    if (tarifas != null)
                     {
-                        foreach (Tarifa tarifa in tarifas)
-                            listaTarifas.Add(tarifa);
+                        this.listaTarifas = new ObservableCollection<Tarifa>();
+                        this.crearColumnasTarifa();
+                        IList tarifas = TarifasCRUD.cogerTodasTarifas();
+                        if (tarifas != null)
+                        {
+                            foreach (Tarifa item4 in tarifas)
+                            {
+                                this.listaTarifas.Add(item4);
+                            }
+                        }
+                        break;
                     }
-                    break;
                 case "alertaFECHA":
-                    listaAlertasFecha = new ObservableCollection<AlertaFecha>();
-                    crearColumnasAlertaFecha();
-                    IList alertasFecha = AlertasCRUD.cogerTodasAlertasFecha();
-                    if (alertasFecha != null)
                     {
-                        foreach (AlertaFecha alerta in alertasFecha)
-                            listaAlertasFecha.Add(alerta);
+                        this.listaAlertasFecha = new ObservableCollection<AlertaFecha>();
+                        this.crearColumnasAlertaFecha();
+                        IList alertasFecha = AlertasCRUD.cogerTodasAlertasFecha();
+                        if (alertasFecha != null)
+                        {
+                            foreach (AlertaFecha item5 in alertasFecha)
+                            {
+                                this.listaAlertasFecha.Add(item5);
+                            }
+                        }
+                        break;
                     }
-                    break;
                 case "alertaKILOMETRAJE":
-                    listaAlertasKM = new ObservableCollection<AlertaKM>();
-                    crearColumnasAlertaKM();
-                    IList alertasKM = AlertasCRUD.cogerTodasAlertasKM();
-                    if (alertasKM != null)
                     {
-                        foreach (AlertaKM alerta in alertasKM)
-                            listaAlertasKM.Add(alerta);
+                        this.listaAlertasKM = new ObservableCollection<AlertaKM>();
+                        this.crearColumnasAlertaKM();
+                        IList alertasKM = AlertasCRUD.cogerTodasAlertasKM();
+                        if (alertasKM != null)
+                        {
+                            foreach (AlertaKM item6 in alertasKM)
+                            {
+                                this.listaAlertasKM.Add(item6);
+                            }
+                        }
+                        break;
                     }
-                    break;
-                case "gasto":
-                    listaGastos = new ObservableCollection<Gasto>();
-                    crearColumnasGastos();
-                    IList gastos = GastosCRUD.cogerTodosGastos();
-                    if (gastos != null)
+                case "gastoBIEN INVERSIÓN":
                     {
-                        foreach (Gasto gasto in gastos)
-                            listaGastos.Add(gasto);
+                        this.listaGastosBienInversion = new ObservableCollection<GastoBienInversion>();
+                        this.crearColumnasGastosBienInversion();
+                        IList gastosBienInversion = GastosCRUD.cogerTodosGastosBienInversion();
+                        if (gastosBienInversion != null)
+                        {
+                            foreach (GastoBienInversion item7 in gastosBienInversion)
+                            {
+                                this.listaGastosBienInversion.Add(item7);
+                            }
+                        }
+                        break;
                     }
-                    break;
-
+                case "gastoNORMAL":
+                    {
+                        this.listaGastosNormales = new ObservableCollection<GastoNormal>();
+                        this.crearColumnasGastosNormal();
+                        IList gastosNormales = GastosCRUD.cogerTodosGastosNormal();
+                        if (gastosNormales != null)
+                        {
+                            foreach (GastoNormal item8 in gastosNormales)
+                            {
+                                this.listaGastosNormales.Add(item8);
+                            }
+                        }
+                        break;
+                    }
                 case "proveedor":
-                    listaProveedores = new ObservableCollection<Proveedor>();
-                    crearColumnasProveedores();
-                    IList proveedores = ProveedoresCRUD.cogerTodosProveedores();
-                    if (proveedores != null)
                     {
-                        foreach (Proveedor proveedor in proveedores)
-                            listaProveedores.Add(proveedor);
+                        this.listaProveedores = new ObservableCollection<Proveedor>();
+                        this.crearColumnasProveedores();
+                        IList proveedores = ProveedoresCRUD.cogerTodosProveedores();
+                        if (proveedores != null)
+                        {
+                            foreach (Proveedor item9 in proveedores)
+                            {
+                                this.listaProveedores.Add(item9);
+                            }
+                        }
+                        break;
                     }
-                    break;
-                default:
-                    break;
             }
         }
 
         private void tabla_CopyingRowClipboardContent(object sender, DataGridRowClipboardEventArgs e)
         {
-            var currentCell = e.ClipboardRowContent[tabla.CurrentCell.Column.DisplayIndex];
+            DataGridClipboardCellContent currentCell = e.ClipboardRowContent[this.tabla.CurrentCell.Column.DisplayIndex];
             e.ClipboardRowContent.Clear();
             e.ClipboardRowContent.Add(currentCell);
         }
 
         private void crearColumnasCamion()
         {
-            tabla.SetBinding(DataGrid.ItemsSourceProperty, new Binding() { Source = listaCamiones });
-            tabla.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
+            this.tabla.SetBinding(ItemsControl.ItemsSourceProperty, new Binding
+            {
+                Source = this.listaCamiones
+            });
+            this.tabla.ColumnWidth = new DataGridLength(1.0, DataGridLengthUnitType.Star);
         }
 
         private void crearColumnasEmpleado()
         {
-            tabla.SetBinding(DataGrid.ItemsSourceProperty, new Binding() { Source = listaEmpleados });
-            tabla.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
+            this.tabla.SetBinding(ItemsControl.ItemsSourceProperty, new Binding
+            {
+                Source = this.listaEmpleados
+            });
+            this.tabla.ColumnWidth = new DataGridLength(1.0, DataGridLengthUnitType.Star);
         }
 
         private void crearColumnasEmpresa()
         {
-            tabla.SetBinding(DataGrid.ItemsSourceProperty, new Binding() { Source = listaEmpresas });
-            tabla.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
+            this.tabla.SetBinding(ItemsControl.ItemsSourceProperty, new Binding
+            {
+                Source = this.listaEmpresas
+            });
+            this.tabla.ColumnWidth = new DataGridLength(1.0, DataGridLengthUnitType.Star);
         }
 
         private void crearColumnasTarifa()
         {
-            tabla.SetBinding(DataGrid.ItemsSourceProperty, new Binding() { Source = listaTarifas });
-            tabla.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
+            this.tabla.SetBinding(ItemsControl.ItemsSourceProperty, new Binding
+            {
+                Source = this.listaTarifas
+            });
+            this.tabla.ColumnWidth = new DataGridLength(1.0, DataGridLengthUnitType.Star);
         }
 
         private void crearColumnasAlertaFecha()
         {
-            tabla.SetBinding(DataGrid.ItemsSourceProperty, new Binding() { Source = listaAlertasFecha });
-            tabla.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
+            this.tabla.SetBinding(ItemsControl.ItemsSourceProperty, new Binding
+            {
+                Source = this.listaAlertasFecha
+            });
+            this.tabla.ColumnWidth = new DataGridLength(1.0, DataGridLengthUnitType.Star);
         }
 
         private void crearColumnasAlertaKM()
         {
-            tabla.SetBinding(DataGrid.ItemsSourceProperty, new Binding() { Source = listaAlertasKM });
-            tabla.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
+            this.tabla.SetBinding(ItemsControl.ItemsSourceProperty, new Binding
+            {
+                Source = this.listaAlertasKM
+            });
+            this.tabla.ColumnWidth = new DataGridLength(1.0, DataGridLengthUnitType.Star);
         }
 
-        private void crearColumnasGastos()
+        private void crearColumnasGastosNormal()
         {
-            tabla.SetBinding(DataGrid.ItemsSourceProperty, new Binding() { Source = listaGastos });
-            tabla.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
+            this.tabla.SetBinding(ItemsControl.ItemsSourceProperty, new Binding
+            {
+                Source = this.listaGastosNormales
+            });
+            this.tabla.ColumnWidth = new DataGridLength(1.0, DataGridLengthUnitType.Star);
+        }
+
+        private void crearColumnasGastosBienInversion()
+        {
+            this.tabla.SetBinding(ItemsControl.ItemsSourceProperty, new Binding
+            {
+                Source = this.listaGastosBienInversion
+            });
+            this.tabla.ColumnWidth = new DataGridLength(1.0, DataGridLengthUnitType.Star);
         }
 
         private void crearColumnasProveedores()
         {
-            tabla.SetBinding(DataGrid.ItemsSourceProperty, new Binding() { Source = listaProveedores });
-            tabla.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
+            this.tabla.SetBinding(ItemsControl.ItemsSourceProperty, new Binding
+            {
+                Source = this.listaProveedores
+            });
+            this.tabla.ColumnWidth = new DataGridLength(1.0, DataGridLengthUnitType.Star);
         }
 
         private void tabla_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
-            if (e.Column.Header.ToString() == "listaComponentesTarifa" || e.Column.Header.ToString() == "cifAntiguo" ||
-                e.Column.Header.ToString() == "personasContacto" || e.Column.Header.ToString() == "dniAntiguo" ||
-                e.Column.Header.ToString() == "nBastidorAntiguo" || e.Column.Header.ToString() == "nombreTarifaAntiguo" ||
-                e.Column.Header.ToString() == "idAntiguo")
+            if (e.Column.Header.ToString().Equals("listaComponentesTarifa") || e.Column.Header.ToString().Equals("cifAntiguo") || e.Column.Header.ToString().Equals("personasContacto") || e.Column.Header.ToString().Equals("dniAntiguo") || e.Column.Header.ToString().Equals("nBastidorAntiguo") || e.Column.Header.ToString().Equals("nombreTarifaAntiguo") || e.Column.Header.ToString().Equals("idAntiguo"))
+            {
                 e.Cancel = true;
+            }
             else
             {
-                if (e.Column.Header.ToString() == "fechaAlta" || e.Column.Header.ToString() == "fechaNacimiento" ||
-                    e.Column.Header.ToString() == "fechaLimite" || e.Column.Header.ToString() == "fecha")
+                if (e.Column.Header.ToString().Equals("fechaAlta") || e.Column.Header.ToString().Equals("fechaNacimiento") || e.Column.Header.ToString().Equals("fechaLimite") || e.Column.Header.ToString().Equals("fecha"))
                 {
                     DataGridTextColumn columnaNueva = new DataGridTextColumn();
                     columnaNueva.Header = e.Column.Header.ToString();
@@ -194,14 +282,13 @@ namespace GestorJRF.Ventanas.Genericas
                     columnaNueva.Binding = b;
                     e.Column = columnaNueva;
                 }
-
                 e.Column.Header = UtilidadesVentana.generarEtiquetaFormatoColumna(e.Column.Header.ToString());
             }
         }
 
-        private void tabla_AutoGeneratedColumns(object sender, System.EventArgs e)
+        private void tabla_AutoGeneratedColumns(object sender, EventArgs e)
         {
-            foreach (DataGridColumn column in tabla.Columns)
+            foreach (DataGridColumn column in this.tabla.Columns)
             {
                 switch (column.Header.ToString())
                 {
@@ -217,10 +304,9 @@ namespace GestorJRF.Ventanas.Genericas
                     case "KM ANTELACION":
                         column.DisplayIndex = 5;
                         break;
-                    default:
-                        break;
                 }
             }
         }
+
     }
 }

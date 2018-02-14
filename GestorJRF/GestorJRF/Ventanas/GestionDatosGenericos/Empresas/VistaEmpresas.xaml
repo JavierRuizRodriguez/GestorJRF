@@ -1,45 +1,34 @@
-﻿<Window x:Class="GestorJRF.Ventanas.GestionDatosGenericos.VistaEmpresas"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GestorJRF.Ventanas"
-        mc:Ignorable="d"
-        Title="VistaEmpresas" Height="601.531" Width="1095.344" ResizeMode="NoResize" Closing="CerrandoVentana">
+﻿<Window x:Class="GestorJRF.Ventanas.GestionDatosGenericos.Empresas.VistaEmpresas" Title="Visualización de empresas - GESTOR JRF" Height="568.531" Width="1095.344" ResizeMode="NoResize" Closing="CerrandoVentana" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:GestorJRF.Ventanas.GestionDatosGenericos.Empresas">
     <Grid>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="544" Margin="10,10,0,0" VerticalAlignment="Top" Width="1059">
+        <Border BorderBrush="#FF000000" BorderThickness="1" HorizontalAlignment="Left" Height="512" Margin="10,10,0,0" VerticalAlignment="Top" Width="1059">
             <Grid Name="gridPrincipal">
-                <Label Content="NOMBRE" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                <Label Content="NIF/CIF" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
-                <Label Content="DOMICILIO" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
-                <Label Content="LOCALIDAD" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top"/>
-                <Label Content="PROVINCIA" HorizontalAlignment="Left" Margin="10,134,0,0" VerticalAlignment="Top"/>
-                <Label Content="CÓDIGO POSTAL" HorizontalAlignment="Left" Margin="10,165,0,0" VerticalAlignment="Top"/>
-                <Label Content="TELÉFONO" HorizontalAlignment="Left" Margin="10,196,0,0" VerticalAlignment="Top"/>
-                <Label Content="EMAIL" HorizontalAlignment="Left" Margin="10,227,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="tNombre" HorizontalAlignment="Left" Height="23" Margin="115,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932" IsEnabled="False"/>
-                <TextBox x:Name="tNIF" HorizontalAlignment="Left" Height="23" Margin="115,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932" IsEnabled="False"/>
-                <TextBox x:Name="tDomicilio" HorizontalAlignment="Left" Height="23" Margin="115,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932" IsEnabled="False"/>
-                <TextBox x:Name="tLocalidad" HorizontalAlignment="Left" Height="23" Margin="115,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932" IsEnabled="False"/>
-                <TextBox x:Name="tProvincia" HorizontalAlignment="Left" Height="23" Margin="115,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932" IsEnabled="False"/>
-                <TextBox x:Name="tCP" HorizontalAlignment="Left" Height="23" Margin="115,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932" IsEnabled="False"/>
-                <TextBox x:Name="tTelefono" HorizontalAlignment="Left" Height="23" Margin="115,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932" IsEnabled="False"/>
-                <TextBox x:Name="tMail" HorizontalAlignment="Left" Height="23" Margin="115,230,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932" IsEnabled="False"/>
-                <GroupBox x:Name="groupBox" Header="Lista de personas de contacto" HorizontalAlignment="Left" Margin="12,258,0,0" VerticalAlignment="Top" Height="274" Width="730">
+                <Label Content="NOMBRE" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" />
+                <Label Content="NIF/CIF" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" />
+                <Label Content="DOMICILIO" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" />
+                <Label Content="LOCALIDAD" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top" />
+                <Label Content="PROVINCIA" HorizontalAlignment="Left" Margin="10,134,0,0" VerticalAlignment="Top" />
+                <Label Content="CÓDIGO POSTAL" HorizontalAlignment="Left" Margin="10,165,0,0" VerticalAlignment="Top" />
+                <Label Content="TELÉFONO" HorizontalAlignment="Left" Margin="10,196,0,0" VerticalAlignment="Top" />
+                <TextBox Name="tNombre" HorizontalAlignment="Left" Height="23" Margin="115,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932" IsEnabled="False" />
+                <TextBox Name="tNIF" HorizontalAlignment="Left" Height="23" Margin="115,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932" IsEnabled="False" />
+                <TextBox Name="tDomicilio" HorizontalAlignment="Left" Height="23" Margin="115,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932" IsEnabled="False" />
+                <TextBox Name="tLocalidad" HorizontalAlignment="Left" Height="23" Margin="115,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932" IsEnabled="False" />
+                <TextBox Name="tProvincia" HorizontalAlignment="Left" Height="23" Margin="115,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932" IsEnabled="False" />
+                <TextBox Name="tCP" HorizontalAlignment="Left" Height="23" Margin="115,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932" IsEnabled="False" />
+                <TextBox Name="tTelefono" HorizontalAlignment="Left" Height="23" Margin="115,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="932" IsEnabled="False" />
+                <GroupBox Name="groupBox" Header="Lista de personas de contacto" HorizontalAlignment="Left" Margin="12,227,0,0" VerticalAlignment="Top" Height="274" Width="730">
                     <Grid>
-                        <DataGrid x:Name="tablaPC" HorizontalAlignment="Left" Height="232" Margin="10,10,0,0" VerticalAlignment="Top" Width="698" CanUserAddRows="False" CanUserDeleteRows="True" DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}" ItemsSource="{Binding listaPersonasContacto}" IsReadOnly="True" AutoGeneratingColumn="tablaPC_AutoGeneratingColumn" ColumnWidth="*"/>
+                        <DataGrid Name="tablaPC" HorizontalAlignment="Left" Height="232" Margin="10,10,0,0" VerticalAlignment="Top" Width="698" CanUserAddRows="False" CanUserDeleteRows="True" IsReadOnly="True" ColumnWidth="*" DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}" ItemsSource="{Binding listaPersonasContacto}" AutoGeneratingColumn="tablaPC_AutoGeneratingColumn" />
                     </Grid>
                 </GroupBox>
-                <GroupBox x:Name="groupBox1" Header="Acciones" HorizontalAlignment="Left" Margin="747,258,0,0" VerticalAlignment="Top" Height="274" Width="300">
+                <GroupBox Name="groupBox1" Header="Acciones" HorizontalAlignment="Left" Margin="747,227,0,0" VerticalAlignment="Top" Height="274" Width="300">
                     <Grid>
-                        <Button x:Name="bModificar" Content="MODIFICAR EMPRESA" HorizontalAlignment="Left" Margin="10,21,0,0" VerticalAlignment="Top" Width="268" Height="69" Background="#FFF99F60" Click="bModificar_Click"/>
-                        <Button x:Name="bEliminar" Content="ELIMINAR EMPRESA" HorizontalAlignment="Left" Margin="10,95,0,0" VerticalAlignment="Top" Width="268" Height="69" Background="#FFFF8A8A" Click="bEliminar_Click"/>
-                        <Button x:Name="bBuscar" HorizontalAlignment="Left" Margin="10,169,0,0" VerticalAlignment="Top" Width="268" Height="69" Background="#FF80EEFF" Click="bBuscar_Click">
+                        <Button Name="bModificar" Content="MODIFICAR EMPRESA" HorizontalAlignment="Left" Margin="10,21,0,0" VerticalAlignment="Top" Width="268" Height="69" Background="#FFF99F60" Click="bModificar_Click" />
+                        <Button Name="bEliminar" Content="ELIMINAR EMPRESA" HorizontalAlignment="Left" Margin="10,95,0,0" VerticalAlignment="Top" Width="268" Height="69" Background="#FFFF8A8A" Click="bEliminar_Click" />
+                        <Button Name="bBuscar" HorizontalAlignment="Left" Margin="10,169,0,0" VerticalAlignment="Top" Width="268" Height="69" Background="#FF80EEFF" Click="bBuscar_Click">
                             <DockPanel LastChildFill="True" Width="157">
                                 <Image DockPanel.Dock="Left" Source="/Iconos/lupa.png" Stretch="None" />
-                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center">
-                                    BUSCAR EMPRESA
-                                </TextBlock>
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center">BUSCAR EMPRESA</TextBlock>
                             </DockPanel>
                         </Button>
                     </Grid>

@@ -7,7 +7,7 @@ using System.Collections;
 
 namespace GestorJRF.CRUD
 {
-    class CamionesCRUD
+    internal class CamionesCRUD
     {
         internal static int añadirCamion(Camion c)
         {
@@ -15,7 +15,7 @@ namespace GestorJRF.CRUD
             {
                 InstanciaPostgreSQL.CogerInstaciaPostgreSQL.BeginTransaction();
                 InstanciaPostgreSQL.CogerInstaciaPostgreSQL.Insert("insertarCamion", c);
-                MessageBox.Show("Camion almacenado correctamente.", "Nuevo camión", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Camion almacenado correctamente en la BBDD.", "Nuevo camión", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 InstanciaPostgreSQL.CogerInstaciaPostgreSQL.CommitTransaction();
                 return 1;
             }
@@ -24,11 +24,11 @@ namespace GestorJRF.CRUD
                 InstanciaPostgreSQL.CogerInstaciaPostgreSQL.RollBackTransaction();
                 if (ex.SqlState.Equals("23505"))
                 {
-                    MessageBox.Show("El número de bastidor, o la matrícula, introducido ya está almacenado.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El número de bastidor, o la matrícula, introducido ya está almacenado.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
                 }
                 else
                 {
-                    MessageBox.Show("Error en la creación del nuevo camión.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Error en la creación del nuevo camión.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
                 }
                 Trace.WriteLine(ex.ToString());
                 return -1;
@@ -40,14 +40,14 @@ namespace GestorJRF.CRUD
             try
             {
                 InstanciaPostgreSQL.CogerInstaciaPostgreSQL.BeginTransaction();
-                var lista = InstanciaPostgreSQL.CogerInstaciaPostgreSQL.QueryForList("cogerTodosCamiones", null);
+                IList lista = InstanciaPostgreSQL.CogerInstaciaPostgreSQL.QueryForList("cogerTodosCamiones", null);
                 InstanciaPostgreSQL.CogerInstaciaPostgreSQL.CommitTransaction();
                 return lista;
             }
             catch (PostgresException ex)
             {
                 InstanciaPostgreSQL.CogerInstaciaPostgreSQL.RollBackTransaction();
-                MessageBox.Show("Error al buscar todos los camiones.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Error al buscar todos los camiones.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
                 Trace.WriteLine(ex.ToString());
                 return null;
             }
@@ -59,14 +59,14 @@ namespace GestorJRF.CRUD
             {
                 InstanciaPostgreSQL.CogerInstaciaPostgreSQL.BeginTransaction();
                 InstanciaPostgreSQL.CogerInstaciaPostgreSQL.Update("actualizarCamion", camion);
-                MessageBox.Show("Camion modificado correctamente.", "Camión actualizado", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Camion modificado correctamente en la BBDD.", "Camión actualizado", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 InstanciaPostgreSQL.CogerInstaciaPostgreSQL.CommitTransaction();
                 return 1;
             }
             catch (PostgresException ex)
             {
                 InstanciaPostgreSQL.CogerInstaciaPostgreSQL.RollBackTransaction();
-                MessageBox.Show("Error en la actualización del camión.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Error en la actualización del camión.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
                 Trace.WriteLine(ex.ToString());
                 return -1;
             }
@@ -78,14 +78,14 @@ namespace GestorJRF.CRUD
             {
                 InstanciaPostgreSQL.CogerInstaciaPostgreSQL.BeginTransaction();
                 InstanciaPostgreSQL.CogerInstaciaPostgreSQL.Delete("borrarCamion", nBastidor);
-                MessageBox.Show("Camion borrado correctamente.", "Camión borrado", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Camion borrado correctamente en la BBDD.", "Camión borrado", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 InstanciaPostgreSQL.CogerInstaciaPostgreSQL.CommitTransaction();
                 return 1;
             }
             catch (PostgresException ex)
             {
                 InstanciaPostgreSQL.CogerInstaciaPostgreSQL.RollBackTransaction();
-                MessageBox.Show("Error en el borrado del camión.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Error en el borrado del camión.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
                 Trace.WriteLine(ex.ToString());
                 return -1;
             }
@@ -93,20 +93,16 @@ namespace GestorJRF.CRUD
 
         internal static Camion cogerCamion(string tipo, string campo)
         {
-            Camion camion;
             try
             {
                 InstanciaPostgreSQL.CogerInstaciaPostgreSQL.BeginTransaction();
-                if (tipo.Equals("NÚMERO DE MATRÍCULA"))
-                    camion = (Camion)InstanciaPostgreSQL.CogerInstaciaPostgreSQL.QueryForObject("cogerCamionPorMatricula", campo);
-                else
-                    camion = (Camion)InstanciaPostgreSQL.CogerInstaciaPostgreSQL.QueryForObject("cogerCamionPorBastidor", campo);
+                Camion camion = (!tipo.Equals("NÚMERO DE MATRÍCULA")) ? ((Camion)InstanciaPostgreSQL.CogerInstaciaPostgreSQL.QueryForObject("cogerCamionPorBastidor", campo)) : ((Camion)InstanciaPostgreSQL.CogerInstaciaPostgreSQL.QueryForObject("cogerCamionPorMatricula", campo));
                 InstanciaPostgreSQL.CogerInstaciaPostgreSQL.CommitTransaction();
                 return camion;
             }
             catch (PostgresException ex)
             {
-                MessageBox.Show("Error al buscar el camión.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Error al buscar el camión.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
                 InstanciaPostgreSQL.CogerInstaciaPostgreSQL.RollBackTransaction();
                 Trace.WriteLine(ex.ToString());
                 return null;

@@ -4,12 +4,33 @@ namespace GestorJRF.POJOS
 {
     public class PersonaContacto
     {
-        public string nombre { get; set; }
-        public int telefono { get; set; }
-        public string email { get; set; }
-        public string cif { get; set; }
+        public string nombre
+        {
+            get;
+            set;
+        }
 
-        public PersonaContacto() { }
+        public int telefono
+        {
+            get;
+            set;
+        }
+
+        public string email
+        {
+            get;
+            set;
+        }
+
+        public string cif
+        {
+            get;
+            set;
+        }
+
+        public PersonaContacto()
+        {
+        }
 
         public PersonaContacto(string nombre, int telefono, string email)
         {

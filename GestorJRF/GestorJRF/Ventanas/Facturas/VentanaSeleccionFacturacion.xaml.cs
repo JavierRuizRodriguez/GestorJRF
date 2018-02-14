@@ -1,17 +1,14 @@
 ﻿using GestorJRF.Utilidades;
+using GestorJRF.Ventanas;
+using GestorJRF.Ventanas.Facturas;
+using GestorJRF.Ventanas.Login;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.CodeDom.Compiler;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.Windows.Markup;
 
 namespace GestorJRF.Ventanas.Facturas
 {
@@ -21,31 +18,48 @@ namespace GestorJRF.Ventanas.Facturas
     public partial class VentanaSeleccionFacturacion : Window
     {
         private bool xBotonPulsado;
+
         public VentanaSeleccionFacturacion()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             UtilidadesVentana.SituarVentana(0, this);
-            xBotonPulsado = true;
+            this.xBotonPulsado = true;
         }
 
         private void bFacturaResumenes_Click(object sender, RoutedEventArgs e)
         {
-            xBotonPulsado = false;
+            this.xBotonPulsado = false;
             new VentanaFacturaResumenes().Show();
-            Close();
+            base.Close();
         }
 
         private void bFacturaIva_Click(object sender, RoutedEventArgs e)
         {
-            xBotonPulsado = false;
-            new VentanaFacturaIva().Show();
-            Close();
+            this.xBotonPulsado = false;
+            new VentanaFacturaIva("facturacioAnual").Show();
+            base.Close();
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void bFacturaIvaBienes_Click(object sender, RoutedEventArgs e)
         {
-            if (xBotonPulsado)
+            this.xBotonPulsado = false;
+            new VentanaFacturaIva().Show();
+            base.Close();
+        }
+
+        private void bTerceros_Click(object sender, RoutedEventArgs e)
+        {
+            this.xBotonPulsado = false;
+            new VentanaOperacionesTerceros().Show();
+            base.Close();
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            if (this.xBotonPulsado)
+            {
                 new VentanaMenuPrincipal().Show();
+            }
         }
     }
 }

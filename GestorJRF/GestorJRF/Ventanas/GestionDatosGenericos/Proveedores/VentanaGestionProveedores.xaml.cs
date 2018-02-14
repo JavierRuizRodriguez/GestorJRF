@@ -1,9 +1,16 @@
 ﻿using GestorJRF.CRUD;
 using GestorJRF.POJOS;
 using GestorJRF.Utilidades;
-using System.Windows;
+using GestorJRF.Ventanas;
+using GestorJRF.Ventanas.GestionDatosGenericos.Gastos;
+using GestorJRF.Ventanas.GestionDatosGenericos.Proveedores;
 using System;
-using GestorJRF.Ventanas.GestionGastos;
+using System.CodeDom.Compiler;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Markup;
 
 namespace GestorJRF.Ventanas.GestionDatosGenericos.Proveedores
 {
@@ -13,84 +20,89 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Proveedores
     public partial class VentanaGestionProveedores : Window
     {
         private VentanaGestionGastos ventanaGastos;
+
         private Proveedor proveedor;
+
         private bool esAlta;
+
         private bool esAltaDesdeGasto;
 
         public VentanaGestionProveedores()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             UtilidadesVentana.SituarVentana(0, this);
-            esAlta = true;
-            esAltaDesdeGasto = false;
+            this.esAlta = true;
+            this.esAltaDesdeGasto = false;
         }
 
         public VentanaGestionProveedores(VentanaGestionGastos ventanaGastos)
         {
-            InitializeComponent();
+            this.InitializeComponent();
             UtilidadesVentana.SituarVentana(0, this);
-            esAlta = true;
-            esAltaDesdeGasto = true;
+            this.esAlta = true;
+            this.esAltaDesdeGasto = true;
             this.ventanaGastos = ventanaGastos;
         }
 
         public VentanaGestionProveedores(Proveedor proveedor)
         {
-            InitializeComponent();
+            this.InitializeComponent();
             UtilidadesVentana.SituarVentana(0, this);
             this.proveedor = proveedor;
-            esAlta = false;
-            esAltaDesdeGasto = false;
-            MostrarProveedorBuscado();
+            this.esAlta = false;
+            this.esAltaDesdeGasto = false;
+            this.MostrarProveedorBuscado();
         }
 
         private void MostrarProveedorBuscado()
         {
-            tCIF.Text = proveedor.cif;
-            tNombre.Text = proveedor.nombre;
-            bNuevoProveedor.Content = "MODIFICAR\nPROVEEDOR";
+            this.tCIF.Text = this.proveedor.cif;
+            this.tNombre.Text = this.proveedor.nombre;
+            this.tDomicilio.Text = this.proveedor.domicilio;
+            this.tLocalidad.Text = this.proveedor.localidad;
+            this.tProvincia.Text = this.proveedor.provincia;
+            this.tCP.Text = this.proveedor.cp.ToString();
+            this.bNuevoProveedor.Content = "MODIFICAR\nPROVEEDOR";
         }
 
         private void bNuevoAviso_Click(object sender, RoutedEventArgs e)
         {
-            if (esAlta)
+            if (this.esAlta)
             {
-                if (UtilidadesVentana.ComprobarCampos(gridPrincipal))
+                if (UtilidadesVentana.ComprobarCampos(this.gridPrincipal) && UtilidadesVerificacion.validadorNumeroEntero(this.tCP.Text))
                 {
-                    Proveedor p = new Proveedor(tNombre.Text, tCIF.Text);
-                    int salida = ProveedoresCRUD.añadirProveedor(p);
-
+                    Proveedor p2 = new Proveedor(this.tNombre.Text, this.tCIF.Text, this.tDomicilio.Text, this.tLocalidad.Text, this.tProvincia.Text, Convert.ToInt32(this.tCP.Text));
+                    int salida = ProveedoresCRUD.añadirProveedor(p2);
                     if (salida == 1)
                     {
-                        UtilidadesVentana.LimpiarCampos(gridPrincipal);
-                        if (esAltaDesdeGasto)
+                        UtilidadesVentana.LimpiarCampos(this.gridPrincipal);
+                        if (this.esAltaDesdeGasto)
                         {
-                            ventanaGastos.actualizarProveedores();
-                            Close();
+                            this.ventanaGastos.actualizarProveedores();
+                            base.Close();
                         }
                     }
                 }
             }
-            else
+            else if (UtilidadesVentana.ComprobarCampos(this.gridPrincipal) && UtilidadesVerificacion.validadorNumeroEntero(this.tCP.Text))
             {
-                if (UtilidadesVentana.ComprobarCampos(gridPrincipal))
-                {
-                    Proveedor p = new Proveedor(tNombre.Text, tCIF.Text, proveedor.cif);
-                    ProveedoresCRUD.modificarProveedor(p);
-                    Close();
-                }
+                Proveedor p = new Proveedor(this.tNombre.Text, this.tCIF.Text, this.proveedor.cif, this.tDomicilio.Text, this.tLocalidad.Text, this.tProvincia.Text, Convert.ToInt32(this.tCP.Text));
+                ProveedoresCRUD.modificarProveedor(p);
+                base.Close();
             }
         }
 
         private void bLimpiarCampos_Click(object sender, RoutedEventArgs e)
         {
-            UtilidadesVentana.LimpiarCampos(gridPrincipal);
+            UtilidadesVentana.LimpiarCampos(this.gridPrincipal);
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
-            if (esAlta && !esAltaDesdeGasto)
+            if (this.esAlta && !this.esAltaDesdeGasto)
+            {
                 new VentanaMenuGestionDatos().Show();
+            }
         }
     }
 }

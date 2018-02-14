@@ -1,11 +1,14 @@
 ﻿using GestorJRF.Utilidades;
-using GestorJRF.Ventanas.GestionDatosGenericos.Alertas;
-using GestorJRF.Ventanas.GestionDatosGenericos.Camiones;
-using GestorJRF.Ventanas.GestionDatosGenericos.Empleados;
+using GestorJRF.Ventanas;
+using GestorJRF.Ventanas.GestionDatosGenericos;
 using GestorJRF.Ventanas.GestionDatosGenericos.Resumenes;
-using GestorJRF.Ventanas.GestionDatosGenericos.Tarifas;
-using GestorJRF.Ventanas.GestionGastos;
+using System;
+using System.CodeDom.Compiler;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Markup;
 
 namespace GestorJRF.Ventanas.GestionDatosGenericos
 {
@@ -18,30 +21,32 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos
 
         public VentanaSeleccionGestionResumen()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             UtilidadesVentana.SituarVentana(0, this);
-            Title = "Gestión resumenes";
-            botonPulsadoX = true;
+            base.Title = "Gestión resumenes";
+            this.botonPulsadoX = true;
         }
 
-        private void CerrandoVentana(object sender, System.ComponentModel.CancelEventArgs e)
+        private void CerrandoVentana(object sender, CancelEventArgs e)
         {
-            if (botonPulsadoX)
+            if (this.botonPulsadoX)
+            {
                 new VentanaMenuGestionDatos().Show();
+            }
         }
 
         private void bGestionResumenesPrevios_Click(object sender, RoutedEventArgs e)
         {
-            botonPulsadoX = false;
-            new VentanaGestionResumenesPrevio().Show();
-            Close();
+            this.botonPulsadoX = false;
+            new VentanaGestionResumenesPrevio(false).Show();
+            base.Close();
         }
 
         private void bGestionResumenesFinales_Click(object sender, RoutedEventArgs e)
         {
-            botonPulsadoX = false;
+            this.botonPulsadoX = false;
             new VentanaGestionResumenesFinal().Show();
-            Close();
+            base.Close();
         }
     }
 }

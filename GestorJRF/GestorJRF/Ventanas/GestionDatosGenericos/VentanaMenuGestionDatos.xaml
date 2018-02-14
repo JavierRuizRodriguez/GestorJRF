@@ -1,18 +1,12 @@
-﻿<Window x:Class="GestorJRF.Ventanas.VentanaMenuGestionDatos"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GestorJRF.Ventanas"
-        mc:Ignorable="d"
-        Title="VentanaMenuGestionDatos" Height="571.546" Width="418.98" Closing="CerrandoVentana" ResizeMode="NoResize">
+﻿<Window x:Class="GestorJRF.Ventanas.VentanaMenuGestionDatos" Title="Menú de gestión de datos genéricos - GESTOR JRF" Height="634.918" Width="418.98" ResizeMode="NoResize" Closing="CerrandoVentana" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:GestorJRF.Ventanas">
     <Grid>
-        <Button x:Name="bGestionEmpleados" Content="GESTIÓN EMPLEADOS" HorizontalAlignment="Left" Margin="54,29,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionEmpleados_Click"/>
-        <Button x:Name="bGestionEmpresas" Content="GESTIÓN EMPRESAS" HorizontalAlignment="Left" Margin="54,99,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionEmpresas_Click"/>
-        <Button x:Name="bGestionCamiones" Content="GESTIÓN CAMIONES" HorizontalAlignment="Left" Margin="54,169,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionCamiones_Click"/>
-        <Button x:Name="bGestionTarifas" Content="GESTIÓN TARIFAS" HorizontalAlignment="Left" Margin="54,239,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionTarifas_Click"/>
-        <Button x:Name="bGestionAlertas" Content="GESTIÓN ALERTAS" HorizontalAlignment="Left" Margin="54,309,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionAlertas_Click"/>
-        <Button x:Name="bGestionResumenes" Content="GESTIÓN RESÚMENES" HorizontalAlignment="Left" Margin="54,379,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionResumenes_Click"/>
-        <Button x:Name="bGestionProveedores" Content="GESTIÓN PROVEEDORES" HorizontalAlignment="Left" Margin="54,449,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionProveedores_Click"/>
+        <Button Name="bGestionEmpleados" Content="GESTIÓN EMPLEADOS" HorizontalAlignment="Left" Margin="54,29,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionEmpleados_Click" />
+        <Button Name="bGestionEmpresas" Content="GESTIÓN EMPRESAS" HorizontalAlignment="Left" Margin="54,99,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionEmpresas_Click" />
+        <Button Name="bGestionCamiones" Content="GESTIÓN CAMIONES" HorizontalAlignment="Left" Margin="54,169,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionCamiones_Click" />
+        <Button Name="bGestionTarifas" Content="GESTIÓN TARIFAS" HorizontalAlignment="Left" Margin="54,239,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionTarifas_Click" />
+        <Button Name="bGestionAlertas" Content="GESTIÓN ALERTAS" HorizontalAlignment="Left" Margin="54,309,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionAlertas_Click" />
+        <Button Name="bGestionResumenes" Content="GESTIÓN RESÚMENES" HorizontalAlignment="Left" Margin="54,379,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionResumenes_Click" />
+        <Button Name="bGestionProveedores" Content="GESTIÓN PROVEEDORES" HorizontalAlignment="Left" Margin="54,449,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionProveedores_Click" />
+        <Button Name="bGestionGastos" Content="GESTIÓN GASTOS" HorizontalAlignment="Left" Margin="54,519,0,0" VerticalAlignment="Top" Width="311" Height="48" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bGestionGastos_Click" />
     </Grid>
 </Window>

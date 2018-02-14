@@ -3,18 +3,25 @@ using GestorJRF.POJOS;
 using GestorJRF.POJOS.Mapas;
 using GestorJRF.REST_MAPAS;
 using GestorJRF.Utilidades;
+using GestorJRF.Ventanas;
+using GestorJRF.Ventanas.GestionDatosGenericos.Empresas;
+using GestorJRF.Ventanas.GestionDatosGenericos.Resumenes;
+using GestorJRF.Ventanas.Login;
+using GestorJRF.Ventanas.Mapas;
 using Microsoft.Maps.MapControl.WPF;
 using System;
-using System.Collections;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
-using System.Threading;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Threading;
 
@@ -25,72 +32,101 @@ namespace GestorJRF.Ventanas.Mapas
     /// </summary>
     public partial class VentanaMapa : Window
     {
-        private const string DIRECCION_NAVE = @"Calle La Habana, 28806 Alcalá de Henares";
+        private const string DIRECCION_NAVE = "Calle La Habana, 28806 Alcalá de Henares";
+
         private const double LATITUD_NAVE = 40.51272;
+
         private const double LONGITUD_NAVE = -3.41142;
 
         private Dispatcher dispacher;
+
         private char letraItinerario;
 
         private double kilometrosRutaActual;
-        private Tarifa tarifaGeneralCliente;
+
+        private Tarifa tarifaClienteSeleccionado;
+
         private ComponenteTarifa componenteTarifaActual;
 
-        private IList listaEmpresas;
+        private int nCompGrande;
+
+        private int nCompMedio;
+
+        private int nCompPequeño;
+
+        private List<Empresa> listaEmpresas;
+
         private List<MapPolyline> rutasActuales;
+
         private List<Pushpin> banderasActuales;
+
         private List<Route> rutasPosibles;
+
         private List<Route> rutasRetornoPosibles;
+
+        private Resumen resumenPrevio;
+
+        private bool iniciando;
 
         public ObservableCollection<Ruta> listaRutas { get; set; }
         public ObservableCollection<Ruta> listaRutasRetorno { get; set; }
         public ObservableCollection<Itinerario> listaItinerarios { get; set; }
 
+
+
         public VentanaMapa()
         {
-            listaEmpresas = EmpresasCRUD.cogerTodasEmpresas();
-            listaRutas = new ObservableCollection<Ruta>();
-            listaRutasRetorno = new ObservableCollection<Ruta>();
-            listaItinerarios = new ObservableCollection<Itinerario>();
-            listaItinerarios.CollectionChanged += OnCollectionChanged;
-
-            dispacher = Application.Current.Dispatcher;
-
-            letraItinerario = 'A';
-
-            InitializeComponent();
+            this.listaEmpresas = EmpresasCRUD.cogerTodasEmpresas().Cast<Empresa>().ToList();
+            this.listaEmpresas = new List<Empresa>(from e in this.listaEmpresas
+                                                   orderby e.nombre
+                                                   select e);
+            this.listaRutas = new ObservableCollection<Ruta>();
+            this.listaRutasRetorno = new ObservableCollection<Ruta>();
+            this.listaItinerarios = new ObservableCollection<Itinerario>();
+            this.listaItinerarios.CollectionChanged += this.OnCollectionChanged;
+            this.dispacher = Application.Current.Dispatcher;
+            this.letraItinerario = 'A';
+            this.iniciando = true;
+            this.InitializeComponent();
+            this.iniciando = false;
             UtilidadesVentana.SituarVentana(2, this);
-
-            foreach (Empresa empresa in listaEmpresas)
-                cCliente.Items.Add(new ComboBoxItem().Content = empresa.nombre.ToUpper());
-
-            banderasActuales = new List<Pushpin>();
-            rutasPosibles = new List<Route>();
-            rutasRetornoPosibles = new List<Route>();
-            rutasActuales = new List<MapPolyline>();
+            foreach (Empresa listaEmpresa in this.listaEmpresas)
+            {
+                ItemCollection items = this.cCliente.Items;
+                ComboBoxItem comboBoxItem = new ComboBoxItem();
+                object newItem = comboBoxItem.Content = listaEmpresa.nombre.ToUpper();
+                items.Add(newItem);
+            }
+            this.banderasActuales = new List<Pushpin>();
+            this.rutasPosibles = new List<Route>();
+            this.rutasRetornoPosibles = new List<Route>();
+            this.rutasActuales = new List<MapPolyline>();
         }
 
         private char cogerLetraItinerario()
         {
-            return letraItinerario++;
+            return this.letraItinerario++;
         }
 
         private void bCalcularRuta_Click(object sender, RoutedEventArgs e)
         {
-            reiniciarCampos(1);
-            dispacher.Invoke(new Action(() => { _calcularRuta(listaItinerarios); }));
+            this.reiniciarCampos(1);
+            this.dispacher.Invoke(delegate
+            {
+                this._calcularRuta(this.listaItinerarios);
+            });
         }
 
         private void _calcularRuta(ObservableCollection<Itinerario> _listaItinerarios)
         {
-            if (listaItinerarios != null && listaItinerarios.Count > 1)
+            if (this.listaItinerarios != null && this.listaItinerarios.Count > 1)
             {
                 List<Itinerario> itinerarios = new List<Itinerario>(_listaItinerarios);
-                GetRoute(false, itinerarios);
+                this.GetRoute(false, itinerarios);
                 List<Itinerario> listaRetorno = new List<Itinerario>();
-                listaRetorno.Add(listaItinerarios[listaItinerarios.Count - 1]);
-                listaRetorno.Add(new Itinerario(cogerLetraItinerario(), DIRECCION_NAVE, LATITUD_NAVE, LONGITUD_NAVE, false));
-                GetRoute(true, listaRetorno);
+                listaRetorno.Add(((Collection<Itinerario>)this.listaItinerarios)[this.listaItinerarios.Count - 1]);
+                listaRetorno.Add(new Itinerario(this.cogerLetraItinerario(), "Calle La Habana, 28806 Alcalá de Henares", 40.51272, -3.41142, false, "Alcalá de Henares"));
+                this.GetRoute(true, listaRetorno);
             }
             else
             {
@@ -102,7 +138,7 @@ namespace GestorJRF.Ventanas.Mapas
         {
             if (callback != null)
             {
-                mapa.CredentialsProvider.GetCredentials((c) =>
+                this.mapa.CredentialsProvider.GetCredentials(delegate (Credentials c)
                 {
                     callback(c.ApplicationId);
                 });
@@ -111,61 +147,60 @@ namespace GestorJRF.Ventanas.Mapas
 
         private void GetRoute(bool esRetorno, List<Itinerario> itinerario)
         {
-            GetKey((c) =>
+            this.GetKey(delegate (string c)
             {
-                List<string> listaOpciones = new List<string>();
-                if (checkAutopista.IsChecked == true)
-                    listaOpciones.Add("highways");
-                if (checkPeaje.IsChecked == true)
-                    listaOpciones.Add("tolls");
-                BingREST.Route(itinerario, listaOpciones, c, (r) =>
+                List<string> list = new List<string>();
+                if (this.checkAutopista.IsChecked == true)
                 {
-                    if (r != null &&
-                        r.ResourceSets != null &&
-                        r.ResourceSets.Length > 0 &&
-                        r.ResourceSets[0].Resources != null &&
-                        r.ResourceSets[0].Resources.Length > 0)
+                    list.Add("highways");
+                }
+                if (this.checkPeaje.IsChecked == true)
+                {
+                    list.Add("tolls");
+                }
+                BingREST.Route(itinerario, list, c, delegate (Response r)
+                {
+                    if (r != null && r.ResourceSets != null && r.ResourceSets.Length != 0 && r.ResourceSets[0].Resources != null && r.ResourceSets[0].Resources.Length != 0)
                     {
                         if (!esRetorno)
                         {
-                            rutasPosibles.Clear();
-                            listaRutas.Clear();
+                            this.rutasPosibles.Clear();
+                            this.listaRutas.Clear();
                         }
                         else
                         {
-                            rutasRetornoPosibles.Clear();
-                            listaRutasRetorno.Clear();
+                            this.rutasRetornoPosibles.Clear();
+                            this.listaRutasRetorno.Clear();
                         }
-
-                        var id = 0;
-                        foreach (Route ruta in r.ResourceSets[0].Resources)
+                        int num = 0;
+                        Resource[] resources = r.ResourceSets[0].Resources;
+                        for (int i = 0; i < resources.Length; i++)
                         {
+                            Route route = (Route)resources[i];
                             if (!esRetorno)
                             {
-                                rutasPosibles.Add(ruta);
-                                listaRutas.Add(new Ruta(id, ruta.TravelDistance, ruta.TravelDuration));
+                                this.rutasPosibles.Add(route);
+                                this.listaRutas.Add(new Ruta(num, route.TravelDistance, route.TravelDuration));
                             }
                             else
                             {
-                                rutasRetornoPosibles.Add(ruta);
-                                listaRutasRetorno.Add(new Ruta(id, ruta.TravelDistance, ruta.TravelDuration));
+                                this.rutasRetornoPosibles.Add(route);
+                                this.listaRutasRetorno.Add(new Ruta(num, route.TravelDistance, route.TravelDuration));
                             }
-                            id++;
+                            num++;
                         }
                         if (!esRetorno)
                         {
-                            tablaRutasPosibles.SelectedIndex = 0;
-                            pintarRutas(0);
-                            tRutaSeleccionada.Text = "0";
+                            this.tablaRutasPosibles.SelectedIndex = 0;
+                            this.pintarRutas(0);
+                            this.tRutaSeleccionada.Text = "0";
                         }
                         else
                         {
-                            tablaRutasRetornoPosibles.SelectedIndex = 0;
-                            tRutaRetornoSeleccionada.Text = "0";
+                            this.tablaRutasRetornoPosibles.SelectedIndex = 0;
+                            this.tRutaRetornoSeleccionada.Text = "0";
                         }
-
-
-                        gridInformacionPorte.IsEnabled = true;
+                        this.gridInformacionPorte.IsEnabled = true;
                     }
                     else
                     {
@@ -173,34 +208,46 @@ namespace GestorJRF.Ventanas.Mapas
                     }
                 });
             });
+        }
 
+        internal void actualizarEmpresas()
+        {
+            this.cCliente.Items.Clear();
+            this.listaEmpresas = EmpresasCRUD.cogerTodasEmpresas().Cast<Empresa>().ToList();
+            this.listaEmpresas = new List<Empresa>(from e in this.listaEmpresas
+                                                   orderby e.nombre
+                                                   select e);
+            foreach (Empresa listaEmpresa in this.listaEmpresas)
+            {
+                ItemCollection items = this.cCliente.Items;
+                ComboBoxItem comboBoxItem = new ComboBoxItem();
+                object newItem = comboBoxItem.Content = listaEmpresa.nombre.ToUpper();
+                items.Add(newItem);
+            }
+            this.cCliente.SelectedIndex = -1;
         }
 
         private void GetLocation(string lugar)
         {
             if (!string.IsNullOrWhiteSpace(lugar))
             {
-                GetKey((c) =>
+                this.GetKey(delegate (string c)
                 {
-                    BingREST.Location(lugar, c, (r) =>
+                    BingREST.Location(lugar, c, delegate (Response r)
                     {
-                        if (r != null &&
-                            r.ResourceSets != null &&
-                            r.ResourceSets.Length > 0 &&
-                            r.ResourceSets[0].Resources != null &&
-                            r.ResourceSets[0].Resources.Length > 0)
+                        if (r != null && r.ResourceSets != null && r.ResourceSets.Length != 0 && r.ResourceSets[0].Resources != null && r.ResourceSets[0].Resources.Length != 0)
                         {
-                            REST_MAPAS.Location lugarEncontrado = r.ResourceSets[0].Resources[0] as REST_MAPAS.Location;
-                            if (lugarEncontrado.Name.Equals("España") || !lugarEncontrado.Name.Contains("España"))
+                            GestorJRF.REST_MAPAS.Location location = r.ResourceSets[0].Resources[0] as GestorJRF.REST_MAPAS.Location;
+                            if (location.Name.Equals("España"))
                             {
-                                MessageBox.Show("La dirección solicitada no se encuentra.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                MessageBox.Show("La dirección solicitada no se encuentra.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
                             }
                             else
                             {
-                                mapa.SetView(new Microsoft.Maps.MapControl.WPF.Location(lugarEncontrado.Point.Coordinates[0], lugarEncontrado.Point.Coordinates[1]), 15, 0);
-                                listaItinerarios.Add(new Itinerario(cogerLetraItinerario(), lugarEncontrado.Name, lugarEncontrado.Point.Coordinates[0], lugarEncontrado.Point.Coordinates[1], false));
-                                añadirUnaBandera(lugarEncontrado.Point.Coordinates[0], lugarEncontrado.Point.Coordinates[1]);
-                                tDireccion.Text = "";
+                                this.mapa.SetView(new Microsoft.Maps.MapControl.WPF.Location(location.Point.Coordinates[0], location.Point.Coordinates[1]), 15.0, 0.0);
+                                this.listaItinerarios.Add(new Itinerario(this.cogerLetraItinerario(), location.Name, location.Point.Coordinates[0], location.Point.Coordinates[1], false, location.Address.Locality));
+                                this.añadirUnaBandera(location.Point.Coordinates[0], location.Point.Coordinates[1]);
+                                this.tDireccion.Text = "";
                             }
                         }
                         else
@@ -218,45 +265,38 @@ namespace GestorJRF.Ventanas.Mapas
 
         private void pintarRutas(int idRutaPrincipal)
         {
-            limpiarRutasAnteriores();
-
-            var contador = 0;
-            foreach (Route r in rutasPosibles)
+            this.limpiarRutasAnteriores();
+            int contador = 0;
+            foreach (Route rutasPosible in this.rutasPosibles)
             {
                 if (contador != idRutaPrincipal)
                 {
-                    _pintarRuta(false, r);
+                    this._pintarRuta(false, rutasPosible);
                 }
                 contador++;
-
             }
-            _pintarRuta(true, rutasPosibles[idRutaPrincipal]);
+            this._pintarRuta(true, this.rutasPosibles[idRutaPrincipal]);
         }
 
         private void pintarRutasRetorno(int idRutaPrincipal)
         {
-            limpiarRutasAnteriores();
-
-            var contador = 0;
-            foreach (Route r in rutasRetornoPosibles)
+            this.limpiarRutasAnteriores();
+            int contador = 0;
+            foreach (Route rutasRetornoPosible in this.rutasRetornoPosibles)
             {
                 if (contador != idRutaPrincipal)
                 {
-                    _pintarRuta(false, r);
+                    this._pintarRuta(false, rutasRetornoPosible);
                 }
                 contador++;
-
             }
-            _pintarRuta(true, rutasRetornoPosibles[idRutaPrincipal]);
+            this._pintarRuta(true, this.rutasRetornoPosibles[idRutaPrincipal]);
         }
 
         private void _pintarRuta(bool esPrincipal, Route r)
         {
-            Route route = r;
-
-            double[][] routePath = route.RoutePath.Line.Coordinates;
+            double[][] routePath = r.RoutePath.Line.Coordinates;
             LocationCollection locs = new LocationCollection();
-
             for (int i = 0; i < routePath.Length; i++)
             {
                 if (routePath[i].Length >= 2)
@@ -264,358 +304,455 @@ namespace GestorJRF.Ventanas.Mapas
                     locs.Add(new Microsoft.Maps.MapControl.WPF.Location(routePath[i][0], routePath[i][1]));
                 }
             }
-
-            MapPolyline routeLine = new MapPolyline()
+            MapPolyline routeLine = new MapPolyline
             {
                 Locations = locs,
-                Stroke = esPrincipal ? new SolidColorBrush(Colors.Aqua) : new SolidColorBrush(Colors.Red),
-                StrokeThickness = 5,
-                Opacity = esPrincipal ? 0.7 : 0.3
+                Stroke = (esPrincipal ? new SolidColorBrush(Colors.Aqua) : new SolidColorBrush(Colors.Red)),
+                StrokeThickness = 5.0,
+                Opacity = (esPrincipal ? 0.7 : 0.3)
             };
-
-            rutasActuales.Add(routeLine);
-            mapa.Children.Add(routeLine);
-            mapa.SetView(locs, new Thickness(200), 0);
-            añadirBanderas();
+            this.rutasActuales.Add(routeLine);
+            this.mapa.Children.Add(routeLine);
+            this.mapa.SetView(locs, new Thickness(200.0), 0.0);
+            this.añadirBanderas();
         }
 
         private void limpiarRutasAnteriores()
         {
-            foreach (MapPolyline lineaRuta in rutasActuales)
-                mapa.Children.Remove(lineaRuta);
+            foreach (MapPolyline rutasActuale in this.rutasActuales)
+            {
+                this.mapa.Children.Remove(rutasActuale);
+            }
         }
 
         private void añadirUnaBandera(double latitud, double longitud)
         {
-            limpiarBanderas();
-
+            this.limpiarBanderas();
             Pushpin bandera = new Pushpin();
             bandera.Location = new Microsoft.Maps.MapControl.WPF.Location(latitud, longitud);
             bandera.Background = new SolidColorBrush(Colors.Orange);
-            mapa.Children.Add(bandera);
-            banderasActuales.Add(bandera);
+            this.mapa.Children.Add(bandera);
+            this.banderasActuales.Add(bandera);
         }
 
         private void añadirBanderas()
         {
-            limpiarBanderas();
-            foreach (Itinerario itinerario in listaItinerarios)
+            this.limpiarBanderas();
+            foreach (Itinerario listaItinerario in this.listaItinerarios)
             {
                 Pushpin bandera = new Pushpin();
-                bandera.Location = new Microsoft.Maps.MapControl.WPF.Location(itinerario.latitud, itinerario.longitud);
-                bandera.Content = itinerario.punto;
+                bandera.Location = new Microsoft.Maps.MapControl.WPF.Location(listaItinerario.latitud, listaItinerario.longitud);
+                bandera.Content = listaItinerario.punto;
                 bandera.Background = new SolidColorBrush(Colors.Black);
-                mapa.Children.Add(bandera);
-                banderasActuales.Add(bandera);
+                this.mapa.Children.Add(bandera);
+                this.banderasActuales.Add(bandera);
             }
         }
 
         private void limpiarBanderas()
         {
-            foreach (Pushpin bandera in banderasActuales)
-                mapa.Children.Remove(bandera);
-
-            banderasActuales.Clear();
+            foreach (Pushpin banderasActuale in this.banderasActuales)
+            {
+                this.mapa.Children.Remove(banderasActuale);
+            }
+            this.banderasActuales.Clear();
         }
 
         private void tablaRutasPosibles_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (((DataGrid)sender).SelectedItem != null & e.ClickCount > 1)
             {
-                tRutaSeleccionada.Text = Convert.ToString(((DataGrid)sender).SelectedIndex);
-                limpiarBanderas();
-                pintarRutas(((Ruta)((DataGrid)sender).SelectedItem).id);
-                calcularTarifacion();
+                this.tRutaSeleccionada.Text = Convert.ToString(((DataGrid)sender).SelectedIndex);
+                this.limpiarBanderas();
+                this.pintarRutas(((Ruta)((DataGrid)sender).SelectedItem).id);
+                this.calcularTarifacion();
             }
         }
 
         private void tablaRutasPosibles_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
-            e.Column.Header = e.Column.Header.ToString().Equals("id") ? "RUTAS POSIBLES" : UtilidadesVentana.generarEtiquetaFormatoColumna(e.Column.Header.ToString());
+            e.Column.Header = (e.Column.Header.ToString().Equals("id") ? "RUTAS POSIBLES" : UtilidadesVentana.generarEtiquetaFormatoColumna(e.Column.Header.ToString()));
         }
 
         private void esSalidaNave_Checked(object sender, RoutedEventArgs e)
         {
-            if (listaItinerarios.Count == 0)
+            if (this.listaItinerarios.Count == 0)
             {
-                listaItinerarios.Add(new Itinerario(cogerLetraItinerario(), DIRECCION_NAVE, LATITUD_NAVE, LONGITUD_NAVE, false));
+                this.listaItinerarios.Add(new Itinerario(this.cogerLetraItinerario(), "Calle La Habana, 28806 Alcalá de Henares", 40.51272, -3.41142, false, "Alcalá de Henares"));
             }
             else
             {
-                List<Itinerario> listaItinerarioAux = new List<Itinerario>(listaItinerarios);
-                listaItinerarios.Clear();
-                listaItinerarios.Add(new Itinerario(cogerLetraItinerario(), DIRECCION_NAVE, LATITUD_NAVE, LONGITUD_NAVE, false));
-                foreach (Itinerario i in listaItinerarioAux)
-                    listaItinerarios.Add(new Itinerario(cogerLetraItinerario(), i.direccion, i.latitud, i.longitud, false));
+                List<Itinerario> listaItinerarioAux = new List<Itinerario>(this.listaItinerarios);
+                this.listaItinerarios.Clear();
+                this.listaItinerarios.Add(new Itinerario(this.cogerLetraItinerario(), "Calle La Habana, 28806 Alcalá de Henares", 40.51272, -3.41142, false, "Alcalá de Henares"));
+                foreach (Itinerario item in listaItinerarioAux)
+                {
+                    this.listaItinerarios.Add(new Itinerario(this.cogerLetraItinerario(), item.poblacion, item.latitud, item.longitud, false, item.poblacion));
+                }
             }
         }
 
         private void esSalidaNave_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (listaItinerarios.Count > 0)
-                listaItinerarios.RemoveAt(0);
+            if (this.listaItinerarios.Count > 0)
+            {
+                this.listaItinerarios.RemoveAt(0);
+            }
         }
 
         private void nuevoPuntoItinerario_Click(object sender, RoutedEventArgs e)
         {
-            mostraPuntoMapa(tDireccion.Text);
-        }
-
-        private void mostraPuntoMapa(string lugar)
-        {
-            GetLocation(lugar);
+            this.GetLocation(this.tDireccion.Text);
         }
 
         private void tablaItinerario_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
-            if (e.Column.Header.ToString().Equals("direccionBing") || e.Column.Header.ToString().Equals("latitud")
-                || e.Column.Header.ToString().Equals("longitud") || e.Column.Header.ToString().Equals("id")
-                || e.Column.Header.ToString().Equals("idResumen") || e.Column.Header.ToString().Equals("dni")
-                || e.Column.Header.ToString().Equals("kilometrosVehiculo") || e.Column.Header.ToString().Equals("matricula"))
+            if (e.Column.Header.ToString().Equals("direccionBing") || e.Column.Header.ToString().Equals("latitud") || e.Column.Header.ToString().Equals("longitud") || e.Column.Header.ToString().Equals("id") || e.Column.Header.ToString().Equals("idResumen") || e.Column.Header.ToString().Equals("dni") || e.Column.Header.ToString().Equals("kilometrosVehiculo") || e.Column.Header.ToString().Equals("matricula") || e.Column.Header.ToString().Equals("clienteDeCliente") || e.Column.Header.ToString().Equals("poblacion") || e.Column.Header.ToString().Equals("palets"))
+            {
                 e.Cancel = true;
-
-            e.Column.Width = e.Column.Header.ToString().Equals("punto") ? new DataGridLength(50, DataGridLengthUnitType.Pixel) :
-                (e.Column.Header.ToString().Equals("esEtapa") ? new DataGridLength(70, DataGridLengthUnitType.Pixel) : new DataGridLength(1, DataGridLengthUnitType.Star));
-
-            e.Column.Header = e.Column.Header.ToString().Equals("esEtapa") ? "es etapa" : e.Column.Header;
+            }
+            e.Column.Width = (e.Column.Header.ToString().Equals("punto") ? new DataGridLength(50.0, DataGridLengthUnitType.Pixel) : (e.Column.Header.ToString().Equals("esEtapa") ? new DataGridLength(70.0, DataGridLengthUnitType.Pixel) : new DataGridLength(1.0, DataGridLengthUnitType.Star)));
+            e.Column.Header = (e.Column.Header.ToString().Equals("esEtapa") ? "es etapa" : e.Column.Header);
             e.Column.Header = UtilidadesVentana.generarEtiquetaFormatoColumna(e.Column.Header.ToString());
         }
 
         private void tablaItinerario_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
-            if (e.Column.GetType() != typeof(DataGridCheckBoxColumn) || (checkSalidaNave.IsChecked == true && ((DataGrid)sender).SelectedIndex == 0))
+            if (e.Column.GetType() != typeof(DataGridCheckBoxColumn) || (this.checkSalidaNave.IsChecked == true && ((DataGrid)sender).SelectedIndex == 0))
+            {
                 e.Cancel = true;
+            }
         }
 
         private void tablaItinerario_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (Key.Delete == e.Key && ((Itinerario)tablaItinerario.SelectedItems[0]).direccion.Equals(DIRECCION_NAVE))
+            if (Key.Delete == e.Key && ((Itinerario)this.tablaItinerario.SelectedItems[0]).direccion.Equals("Calle La Habana, 28806 Alcalá de Henares"))
+            {
                 e.Handled = true;
+            }
         }
 
         private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action.ToString().Equals("Remove"))
-                rehacerListaRutas();
-            else if (e.Action.ToString().Equals("Reset"))
-                letraItinerario = 'A';
+            NotifyCollectionChangedAction action = e.Action;
+            if (action.ToString().Equals("Remove"))
+            {
+                this.rehacerListaRutas();
+            }
+            else
+            {
+                action = e.Action;
+                if (action.ToString().Equals("Reset"))
+                {
+                    this.letraItinerario = 'A';
+                }
+            }
         }
 
         private void rehacerListaRutas()
         {
-            letraItinerario = 'A';
-            foreach (Itinerario i in listaItinerarios)
-                i.punto = cogerLetraItinerario();
+            this.letraItinerario = 'A';
+            foreach (Itinerario listaItinerario in this.listaItinerarios)
+            {
+                listaItinerario.punto = this.cogerLetraItinerario();
+            }
         }
 
         private void cCliente_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cCliente.Items.Count > 0 && gridInformacionPorte.IsEnabled == true && cCliente.SelectedIndex != -1)
+            if (this.checkGrupaje.IsChecked == false && this.cCliente.Items.Count > 0 && this.gridInformacionPorte.IsEnabled && this.cCliente.SelectedIndex != -1)
             {
-                tarifaGeneralCliente = TarifasCRUD.cogerTarifaPorNombreEmpresa(((Empresa)listaEmpresas[cCliente.SelectedIndex]).nombre);
-
-                if (tarifaGeneralCliente == null)
-                    tarifaGeneralCliente = TarifasCRUD.cogerTarifaPorNombreEmpresa("GENERAL");
-
-                if (cComponenteTarifa.Items.Count != 0)
-                    cComponenteTarifa.Items.Clear();
-
-                foreach (ComponenteTarifa c in tarifaGeneralCliente.listaComponentesTarifa)
+                this.tarifaClienteSeleccionado = TarifasCRUD.cogerTarifaPorNombreEmpresa(this.listaEmpresas[this.cCliente.SelectedIndex].nombre);
+                if (this.tarifaClienteSeleccionado == null)
                 {
-                    if (c.tipoCamion.Equals(((ComboBoxItem)cTipoCamion.SelectedItem).Content.ToString()))
-                        cComponenteTarifa.Items.Add(new ComboBoxItem().Content = c.etiqueta);
+                    this.tarifaClienteSeleccionado = TarifasCRUD.cogerTarifaPorNombreEmpresa("GENERAL");
                 }
-                calcularTarifacion();
+                this.ordenarListaComponentesTarifa(this.tarifaClienteSeleccionado.listaComponentesTarifa);
+                if (this.cComponenteTarifa.Items.Count != 0)
+                {
+                    this.cComponenteTarifa.Items.Clear();
+                }
+                foreach (ComponenteTarifa item in this.tarifaClienteSeleccionado.listaComponentesTarifa)
+                {
+                    if (item.tipoCamion.Equals(((ComboBoxItem)this.cTipoCamion.SelectedItem).Content.ToString()))
+                    {
+                        ItemCollection items = this.cComponenteTarifa.Items;
+                        ComboBoxItem comboBoxItem = new ComboBoxItem();
+                        object newItem = comboBoxItem.Content = item.etiqueta;
+                        items.Add(newItem);
+                    }
+                }
+                this.calcularTarifacion();
             }
+        }
+
+        private void ordenarListaComponentesTarifa(List<ComponenteTarifa> listaComponentesTarifa)
+        {
+            List<ComponenteTarifa> listaAuxiliar = new List<ComponenteTarifa>();
+            int contador = 20;
+            ComponenteTarifa etiquetaMaxima = this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Contains("-+") && c.tipoCamion.Equals("CAMIÓN MEDIANO"));
+            try
+            {
+                listaAuxiliar.Add(this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Equals("REPARTO") && c.tipoCamion.Equals("CAMIÓN GRANDE")));
+                listaAuxiliar.Add(this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Equals("T-URB") && c.tipoCamion.Equals("CAMIÓN GRANDE")));
+                for (; contador <= this.cogerNumeroDeEtiqeta(etiquetaMaxima); contador += 10)
+                {
+                    listaAuxiliar.Add(this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Equals("T-" + contador + "KM") && c.tipoCamion.Equals("CAMIÓN GRANDE")));
+                }
+                listaAuxiliar.Add(this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Contains("-+") && c.tipoCamion.Equals("CAMIÓN GRANDE")));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            this.nCompGrande = listaAuxiliar.Count();
+            listaAuxiliar.Add(this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Equals("REPARTO") && c.tipoCamion.Equals("CAMIÓN MEDIANO")));
+            listaAuxiliar.Add(this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Equals("T-URB") && c.tipoCamion.Equals("CAMIÓN MEDIANO")));
+            for (contador = 20; contador <= this.cogerNumeroDeEtiqeta(etiquetaMaxima); contador += 10)
+            {
+                listaAuxiliar.Add(this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Equals("T-" + contador + "KM") && c.tipoCamion.Equals("CAMIÓN MEDIANO")));
+            }
+            listaAuxiliar.Add(this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Contains("-+") && c.tipoCamion.Equals("CAMIÓN MEDIANO")));
+            this.nCompMedio = listaAuxiliar.Count() - this.nCompGrande;
+            listaAuxiliar.Add(this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Equals("REPARTO") && c.tipoCamion.Equals("CAMIÓN PEQUEÑO")));
+            listaAuxiliar.Add(this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Equals("T-URB") && c.tipoCamion.Equals("CAMIÓN PEQUEÑO")));
+            for (contador = 20; contador <= this.cogerNumeroDeEtiqeta(etiquetaMaxima); contador += 10)
+            {
+                listaAuxiliar.Add(this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Equals("T-" + contador + "KM") && c.tipoCamion.Equals("CAMIÓN PEQUEÑO")));
+            }
+            listaAuxiliar.Add(this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Contains("-+") && c.tipoCamion.Equals("CAMIÓN PEQUEÑO")));
+            this.nCompPequeño = listaAuxiliar.Count() - this.nCompMedio - this.nCompGrande;
+            this.tarifaClienteSeleccionado.listaComponentesTarifa = new List<ComponenteTarifa>(listaAuxiliar);
+        }
+
+        private int cogerNumeroDeEtiqeta(ComponenteTarifa componenteTarifa)
+        {
+            return Convert.ToInt32(Regex.Match(componenteTarifa.etiqueta, "\\d+").Value);
         }
 
         private void calcularTarifacion()
         {
-            if (checkGrupaje.IsChecked == false && cCliente.SelectedIndex != -1)
+            if (!this.iniciando && this.checkGrupaje.IsChecked == false && this.cCliente.SelectedIndex != -1)
             {
-                //hacer distinto para empresa rara
-
-                int numeroRepartos = cogerNumeroRepartos();
-
-                tRepartos.Text = Convert.ToString(numeroRepartos);
-
-                kilometrosRutaActual = ((Ruta)tablaRutasPosibles.SelectedItem).kilometros + ((Ruta)tablaRutasRetornoPosibles.SelectedItem).kilometros;
-
-                if (kilometrosRutaActual > 200)
+                int kilemetrajeMaximoTarifa = this.cogerNumeroDeEtiqeta(this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Contains("-+") && c.tipoCamion.Equals("CAMIÓN PEQUEÑO")));
+                int numeroRepartos = this.cogerNumeroRepartos();
+                this.tRepartos.Text = Convert.ToString(numeroRepartos);
+                this.kilometrosRutaActual = ((Ruta)this.tablaRutasPosibles.SelectedItem).kilometros + ((Ruta)this.tablaRutasRetornoPosibles.SelectedItem).kilometros;
+                bool salidaCorrecta = true;
+                double num;
+                if (this.kilometrosRutaActual > (double)kilemetrajeMaximoTarifa)
                 {
-                    componenteTarifaActual = tarifaGeneralCliente.listaComponentesTarifa.Single(c => c.etiqueta == "RADIO +200"
-                        && c.tipoCamion == ((ComboBoxItem)cTipoCamion.SelectedItem).Content.ToString());
-
-                    tPrecioFinal.Text = (componenteTarifaActual.precio * kilometrosRutaActual +
-                        numeroRepartos * tarifaGeneralCliente.listaComponentesTarifa.Single(c => c.etiqueta == "REPARTO"
-                        && c.tipoCamion == ((ComboBoxItem)cTipoCamion.SelectedItem).Content.ToString()).precio).ToString("F2");
-                    tPrecioTarifa.Text = Convert.ToString(componenteTarifaActual.precio) + " €/KM";
+                    try
+                    {
+                        this.componenteTarifaActual = this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Contains("-+") && c.tipoCamion == ((ComboBoxItem)this.cTipoCamion.SelectedItem).Content.ToString());
+                        TextBox textBox = this.tPrecioFinal;
+                        num = this.componenteTarifaActual.precio * this.kilometrosRutaActual + (double)numeroRepartos * this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Equals("REPARTO") && c.tipoCamion == ((ComboBoxItem)this.cTipoCamion.SelectedItem).Content.ToString()).precio;
+                        textBox.Text = num.ToString("F2");
+                        this.tPrecioTarifa.Text = Convert.ToString(this.componenteTarifaActual.precio) + " €/KM";
+                    }
+                    catch (Exception e3)
+                    {
+                        Console.WriteLine(e3.ToString());
+                        salidaCorrecta = false;
+                        MessageBox.Show("DEBE INTRODUCIR TODAS LOS COMPONENTES DE TARIFA DE 'REPARTO' PARA LA TARIFA ACTUAL.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
+                    }
                 }
-                else if (kilometrosRutaActual < 20)
+                else if (this.kilometrosRutaActual < 20.0)
                 {
-                    componenteTarifaActual = tarifaGeneralCliente.listaComponentesTarifa.Single(c => c.etiqueta == "URBANA"
-                        && c.tipoCamion == ((ComboBoxItem)cTipoCamion.SelectedItem).Content.ToString());
-
-                    tPrecioFinal.Text = (componenteTarifaActual.precio +
-                        numeroRepartos * tarifaGeneralCliente.listaComponentesTarifa.Single(c => c.etiqueta == "REPARTO"
-                        && c.tipoCamion == ((ComboBoxItem)cTipoCamion.SelectedItem).Content.ToString()).precio).ToString("F2");
-                    tPrecioTarifa.Text = Convert.ToString(componenteTarifaActual.precio) + " €";
+                    try
+                    {
+                        this.componenteTarifaActual = this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Equals("T-URB") && c.tipoCamion == ((ComboBoxItem)this.cTipoCamion.SelectedItem).Content.ToString());
+                        TextBox textBox2 = this.tPrecioFinal;
+                        num = this.componenteTarifaActual.precio + (double)numeroRepartos * this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Equals("REPARTO") && c.tipoCamion == ((ComboBoxItem)this.cTipoCamion.SelectedItem).Content.ToString()).precio;
+                        textBox2.Text = num.ToString("F2");
+                        this.tPrecioTarifa.Text = Convert.ToString(this.componenteTarifaActual.precio) + " €";
+                    }
+                    catch (Exception e2)
+                    {
+                        Console.WriteLine(e2.ToString());
+                        salidaCorrecta = false;
+                        MessageBox.Show("DEBE INTRODUCIR TODAS LOS COMPONENTES DE TARIFA DE 'REPARTO' PARA LA TARIFA ACTUAL.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
+                    }
                 }
                 else
                 {
-                    kilometrosRutaActual = kilometrosRutaActual / 2;
-
-                    if (kilometrosRutaActual % 10 != 0)
-                        kilometrosRutaActual = (kilometrosRutaActual - kilometrosRutaActual % 10) + 10;
-
-                    componenteTarifaActual = tarifaGeneralCliente.listaComponentesTarifa.Single(c => c.etiqueta == "RADIO " + kilometrosRutaActual
-                        && c.tipoCamion == ((ComboBoxItem)cTipoCamion.SelectedItem).Content.ToString());
-                    tPrecioFinal.Text = (componenteTarifaActual.precio +
-                        numeroRepartos * tarifaGeneralCliente.listaComponentesTarifa.Single(c => c.etiqueta == "REPARTO"
-                        && c.tipoCamion == ((ComboBoxItem)cTipoCamion.SelectedItem).Content.ToString()).precio).ToString("F2");
-                    tPrecioTarifa.Text = Convert.ToString(componenteTarifaActual.precio) + " €";
+                    try
+                    {
+                        this.kilometrosRutaActual /= 2.0;
+                        if (this.kilometrosRutaActual % 10.0 != 0.0)
+                        {
+                            this.kilometrosRutaActual = this.kilometrosRutaActual - this.kilometrosRutaActual % 10.0 + 10.0;
+                        }
+                        string etiquetaBsuqueda = "T-" + this.kilometrosRutaActual + "KM";
+                        this.componenteTarifaActual = this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Equals(etiquetaBsuqueda) && c.tipoCamion == ((ComboBoxItem)this.cTipoCamion.SelectedItem).Content.ToString());
+                        TextBox textBox3 = this.tPrecioFinal;
+                        num = this.componenteTarifaActual.precio + (double)numeroRepartos * this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Equals("REPARTO") && c.tipoCamion == ((ComboBoxItem)this.cTipoCamion.SelectedItem).Content.ToString()).precio;
+                        textBox3.Text = num.ToString("F2");
+                        this.tPrecioTarifa.Text = Convert.ToString(this.componenteTarifaActual.precio) + " €";
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.ToString());
+                        salidaCorrecta = false;
+                        MessageBox.Show("DEBE INTRODUCIR TODAS LOS COMPONENTES DE TARIFA DE 'REPARTO' PARA LA TARIFA ACTUAL.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
+                    }
                 }
-                var id = tarifaGeneralCliente.listaComponentesTarifa.IndexOf(componenteTarifaActual);
-                if (componenteTarifaActual.tipoCamion.Equals("CAMIÓN PEQUEÑO"))
-                    id -= 22;
-                cComponenteTarifa.SelectedIndex = id;
-                tPrecioFinal.Text = tPrecioFinal.Text.Replace(",", ".");
-                tPrecioTarifa.Text = tPrecioTarifa.Text.Replace(",", ".");
-                tNombreTarifa.Text = componenteTarifaActual.nombreTarifa;
+                if (salidaCorrecta)
+                {
+                    int id = this.tarifaClienteSeleccionado.listaComponentesTarifa.IndexOf(this.componenteTarifaActual);
+                    if (((ComboBoxItem)this.cTipoCamion.SelectedItem).Content.Equals("CAMIÓN PEQUEÑO"))
+                    {
+                        id -= this.cogerIdComponentePequeño();
+                    }
+                    else if (((ComboBoxItem)this.cTipoCamion.SelectedItem).Content.Equals("CAMIÓN MEDIANO"))
+                    {
+                        id -= this.cogerIdComponenteGrande();
+                    }
+                    this.cComponenteTarifa.SelectedIndex = id;
+                    this.tPrecioFinal.Text = this.tPrecioFinal.Text.Replace(",", ".");
+                    this.tPrecioTarifa.Text = this.tPrecioTarifa.Text.Replace(",", ".");
+                    this.tNombreTarifa.Text = this.componenteTarifaActual.nombreTarifa;
+                }
             }
+        }
+
+        private int cogerIdComponenteGrande()
+        {
+            return this.nCompGrande;
+        }
+
+        private int cogerIdComponentePequeño()
+        {
+            return this.nCompGrande + this.nCompMedio;
         }
 
         private int cogerNumeroRepartos()
         {
             int repartos = 0;
-            foreach (Itinerario i in listaItinerarios)
+            foreach (Itinerario listaItinerario in this.listaItinerarios)
             {
-                if (!i.esEtapa)
+                if (!listaItinerario.esEtapa)
+                {
                     repartos++;
+                }
             }
-            if (checkSalidaNave.IsChecked == true)
+            if (this.checkSalidaNave.IsChecked == true)
+            {
                 return repartos - 2;
-            else
-                return repartos - 1;
+            }
+            return repartos - 1;
         }
 
         private void tablaRutasRetornoPosibles_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
-            e.Column.Header = e.Column.Header.ToString().Equals("id") ? "RETONO POSIBLE" : UtilidadesVentana.generarEtiquetaFormatoColumna(e.Column.Header.ToString());
+            e.Column.Header = (e.Column.Header.ToString().Equals("id") ? "RETONO POSIBLE" : UtilidadesVentana.generarEtiquetaFormatoColumna(e.Column.Header.ToString()));
         }
 
         private void tablaRutasRetornoPosibles_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (((DataGrid)sender).SelectedItem != null)
             {
-                tRutaRetornoSeleccionada.Text = Convert.ToString(((DataGrid)sender).SelectedIndex);
-                limpiarBanderas();
-                pintarRutasRetorno(((Ruta)((DataGrid)sender).SelectedItem).id);
-                calcularTarifacion();
+                this.tRutaRetornoSeleccionada.Text = Convert.ToString(((DataGrid)sender).SelectedIndex);
+                this.limpiarBanderas();
+                this.pintarRutasRetorno(((Ruta)((DataGrid)sender).SelectedItem).id);
+                this.calcularTarifacion();
             }
         }
 
         private void cComponenteTarifa_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int numeroRepartos = cogerNumeroRepartos();
-            if (cComponenteTarifa.Items.Count > 0 && cComponenteTarifa.SelectedIndex != -1)
+            int numeroRepartos = this.cogerNumeroRepartos();
+            if (this.cComponenteTarifa.Items.Count > 0 && this.cComponenteTarifa.SelectedIndex != -1)
             {
-                int id = cComponenteTarifa.SelectedIndex;
-                if (componenteTarifaActual.tipoCamion.Equals("CAMIÓN PEQUEÑO"))
-                    id += 22;
-
-                componenteTarifaActual = tarifaGeneralCliente.listaComponentesTarifa[id];
-
-                if (componenteTarifaActual.etiqueta.Equals("RADIO +200"))
+                int id = this.cComponenteTarifa.SelectedIndex;
+                if (((ComboBoxItem)this.cTipoCamion.SelectedItem).Content.Equals("CAMIÓN PEQUEÑO"))
                 {
-                    tPrecioFinal.Text = (componenteTarifaActual.precio * kilometrosRutaActual +
-                        numeroRepartos * tarifaGeneralCliente.listaComponentesTarifa.Single(c => c.etiqueta == "REPARTO"
-                        && c.tipoCamion == ((ComboBoxItem)cTipoCamion.SelectedItem).Content.ToString()).precio).ToString("F2");
-                    tPrecioTarifa.Text = Convert.ToString(componenteTarifaActual.precio) + " €/KM";
+                    id += this.cogerIdComponentePequeño();
+                }
+                else if (((ComboBoxItem)this.cTipoCamion.SelectedItem).Content.Equals("CAMIÓN MEDIANO"))
+                {
+                    id += this.cogerIdComponenteGrande();
+                }
+                this.componenteTarifaActual = this.tarifaClienteSeleccionado.listaComponentesTarifa[id];
+                double num;
+                if (this.componenteTarifaActual.etiqueta.Contains("-+"))
+                {
+                    TextBox textBox = this.tPrecioFinal;
+                    num = this.componenteTarifaActual.precio * this.kilometrosRutaActual + (double)numeroRepartos * this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Equals("REPARTO") && c.tipoCamion == ((ComboBoxItem)this.cTipoCamion.SelectedItem).Content.ToString()).precio;
+                    textBox.Text = num.ToString("F2");
+                    this.tPrecioTarifa.Text = Convert.ToString(this.componenteTarifaActual.precio) + " €/KM";
                 }
                 else
                 {
-                    tPrecioFinal.Text = (componenteTarifaActual.precio +
-                        numeroRepartos * tarifaGeneralCliente.listaComponentesTarifa.Single(c => c.etiqueta == "REPARTO"
-                        && c.tipoCamion == ((ComboBoxItem)cTipoCamion.SelectedItem).Content.ToString()).precio).ToString("F2");
-                    tPrecioTarifa.Text = Convert.ToString(componenteTarifaActual.precio) + " €";
+                    TextBox textBox2 = this.tPrecioFinal;
+                    num = this.componenteTarifaActual.precio + (double)numeroRepartos * this.tarifaClienteSeleccionado.listaComponentesTarifa.Single((ComponenteTarifa c) => c.etiqueta.Equals("REPARTO") && c.tipoCamion == ((ComboBoxItem)this.cTipoCamion.SelectedItem).Content.ToString()).precio;
+                    textBox2.Text = num.ToString("F2");
+                    this.tPrecioTarifa.Text = Convert.ToString(this.componenteTarifaActual.precio) + " €";
                 }
+                this.tPrecioFinal.Text = this.tPrecioFinal.Text.Replace(",", ".");
+                this.tPrecioTarifa.Text = this.tPrecioTarifa.Text.Replace(",", ".");
             }
         }
 
         private void cTipoCamion_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            calcularTarifacion();
+            this.calcularTarifacion();
         }
 
         private void bLimpiarCampos_Click(object sender, RoutedEventArgs e)
         {
-            reiniciarCampos(0);
+            this.reiniciarCampos(0);
         }
 
         private void reiniciarCampos(int modo)
         {
             if (modo == 0)
             {
-                UtilidadesVentana.LimpiarCampos(gridItinerario);
-                listaItinerarios.Clear();
-
-                checkSalidaNave.IsChecked = false;
-                checkSalidaNave.IsChecked = true;
+                UtilidadesVentana.LimpiarCampos(this.gridItinerario);
+                this.listaItinerarios.Clear();
+                this.checkSalidaNave.IsChecked = false;
+                this.checkSalidaNave.IsChecked = true;
+                this.checkGrupaje.IsChecked = false;
             }
-
-            UtilidadesVentana.LimpiarCampos(gridInfoRutas);
-            UtilidadesVentana.LimpiarCampos(gridInfoTransporte);
-
-            listaRutas.Clear();
-            listaRutasRetorno.Clear();
-
-            limpiarBanderas();
-            limpiarRutasAnteriores();
-
-            gridInformacionPorte.IsEnabled = false;
-            cCliente.SelectedIndex = -1;
-            cComponenteTarifa.Items.Clear();
+            UtilidadesVentana.LimpiarCampos(this.gridInfoRutas);
+            UtilidadesVentana.LimpiarCampos(this.gridInfoTransporte);
+            this.listaRutas.Clear();
+            this.listaRutasRetorno.Clear();
+            this.limpiarBanderas();
+            this.limpiarRutasAnteriores();
+            this.gridInformacionPorte.IsEnabled = false;
+            this.cCliente.SelectedIndex = -1;
+            this.cComponenteTarifa.Items.Clear();
         }
 
         private void bNuevaEmpresa_Click(object sender, RoutedEventArgs e)
         {
-            new VentanaGestionEmpresas(true).Show();
+            new VentanaGestionEmpresas(this, true).Show();
         }
 
-        private void bAltaPorte_Click(object sender, RoutedEventArgs e)
+        private long insertarResumenPrevio()
         {
-            if (UtilidadesVentana.ComprobarCampos(gridInfoTransporte))
+            if (this.checkGrupaje.IsChecked == true)
             {
-                if (UtilidadesVerificacion.validadorFechas(tFechaTransporte.Text) && UtilidadesVerificacion.validadorNumeroDecimal(tPrecioFinal.Text) &&
-                    UtilidadesVerificacion.validadorComboBox(cCliente) &&
-                    MessageBox.Show("¿Desea añadir el resumen?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                double km_ida;
+                double km_vuelta;
+                if (this.tablaRutasPosibles.Items.Count > 0)
                 {
-                    Resumen resumenPrevio;
-                    if (checkGrupaje.IsChecked == true)
-                    {
-                        resumenPrevio = new Resumen(((Empresa)listaEmpresas[cCliente.SelectedIndex]).cif, ((Empresa)listaEmpresas[cCliente.SelectedIndex]).nombre,
-                        Convert.ToDouble(((Ruta)tablaRutasPosibles.SelectedItem).kilometros, UtilidadesVerificacion.cogerProveedorDecimal()),
-                        Convert.ToDouble(((Ruta)tablaRutasRetornoPosibles.SelectedItem).kilometros, UtilidadesVerificacion.cogerProveedorDecimal()),
-                        null, null, ((ComboBoxItem)cTipoCamion.SelectedItem).Content.ToString(), Convert.ToDateTime(tFechaTransporte.Text), listaItinerarios,
-                        Convert.ToDouble(tPrecioFinal.Text, UtilidadesVerificacion.cogerProveedorDecimal()));
-                    }
-                    else
-                    {
-                        resumenPrevio = new Resumen(((Empresa)listaEmpresas[cCliente.SelectedIndex]).cif, ((Empresa)listaEmpresas[cCliente.SelectedIndex]).nombre,
-                        Convert.ToDouble(((Ruta)tablaRutasPosibles.SelectedItem).kilometros, UtilidadesVerificacion.cogerProveedorDecimal()),
-                        Convert.ToDouble(((Ruta)tablaRutasRetornoPosibles.SelectedItem).kilometros, UtilidadesVerificacion.cogerProveedorDecimal()),
-                        tNombreTarifa.Text, cComponenteTarifa.SelectedItem.ToString(), ((ComboBoxItem)cTipoCamion.SelectedItem).Content.ToString(),
-                        Convert.ToDateTime(tFechaTransporte.Text), listaItinerarios, Convert.ToDouble(tPrecioFinal.Text, UtilidadesVerificacion.cogerProveedorDecimal()));
-                    }
-
-                    int salida = ResumenesCRUD.añadirResumenPrevio(resumenPrevio);
-                    if (salida == 1)
-                        reiniciarCampos(0);
+                    km_ida = Convert.ToDouble(((Ruta)this.tablaRutasPosibles.SelectedItem).kilometros, UtilidadesVerificacion.cogerProveedorDecimal());
+                    km_vuelta = Convert.ToDouble(((Ruta)this.tablaRutasRetornoPosibles.SelectedItem).kilometros, UtilidadesVerificacion.cogerProveedorDecimal());
                 }
+                else
+                {
+                    km_ida = 0.0;
+                    km_vuelta = 0.0;
+                }
+                this.resumenPrevio = new Resumen(this.listaEmpresas[this.cCliente.SelectedIndex].cif, this.listaEmpresas[this.cCliente.SelectedIndex].nombre, km_ida, km_vuelta, null, null, ((ComboBoxItem)this.cTipoCamion.SelectedItem).Content.ToString(), Convert.ToDateTime(this.tFechaTransporte.Text), this.listaItinerarios, Convert.ToDouble(this.tPrecioFinal.Text, UtilidadesVerificacion.cogerProveedorDecimal()));
             }
             else
-                MessageBox.Show("Debe introducir todos los campos.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+            {
+                this.resumenPrevio = new Resumen(this.listaEmpresas[this.cCliente.SelectedIndex].cif, this.listaEmpresas[this.cCliente.SelectedIndex].nombre, Convert.ToDouble(((Ruta)this.tablaRutasPosibles.SelectedItem).kilometros, UtilidadesVerificacion.cogerProveedorDecimal()), Convert.ToDouble(((Ruta)this.tablaRutasRetornoPosibles.SelectedItem).kilometros, UtilidadesVerificacion.cogerProveedorDecimal()), this.tNombreTarifa.Text, this.cComponenteTarifa.SelectedItem.ToString(), ((ComboBoxItem)this.cTipoCamion.SelectedItem).Content.ToString(), Convert.ToDateTime(this.tFechaTransporte.Text), this.listaItinerarios, Convert.ToDouble(this.tPrecioFinal.Text, UtilidadesVerificacion.cogerProveedorDecimal()));
+            }
+            return ResumenesCRUD.añadirResumenPrevio(this.resumenPrevio);
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
@@ -625,26 +762,78 @@ namespace GestorJRF.Ventanas.Mapas
 
         private void checkGrupaje_Checked(object sender, RoutedEventArgs e)
         {
-            cComponenteTarifa.IsEnabled = false;
-            tNombreTarifa.Text = "";
-            cComponenteTarifa.SelectedIndex = -1;
-            tPrecioFinal.Text = "";
-            tPrecioTarifa.Text = "";
-            tRepartos.Text = "";
+            this.cComponenteTarifa.IsEnabled = false;
+            this.tNombreTarifa.Text = "";
+            this.cComponenteTarifa.SelectedIndex = -1;
+            this.tPrecioFinal.Text = "";
+            this.tPrecioTarifa.Text = "";
+            this.tRepartos.Text = "";
+            this.gridInformacionPorte.IsEnabled = true;
         }
 
         private void checkGrupaje_Unchecked(object sender, RoutedEventArgs e)
         {
-            cComponenteTarifa.IsEnabled = true;
-            calcularTarifacion();
+            this.cComponenteTarifa.IsEnabled = true;
+            this.gridInformacionPorte.IsEnabled = false;
         }
 
         private void selectorTipoMapa_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if(selectorTipoMapa.Value == 1)
-                mapa.Mode = new AerialMode(true);
+            if (this.selectorTipoMapa.Value == 1.0)
+            {
+                this.mapa.Mode = new AerialMode(true);
+            }
             else
-                mapa.Mode = new RoadMode();
+            {
+                this.mapa.Mode = new RoadMode();
+            }
+        }
+
+        private void bGenerarResumenFinal_Click(object sender, RoutedEventArgs e)
+        {
+            if (UtilidadesVentana.ComprobarCampos(this.gridInfoTransporte))
+            {
+                if (UtilidadesVerificacion.validadorFechas(this.tFechaTransporte.Text) && UtilidadesVerificacion.validadorNumeroDecimal(this.tPrecioFinal.Text) && UtilidadesVerificacion.validadorComboBox(this.cCliente) && MessageBox.Show("¿Desea añadir el resumen?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
+                {
+                    long salidaInsertarResumenPrevio = this.insertarResumenPrevio();
+                    if (salidaInsertarResumenPrevio != -1)
+                    {
+                        VentanaGestionResumenesPrevio vResumenPrevio = new VentanaGestionResumenesPrevio(true);
+                        this.resumenPrevio.id = salidaInsertarResumenPrevio;
+                        vResumenPrevio.resumen = this.resumenPrevio;
+                        vResumenPrevio.Show();
+                        vResumenPrevio.MostrarResumenBuscado();
+                        this.reiniciarCampos(0);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Debe introducir todos los campos.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
+            }
+        }
+
+        private void bGenerarResumenPrevio_Click(object sender, RoutedEventArgs e)
+        {
+            if (UtilidadesVentana.ComprobarCampos(this.gridInfoTransporte))
+            {
+                if (UtilidadesVerificacion.validadorFechas(this.tFechaTransporte.Text) && UtilidadesVerificacion.validadorNumeroDecimal(this.tPrecioFinal.Text) && UtilidadesVerificacion.validadorComboBox(this.cCliente) && MessageBox.Show("¿Desea añadir el resumen?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes && this.insertarResumenPrevio() != -1)
+                {
+                    this.reiniciarCampos(0);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Debe introducir todos los campos.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
+            }
+        }
+
+        private void tDireccion_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                this.GetLocation(this.tDireccion.Text);
+            }
         }
     }
 }

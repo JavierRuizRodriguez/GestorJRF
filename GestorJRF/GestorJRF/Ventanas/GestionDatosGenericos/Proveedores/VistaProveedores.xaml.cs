@@ -1,7 +1,16 @@
 ﻿using GestorJRF.CRUD;
 using GestorJRF.POJOS;
 using GestorJRF.Utilidades;
+using GestorJRF.Ventanas;
+using GestorJRF.Ventanas.GestionDatosGenericos;
+using GestorJRF.Ventanas.GestionDatosGenericos.Proveedores;
+using System;
+using System.CodeDom.Compiler;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Markup;
 
 namespace GestorJRF.Ventanas.GestionDatosGenericos.Proveedores
 {
@@ -10,25 +19,18 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Proveedores
     /// </summary>
     public partial class VistaProveedores : Window
     {
-        public Proveedor proveedor { get; set; }
+        public Proveedor proveedor
+        {
+            get;
+            set;
+        }
+
         public VistaProveedores()
         {
-            InitializeComponent();
-            UtilidadesVentana.SituarVentana(0,this);
+            this.InitializeComponent();
+            UtilidadesVentana.SituarVentana(0, this);
         }
-
-        private void bNuevoAviso_Click(object sender, RoutedEventArgs e)
-        {
-            if (UtilidadesVentana.ComprobarCampos(gridPrincipal))
-            {
-                Proveedor proveedor = new Proveedor(tNombre.Text, tCIF.Text);
-                int salida = ProveedoresCRUD.añadirProveedor(proveedor);
-
-                if (salida == 1)
-                    UtilidadesVentana.LimpiarCampos(gridPrincipal);
-            }
-        }
-
+        
         private void bBuscar_Click(object sender, RoutedEventArgs e)
         {
             new VentanaBusqueda(this, "proveedor").Show();
@@ -36,42 +38,49 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Proveedores
 
         private void bBorrar_Click(object sender, RoutedEventArgs e)
         {
-            if (proveedor != null)
+            if (this.proveedor != null)
             {
-                if (MessageBox.Show("¿Desea borrar el proveedor?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("¿Desea borrar el proveedor?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
                 {
-                    int salida = ProveedoresCRUD.borrarProveedor(proveedor.cif);
-
+                    int salida = ProveedoresCRUD.borrarProveedor(this.proveedor.cif);
                     if (salida == 1)
                     {
-                        UtilidadesVentana.LimpiarCampos(gridPrincipal);
-                        proveedor = null;
+                        UtilidadesVentana.LimpiarCampos(this.gridPrincipal);
+                        this.proveedor = null;
                     }
                 }
             }
             else
-                MessageBox.Show("Debe seleccionar un proveedor.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+            {
+                MessageBox.Show("Debe seleccionar un proveedor.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
+            }
         }
 
         private void bModificar_Click(object sender, RoutedEventArgs e)
         {
-            if (proveedor != null)
+            if (this.proveedor != null)
             {
-                new VentanaGestionProveedores(proveedor).Show();
-                UtilidadesVentana.LimpiarCampos(gridPrincipal);
-                proveedor = null;
+                new VentanaGestionProveedores(this.proveedor).Show();
+                UtilidadesVentana.LimpiarCampos(this.gridPrincipal);
+                this.proveedor = null;
             }
             else
-                MessageBox.Show("Debe seleccionar una alerta para borrarla.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+            {
+                MessageBox.Show("Debe seleccionar una alerta para borrarla.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
+            }
         }
 
         internal void MostrarProveedorBuscado()
         {
-            tCIF.Text = proveedor.cif;
-            tNombre.Text = proveedor.nombre;
+            this.tCIF.Text = this.proveedor.cif;
+            this.tNombre.Text = this.proveedor.nombre;
+            this.tDomicilio.Text = this.proveedor.domicilio;
+            this.tLocalidad.Text = this.proveedor.localidad;
+            this.tProvincia.Text = this.proveedor.provincia;
+            this.tCP.Text = this.proveedor.cp.ToString(); ;
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             new VentanaMenuGestionDatos().Show();
         }

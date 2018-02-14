@@ -1,0 +1,52 @@
+﻿<Window x:Class="GestorJRF.Ventanas.GestionDatosGenericos.Gastos.VistaGastos" Title="Visualización de gastos - GESTOR JRF" Height="459.682" Width="434" Closing="Window_Closing" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:GestorJRF.Ventanas.GestionDatosGenericos.Gastos">
+    <Grid>
+        <Border BorderBrush="#FF000000" BorderThickness="1" HorizontalAlignment="Left" Height="403" Margin="10,10,0,0" VerticalAlignment="Top" Width="394">
+            <Grid Name="gridPrincipal">
+                <Label Name="label" Content="Empleado" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" />
+                <Label Name="label_Copy1" Content="Concepto" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top" />
+                <CheckBox Name="checkGastoGenerico" Content="Gasto genérico" HorizontalAlignment="Left" Margin="10,11,0,0" VerticalAlignment="Top" IsEnabled="False" />
+                <GroupBox Name="groupBox3" Header="Acciones gastos" HorizontalAlignment="Left" Margin="10,279,0,0" VerticalAlignment="Top" Height="114" Width="372">
+                    <Grid>
+                        <Button Name="bModificarGasto" Content="MODIFICAR &#xD;&#xA;    GASTO" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="109" Height="72" Background="#FFF99F60" Click="bModificarGasto_Click" />
+                        <Button Name="bBorrarGasto" Content="BORRAR GASTO" HorizontalAlignment="Left" Margin="124,10,0,0" VerticalAlignment="Top" Width="109" Height="72" Background="#FFFF8A8A" Click="bBorrarGasto_Click" />
+                        <Button Name="bBuscarGasto" HorizontalAlignment="Left" Margin="238,10,0,0" VerticalAlignment="Top" Width="112" Height="72" Background="#FF80EEFF" Click="bBuscarGasto_Click">
+                            <DockPanel LastChildFill="True" Width="98">
+                                <Image DockPanel.Dock="Left" Source="/GestorJRF;component/Iconos/lupa.png" Stretch="Fill" Height="30" Width="32" RenderOptions.BitmapScalingMode="Fant" RenderTransformOrigin="1,0.5" />
+                                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" Width="66">
+                  <Run Text="  " />
+                  <Run Text="BUSCAR" />
+                  <LineBreak />
+                  <Run Text=" " />
+                  <Run Text="RESUMEN" />
+                                </TextBlock>
+                            </DockPanel>
+                        </Button>
+                    </Grid>
+                </GroupBox>
+                <TextBox Name="tEmpleado" HorizontalAlignment="Left" Height="23" Margin="78,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="304" IsEnabled="False" />
+                <TextBox Name="tConcepto" HorizontalAlignment="Left" Height="23" Margin="78,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="304" IsEnabled="False" />
+                <Label Name="label_Copy5" Content="Proveedor" HorizontalAlignment="Left" Margin="10,93,0,0" VerticalAlignment="Top" />
+                <TextBox Name="tProveedor" HorizontalAlignment="Left" Height="23" Margin="78,96,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="304" IsEnabled="False" />
+                <Label Name="label_Copy6" Content="Referencia" HorizontalAlignment="Left" Margin="10,124,0,0" VerticalAlignment="Top" />
+                <TextBox Name="tReferencia" HorizontalAlignment="Left" Height="23" Margin="79,127,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="303" IsEnabled="False" />
+                <Label Name="lImporte" Content="Importe base" HorizontalAlignment="Left" Margin="10,155,0,0" VerticalAlignment="Top" />
+                <TextBox Name="tImporte" HorizontalAlignment="Left" Height="23" Margin="95,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="67" IsEnabled="False" />
+                <Label Name="lTrimestre" Content="Trimestre" Margin="167,155,165,0" VerticalAlignment="Top" />
+                <TextBox Name="tTrimestre" HorizontalAlignment="Left" Height="23" Margin="232,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" IsEnabled="False" />
+                <Label x:Name="lTrimestre_Copy" Content="Año" Margin="269,155,91,0" VerticalAlignment="Top" />
+                <TextBox x:Name="tAño" HorizontalAlignment="Left" Height="23" Margin="306,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" IsEnabled="False" />
+                <Label Name="label_Copy2" Content="Fecha (dd/mm/yyyy)" HorizontalAlignment="Left" Margin="10,217,0,0" VerticalAlignment="Top" />
+                <TextBox Name="tFecha" HorizontalAlignment="Left" Height="23" Margin="133,220,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="249" IsEnabled="False" />
+                <Label Name="label_Copy3" Content="Descripción" HorizontalAlignment="Left" Margin="10,248,0,0" VerticalAlignment="Top" />
+                <TextBox Name="tDescripcion" HorizontalAlignment="Left" Height="23" Margin="87,251,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="295" IsEnabled="False" />
+                <Label Name="label_Copy7" Content="IVA" HorizontalAlignment="Left" Margin="10,186,0,0" VerticalAlignment="Top" />
+                <TextBox Name="tIva" HorizontalAlignment="Left" Height="23" Margin="43,189,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="67" IsEnabled="False" />
+                <TextBox Name="tIrpf" HorizontalAlignment="Left" Height="23" Margin="180,189,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="74" IsEnabled="False" />
+                <TextBox Name="tTasas" HorizontalAlignment="Left" Height="23" Margin="306,189,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" IsEnabled="False" />
+                <Label Name="label1_Copy" Content="Tasas" HorizontalAlignment="Left" Margin="259,186,0,0" VerticalAlignment="Top" Width="42" />
+                <Label Name="lIrpf" Content="      IRPF" HorizontalAlignment="Left" Margin="115,186,0,0" VerticalAlignment="Top" Width="60" />
+                <CheckBox Name="checkBienInversion" Content="Bien de inversión" HorizontalAlignment="Left" Margin="264,11,0,0" VerticalAlignment="Top" Width="118" IsEnabled="False" />
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

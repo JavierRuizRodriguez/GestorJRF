@@ -1,25 +1,25 @@
-﻿<Window x:Class="GestorJRF.Ventanas.GestionDatosGenericos.Proveedores.VentanaGestionProveedores"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GestorJRF.Ventanas.GestionDatosGenericos.Proveedores"
-        mc:Ignorable="d"
-        Title="VentanaGestionProveedores" Height="235" Width="426" Closing="Window_Closing">
+﻿<Window x:Class="GestorJRF.Ventanas.GestionDatosGenericos.Proveedores.VentanaGestionProveedores" Title="Gestión de proveedores - GESTOR JRF" Height="362.5" Width="562.5" Closing="Window_Closing" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:GestorJRF.Ventanas.GestionDatosGenericos.Proveedores">
     <Grid>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="175" Margin="10,10,0,0" VerticalAlignment="Top" Width="387">
+        <Border BorderBrush="#FF000000" BorderThickness="1" HorizontalAlignment="Left" Height="304" Margin="10,10,0,0" VerticalAlignment="Top" Width="525">
             <Grid Name="gridPrincipal">
-                
-                <Label x:Name="label" Content="Nombre" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="label_Copy" Content="CIF" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="tNombre" HorizontalAlignment="Left" Height="23" Margin="69,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="306"/>
-                <TextBox x:Name="tCIF" HorizontalAlignment="Left" Height="23" Margin="69,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="306"/>
-                <GroupBox x:Name="groupBox" Header="Acciones" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" Height="91" Width="365">
+                <Label Name="label" Content="NOMBRE" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" />
+                <Label Name="label_Copy" Content="CIF" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" />
+                <TextBox Name="tNombre" HorizontalAlignment="Left" Height="23" Margin="115,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="386" />
+                <TextBox Name="tCIF" HorizontalAlignment="Left" Height="23" Margin="115,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="386" />
+                <GroupBox Name="groupBox" Header="Acciones" HorizontalAlignment="Left" Margin="10,196,0,0" VerticalAlignment="Top" Height="91" Width="491">
                     <Grid Margin="2,0,-2,0">
-                        <Button x:Name="bNuevoProveedor" Content="AÑADIR PROVEEDOR" HorizontalAlignment="Left" Margin="155,10,0,0" VerticalAlignment="Top" Width="188" Height="52" Background="#FF9EFF9E" Click="bNuevoAviso_Click"/>
-                        <Button x:Name="bLimpiarCampos" Content="LIMPIAR CAMPOS" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="140" Height="52" Background="#FFF4FF83" Click="bLimpiarCampos_Click"/>
+                        <Button Name="bNuevoProveedor" Content="AÑADIR PROVEEDOR" HorizontalAlignment="Left" Margin="212,10,0,0" VerticalAlignment="Top" Width="257" Height="52" Background="#FF9EFF9E" Click="bNuevoAviso_Click" />
+                        <Button Name="bLimpiarCampos" Content="LIMPIAR CAMPOS" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="197" Height="52" Background="#FFF4FF83" Click="bLimpiarCampos_Click" />
                     </Grid>
                 </GroupBox>
+                <Label Content="DOMICILIO" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" />
+                <Label Content="LOCALIDAD" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top" />
+                <Label Content="PROVINCIA" HorizontalAlignment="Left" Margin="10,134,0,0" VerticalAlignment="Top" />
+                <Label Content="CÓDIGO POSTAL" HorizontalAlignment="Left" Margin="10,165,0,0" VerticalAlignment="Top" />
+                <TextBox x:Name="tDomicilio" HorizontalAlignment="Left" Height="23" Margin="115,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="386" />
+                <TextBox x:Name="tLocalidad" HorizontalAlignment="Left" Height="23" Margin="115,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="386" />
+                <TextBox x:Name="tProvincia" HorizontalAlignment="Left" Height="23" Margin="115,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="386" />
+                <TextBox x:Name="tCP" HorizontalAlignment="Left" Height="23" Margin="115,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="386" />
             </Grid>
         </Border>
     </Grid>

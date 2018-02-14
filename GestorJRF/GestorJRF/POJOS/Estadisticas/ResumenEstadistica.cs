@@ -6,10 +6,22 @@ namespace GestorJRF.POJOS.Estadisticas
 {
     public class ResumenEstadistica
     {
-        public DateTime fechaPorte { get; set; }
-        public double sumaDiaria { get; set; }
-        public List<Itinerario> itinerarios { get; set; }
+        public DateTime fechaPorte
+        {
+            get;
+            set;
+        }
 
-        public ResumenEstadistica() { }
+        public double sumaDiaria
+        {
+            get;
+            set;
+        }
+
+        public List<Itinerario> itinerarios
+        {
+            get;
+            set;
+        }
     }
 }

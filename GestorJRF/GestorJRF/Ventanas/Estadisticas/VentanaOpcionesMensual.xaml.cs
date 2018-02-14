@@ -18,27 +18,29 @@ namespace GestorJRF.Ventanas.Estadisticas
 
         public VentanaOpcionesMensual(VentanaEstadisticas ventanaPadre, string tipo)
         {
-            InitializeComponent();
+            this.InitializeComponent();
             UtilidadesVentana.SituarVentana(0, this);
             this.ventanaPadre = ventanaPadre;
             this.tipo = tipo;
-            tAño.Text = DateTime.Now.Year.ToString();
+            this.tAño.Text = DateTime.Now.Year.ToString();
         }
 
         private void bGenerarEstadistica_Click(object sender, RoutedEventArgs e)
         {
-            if (UtilidadesVerificacion.validadorNumeroEntero(tAño.Text))
+            if (UtilidadesVerificacion.validadorNumeroEntero(this.tAño.Text))
             {
-                DateTime inicio = new DateTime(Convert.ToInt32(tAño.Text), cMes.SelectedIndex + 1, 1);
-                DateTime final = new DateTime(Convert.ToInt32(tAño.Text), cMes.SelectedIndex + 1, DateTime.DaysInMonth(Convert.ToInt32(tAño.Text), cMes.SelectedIndex + 1));
-                ventanaPadre.opciones = new BusquedaEstadisticas(inicio, final, tipo);
-
-                if (!tipo.Contains("comparativa"))
-                    ventanaPadre.generarGraficaLineal();
+                DateTime inicio = new DateTime(Convert.ToInt32(this.tAño.Text), this.cMes.SelectedIndex + 1, 1);
+                DateTime final = new DateTime(Convert.ToInt32(this.tAño.Text), this.cMes.SelectedIndex + 1, DateTime.DaysInMonth(Convert.ToInt32(this.tAño.Text), this.cMes.SelectedIndex + 1));
+                this.ventanaPadre.opciones = new BusquedaEstadisticas(inicio, final, this.tipo);
+                if (!this.tipo.Contains("comparativa"))
+                {
+                    this.ventanaPadre.generarGraficaLineal();
+                }
                 else
-                    ventanaPadre.generarGraficoBarras();
-
-                Close();
+                {
+                    this.ventanaPadre.generarGraficoBarras();
+                }
+                base.Close();
             }
         }
     }

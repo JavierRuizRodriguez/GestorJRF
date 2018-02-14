@@ -5,11 +5,27 @@ namespace GestorJRF.POJOS
 {
     public class UsuarioSistema
     {
-        public string usuario { get; set; }
-        public string contraseña { get; set; }
-        public string email { get; set; }
+        public string usuario
+        {
+            get;
+            set;
+        }
 
-        public UsuarioSistema() { }
+        public string contraseña
+        {
+            get;
+            set;
+        }
+
+        public string email
+        {
+            get;
+            set;
+        }
+
+        public UsuarioSistema()
+        {
+        }
 
         public UsuarioSistema(string usuario, string contraseña, string email)
         {
@@ -17,7 +33,6 @@ namespace GestorJRF.POJOS
             {
                 byte[] inputBytes = Encoding.ASCII.GetBytes(contraseña);
                 byte[] hashBytes = md5.ComputeHash(inputBytes);
-                
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < hashBytes.Length; i++)
                 {
@@ -25,7 +40,6 @@ namespace GestorJRF.POJOS
                 }
                 this.contraseña = sb.ToString();
             }
-
             this.usuario = usuario;
             this.email = email;
         }

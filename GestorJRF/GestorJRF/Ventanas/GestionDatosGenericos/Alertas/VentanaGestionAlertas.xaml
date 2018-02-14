@@ -1,37 +1,28 @@
-﻿<Window x:Class="GestorJRF.Ventanas.GestionDatosGenericos.Alertas.VentanaGestionAlertas"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GestorJRF.Ventanas.GestionDatosGenericos.Alertas"
-        mc:Ignorable="d"
-        Title="VentanaGestionAlertas" Height="272" Width="682.554" Closing="CerrandoVentana">
+﻿<Window x:Class="GestorJRF.Ventanas.GestionDatosGenericos.Alertas.VentanaGestionAlertas" Title="Gestión de alertas - GESTOR JRF" Height="272" Width="682.554" Closing="CerrandoVentana" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:GestorJRF.Ventanas.GestionDatosGenericos.Alertas">
     <Grid>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="210" Margin="10,10,0,0" VerticalAlignment="Top" Width="644">
+        <Border BorderBrush="#FF000000" BorderThickness="1" HorizontalAlignment="Left" Height="210" Margin="10,10,0,0" VerticalAlignment="Top" Width="644">
             <Grid Name="gridPrincipal">
-                <Label x:Name="label" Content="CAMIÓN" HorizontalAlignment="Left" Margin="162,10,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="label_Copy" Content="TIPO AVISO" HorizontalAlignment="Left" Margin="378,10,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="lAntelacion" Content="DÍAS ANTELACIÓN AVISO" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="lLimite" Content="FECHA DE AVISO" HorizontalAlignment="Left" Margin="319,72,0,0" VerticalAlignment="Top"/>
-                <CheckBox x:Name="checkAvisoGenerico" Content="AVISO GENÉRICO" HorizontalAlignment="Left" Margin="10,18,0,0" VerticalAlignment="Top" Width="147" Checked="checkAvisoGenerico_Checked" Unchecked="checkAvisoGenerico_Unchecked"/>
-                <ComboBox x:Name="cCamion" HorizontalAlignment="Left" Margin="224,14,0,0" VerticalAlignment="Top" Width="149"/>
-                <ComboBox x:Name="cAviso" HorizontalAlignment="Left" Margin="455,14,0,0" VerticalAlignment="Top" Width="174" SelectedIndex="0" SelectionChanged="cAviso_SelectionChanged">
-                    <ComboBoxItem Content="FECHA"/>
-                    <ComboBoxItem Content="KILOMETRAJE"/>
+                <Label Name="label" Content="CAMIÓN" HorizontalAlignment="Left" Margin="162,10,0,0" VerticalAlignment="Top" />
+                <Label Name="label_Copy" Content="TIPO AVISO" HorizontalAlignment="Left" Margin="378,10,0,0" VerticalAlignment="Top" />
+                <Label Name="lAntelacion" Content="DÍAS ANTELACIÓN AVISO" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" />
+                <Label Name="lLimite" Content="FECHA DE AVISO" HorizontalAlignment="Left" Margin="319,72,0,0" VerticalAlignment="Top" />
+                <CheckBox Name="checkAvisoGenerico" Content="AVISO GENÉRICO" HorizontalAlignment="Left" Margin="10,18,0,0" VerticalAlignment="Top" Width="147" Checked="checkAvisoGenerico_Checked" Unchecked="checkAvisoGenerico_Unchecked" />
+                <ComboBox Name="cCamion" HorizontalAlignment="Left" Margin="224,14,0,0" VerticalAlignment="Top" Width="149" />
+                <ComboBox Name="cAviso" HorizontalAlignment="Left" Margin="455,14,0,0" VerticalAlignment="Top" Width="174" SelectedIndex="0" SelectionChanged="cAviso_SelectionChanged">
+                    <ComboBoxItem Content="FECHA" />
+                    <ComboBoxItem Content="KILOMETRAJE" />
                 </ComboBox>
-                <Label x:Name="label_Copy1" Content="DESCRIPCIÓN AVISO" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="tDescripcion" HorizontalAlignment="Left" Height="23" Margin="162,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="467"/>
-                <TextBox x:Name="tAntelacion" HorizontalAlignment="Left" Height="23" Margin="162,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="152"/>
-                <TextBox x:Name="tLimite" HorizontalAlignment="Left" Height="23" Margin="424,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="205"/>
-                <GroupBox x:Name="groupBox" Header="Acciones" HorizontalAlignment="Left" Margin="277,103,0,0" VerticalAlignment="Top" Height="94" Width="355">
+                <Label Name="label_Copy1" Content="DESCRIPCIÓN AVISO" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" />
+                <TextBox Name="tDescripcion" HorizontalAlignment="Left" Height="23" Margin="162,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="467" />
+                <TextBox Name="tAntelacion" HorizontalAlignment="Left" Height="23" Margin="162,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="152" />
+                <TextBox Name="tLimite" HorizontalAlignment="Left" Height="23" Margin="424,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="205" />
+                <GroupBox Name="groupBox" Header="Acciones" HorizontalAlignment="Left" Margin="277,103,0,0" VerticalAlignment="Top" Height="94" Width="355">
                     <Grid Margin="2,0,-2,0">
-                        <Button x:Name="bNuevoAviso" Content="AÑADIR AVISO" HorizontalAlignment="Left" Margin="157,10,0,0" VerticalAlignment="Top" Width="176" Height="52" Background="#FF9EFF9E" Click="bNuevoAviso_Click"/>
-                        <Button x:Name="bLimpiarCampos" Content="LIMPIAR CAMPOS" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="139" Height="52" Background="#FFF4FF83" Click="bLimpiarCampos_Click"/>
+                        <Button Name="bNuevoAviso" Content="AÑADIR AVISO" HorizontalAlignment="Left" Margin="157,10,0,0" VerticalAlignment="Top" Width="176" Height="52" Background="#FF9EFF9E" Click="bNuevoAviso_Click" />
+                        <Button Name="bLimpiarCampos" Content="LIMPIAR CAMPOS" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="139" Height="52" Background="#FFF4FF83" Click="bLimpiarCampos_Click" />
                     </Grid>
                 </GroupBox>
             </Grid>
-
         </Border>
-
     </Grid>
 </Window>

@@ -1,14 +1,8 @@
-﻿<Window x:Class="GestorJRF.Ventanas.Facturas.VentanaSeleccionFacturacion"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GestorJRF.Ventanas.Facturas"
-        mc:Ignorable="d"
-        Title="VentanaSeleccionFacturacion" Height="175.23" Width="500.722"  ResizeMode="NoResize" Closing="Window_Closing">
+﻿<Window x:Class="GestorJRF.Ventanas.Facturas.VentanaSeleccionFacturacion" Title="Ventana de selección - GESTOR JRF" Height="265.875" Width="502.379" ResizeMode="NoResize" Closing="Window_Closing" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:GestorJRF.Ventanas.Facturas">
     <Grid>
-        <Button x:Name="bFacturaResumenes" Content="FACTURACIÓN&#xD;&#xA;  RESUMENES" HorizontalAlignment="Left" Margin="32,27,0,0" VerticalAlignment="Top" Width="204" Height="82" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bFacturaResumenes_Click"/>
-        <Button x:Name="bFacturaIva" Content="FACTURACIÓN IVA" HorizontalAlignment="Left" Margin="256,27,0,0" VerticalAlignment="Top" Width="204" Height="82" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bFacturaIva_Click"/>
-
+        <Button Name="bFacturaResumenes" Content="FACTURACIÓN&#xD;&#xA;  RESUMENES" HorizontalAlignment="Left" Margin="32,27,0,0" VerticalAlignment="Top" Width="204" Height="82" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bFacturaResumenes_Click" />
+        <Button Name="bFacturaIva" Content="  FACTURAS EMITIDAS" HorizontalAlignment="Left" Margin="256,27,0,0" VerticalAlignment="Top" Width="204" Height="82" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bFacturaIva_Click" />
+        <Button Name="bFacturaIvaBienesInversion" Content="FACTURACIÓN &#xA;      GASTOS" HorizontalAlignment="Left" Margin="32,123,0,0" VerticalAlignment="Top" Width="204" Height="82" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bFacturaIvaBienes_Click" />
+        <Button x:Name="bTerceros" Content="OPERACIONES&#xD;&#xA;            A &#xD;&#xA;  TERCEREOS" HorizontalAlignment="Left" Margin="256,123,0,0" VerticalAlignment="Top" Width="204" Height="82" Cursor="Hand" FontSize="16" FontWeight="Bold" FontFamily="Arial" Click="bTerceros_Click" />
     </Grid>
 </Window>

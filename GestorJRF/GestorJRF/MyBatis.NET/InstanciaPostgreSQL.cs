@@ -11,8 +11,7 @@ namespace GestorJRF.MyBatis.NET
             {
                 try
                 {
-                    ISqlMapper mapa = Mapper.Instance();
-                    return mapa;
+                    return Mapper.Instance();
                 }
                 catch (Exception ex)
                 {

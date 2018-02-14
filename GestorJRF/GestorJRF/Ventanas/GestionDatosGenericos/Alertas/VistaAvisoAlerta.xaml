@@ -1,27 +1,20 @@
-﻿<Window x:Class="GestorJRF.Ventanas.GestionDatosGenericos.Alertas.VistaAvisoAlerta"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GestorJRF.Ventanas.GestionDatosGenericos.Alertas"
-        mc:Ignorable="d"
-        Title="VistaAlertas" Height="249" Width="864.554">
+﻿<Window x:Class="GestorJRF.Ventanas.GestionDatosGenericos.Alertas.VistaAvisoAlerta" Title="Alertas en fecha - GESTOR JRF" Height="249" Width="864.554" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:GestorJRF.Ventanas.GestionDatosGenericos.Alertas">
     <Grid>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="187" Margin="10,10,0,0" VerticalAlignment="Top" Width="822">
+        <Border BorderBrush="#FF000000" BorderThickness="1" HorizontalAlignment="Left" Height="187" Margin="10,10,0,0" VerticalAlignment="Top" Width="822">
             <Grid Name="gridPrincipal">
-                <Label x:Name="label" Content="CAMIÓN" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="label_Copy" Content="TIPO AVISO" HorizontalAlignment="Left" Margin="347,13,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="label_Copy1" Content="DESCRIPCIÓN AVISO" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="tCamion" HorizontalAlignment="Left" Height="23" Margin="72,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="242" IsEnabled="False"/>
-                <TextBox x:Name="tTipoAviso" HorizontalAlignment="Left" Height="23" Margin="424,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="205" IsEnabled="False"/>
-                <Label x:Name="lLimite" Content="FECHA DE AVISO" HorizontalAlignment="Left" Margin="319,41,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="tLimite" HorizontalAlignment="Left" Height="23" Margin="424,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="205" IsEnabled="False"/>
-                <Label x:Name="lAntelacion" Content="DÍAS ANTELACIÓN AVISO" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="tAntelacion" HorizontalAlignment="Left" Height="23" Margin="162,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="152" IsEnabled="False"/>
-                <TextBlock x:Name="tDescripcion" HorizontalAlignment="Left" Margin="162,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="93" Width="467" Background="#FFEEEEEE"/>
-                <Button x:Name="bEliminarAlerta" Content="ELIMINAR ALERTA" HorizontalAlignment="Left" Margin="634,77,0,0" VerticalAlignment="Top" Width="170" Height="93" Background="#FFFF8A8A" Click="bEliminarAlerta_Click"/>
-                <ComboBox x:Name="cAlertas" HorizontalAlignment="Left" Margin="685,14,0,0" VerticalAlignment="Top" Width="39" SelectionChanged="cAlertas_SelectionChanged"/>
-                <Label x:Name="label_Copy2" Content="Alertas" HorizontalAlignment="Left" Margin="634,10,0,0" VerticalAlignment="Top"/>
+                <Label Name="label" Content="CAMIÓN" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" />
+                <Label Name="label_Copy" Content="TIPO AVISO" HorizontalAlignment="Left" Margin="347,13,0,0" VerticalAlignment="Top" />
+                <Label Name="label_Copy1" Content="DESCRIPCIÓN AVISO" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" />
+                <TextBox Name="tCamion" HorizontalAlignment="Left" Height="23" Margin="72,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="242" IsEnabled="False" />
+                <TextBox Name="tTipoAviso" HorizontalAlignment="Left" Height="23" Margin="424,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="205" IsEnabled="False" />
+                <Label Name="lLimite" Content="FECHA DE AVISO" HorizontalAlignment="Left" Margin="319,41,0,0" VerticalAlignment="Top" />
+                <TextBox Name="tLimite" HorizontalAlignment="Left" Height="23" Margin="424,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="205" IsEnabled="False" />
+                <Label Name="lAntelacion" Content="DÍAS ANTELACIÓN AVISO" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" />
+                <TextBox Name="tAntelacion" HorizontalAlignment="Left" Height="23" Margin="162,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="152" IsEnabled="False" />
+                <TextBlock Name="tDescripcion" HorizontalAlignment="Left" Margin="162,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="93" Width="467" Background="#FFEEEEEE" />
+                <Button Name="bEliminarAlerta" Content="ELIMINAR ALERTA" HorizontalAlignment="Left" Margin="634,77,0,0" VerticalAlignment="Top" Width="170" Height="93" Background="#FFFF8A8A" Click="bEliminarAlerta_Click" />
+                <ComboBox Name="cAlertas" HorizontalAlignment="Left" Margin="685,14,0,0" VerticalAlignment="Top" Width="39" SelectionChanged="cAlertas_SelectionChanged" />
+                <Label Name="label_Copy2" Content="Alertas" HorizontalAlignment="Left" Margin="634,10,0,0" VerticalAlignment="Top" />
             </Grid>
         </Border>
     </Grid>

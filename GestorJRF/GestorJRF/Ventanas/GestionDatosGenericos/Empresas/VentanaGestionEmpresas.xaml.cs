@@ -1,11 +1,19 @@
 ﻿using GestorJRF.CRUD;
 using GestorJRF.POJOS;
 using GestorJRF.Utilidades;
+using GestorJRF.Ventanas;
+using GestorJRF.Ventanas.GestionDatosGenericos.Empresas;
+using GestorJRF.Ventanas.Mapas;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Markup;
 
-namespace GestorJRF.Ventanas
+namespace GestorJRF.Ventanas.GestionDatosGenericos.Empresas
 {
     /// <summary>
     /// Lógica de interacción para VentanaGestionEmpleados.xaml
@@ -13,121 +21,146 @@ namespace GestorJRF.Ventanas
     public partial class VentanaGestionEmpresas : Window
     {
         private bool esAlta;
+
         private bool esAltaEnMapa;
-        public ObservableCollection<PersonaContacto> listaPersonasContacto { get; set; }
+
+        private VentanaMapa vPadre;
+
         public Empresa empresa;
+
+        public ObservableCollection<PersonaContacto> listaPersonasContacto
+        {
+            get;
+            set;
+        }
 
         public VentanaGestionEmpresas(Empresa empresa)
         {
-            InitializeComponent();
-
+            this.InitializeComponent();
             UtilidadesVentana.SituarVentana(0, this);
-            esAlta = false;
+            this.esAlta = false;
             this.empresa = empresa;
-
-            bNuevaEmpresa.Content = "MODIFICAR EMPRESA";
-            listaPersonasContacto = new ObservableCollection<PersonaContacto>(empresa.personasContacto);
-
-            CambiarParaModificacion();
+            this.bNuevaEmpresa.Content = "MODIFICAR EMPRESA";
+            this.listaPersonasContacto = new ObservableCollection<PersonaContacto>(empresa.personasContacto);
+            this.CambiarParaModificacion();
         }
 
-        public VentanaGestionEmpresas(bool esAltaEnMapa)
+        public VentanaGestionEmpresas(VentanaMapa vPadre, bool esAltaEnMapa)
         {
-            InitializeComponent();
-
-            listaPersonasContacto = new ObservableCollection<PersonaContacto>();
+            this.InitializeComponent();
+            this.listaPersonasContacto = new ObservableCollection<PersonaContacto>();
             UtilidadesVentana.SituarVentana(0, this);
-            esAlta = true;
+            this.esAlta = true;
             this.esAltaEnMapa = esAltaEnMapa;
+            this.vPadre = vPadre;
         }
 
-        private void CerrandoVentana(object sender, System.ComponentModel.CancelEventArgs e)
+        private void CerrandoVentana(object sender, CancelEventArgs e)
         {
-            if (esAlta && !esAltaEnMapa)
+            if (this.esAlta && !this.esAltaEnMapa)
+            {
                 new VentanaMenuGestionDatos().Show();
+            }
         }
 
         private void bNuevoContacto_Click(object sender, RoutedEventArgs e)
         {
-            if (UtilidadesVentana.ComprobarCampos(gridPersonalContacto))
+            if (UtilidadesVentana.ComprobarCampos(this.gridPersonalContacto))
             {
-                if (UtilidadesVerificacion.validadorNumeroEntero(tTelefonoPC.Text) && UtilidadesVerificacion.validadorMail(tMailPC.Text))
-                    listaPersonasContacto.Add(new PersonaContacto(tNombrePC.Text, Convert.ToInt32(tTelefonoPC.Text), tMailPC.Text));
+                if (UtilidadesVerificacion.validadorNumeroEntero(this.tTelefonoPC.Text) && UtilidadesVerificacion.validadorMail(this.tMailPC.Text))
+                {
+                    this.listaPersonasContacto.Add(new PersonaContacto(this.tNombrePC.Text, Convert.ToInt32(this.tTelefonoPC.Text), this.tMailPC.Text));
+                    UtilidadesVentana.LimpiarCampos(this.gridPersonalContacto);
+                }
             }
             else
-                MessageBox.Show("Debe introducir todos los campos para rellenar la tabla", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
-
+            {
+                MessageBox.Show("Debe introducir todos los campos para rellenar la tabla", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
+            }
         }
 
         private void bLimpiarCampos_Click(object sender, RoutedEventArgs e)
         {
-            UtilidadesVentana.LimpiarCampos(gridPrincipal);
-            UtilidadesVentana.LimpiarCampos(gridPersonalContacto);
-            listaPersonasContacto.Clear();
+            UtilidadesVentana.LimpiarCampos(this.gridPrincipal);
+            UtilidadesVentana.LimpiarCampos(this.gridPersonalContacto);
+            this.listaPersonasContacto.Clear();
         }
 
         private void bNuevaEmpresa_Click(object sender, RoutedEventArgs e)
         {
-            if (UtilidadesVentana.ComprobarCampos(gridPrincipal) && listaPersonasContacto.Count > 0)
+            if (UtilidadesVentana.ComprobarCampos(this.gridPrincipal) && this.listaPersonasContacto.Count > 0)
             {
-                if (sonCamposValidos())
+                if (this.sonCamposValidos())
                 {
-                    if (esAlta)
-                        añadirEmpresa();
+                    if (this.esAlta)
+                    {
+                        this.añadirEmpresa();
+                    }
                     else
-                        modificarEmpresa();
+                    {
+                        this.modificarEmpresa();
+                    }
                 }
             }
             else
-                MessageBox.Show("Debe introducir todos los campos.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+            {
+                MessageBox.Show("Debe introducir todos los campos.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
+            }
         }
 
         private bool sonCamposValidos()
         {
-            if (UtilidadesVerificacion.validadorMail(tMail.Text) && UtilidadesVerificacion.validadorNumeroEntero(tCP.Text)
-                && UtilidadesVerificacion.validadorNumeroEntero(tTelefono.Text))
+            if (UtilidadesVerificacion.validadorNumeroEntero(this.tCP.Text) && UtilidadesVerificacion.validadorNumeroEntero(this.tTelefono.Text))
+            {
                 return true;
-            else
-                return false;
+            }
+            return false;
         }
 
         private void modificarEmpresa()
         {
-
-            Empresa em = new Empresa(tNombre.Text, tNIF.Text, empresa.cif, tDomicilio.Text, tLocalidad.Text, tProvincia.Text, Convert.ToInt32(tCP.Text), Convert.ToInt32(tTelefono.Text), tMail.Text, listaPersonasContacto);
-            EmpresasCRUD.modificarPersonasContacto(em, empresa.cif);
-
+            Empresa em = new Empresa(this.tNombre.Text, this.tNIF.Text, this.empresa.cif, this.tDomicilio.Text, this.tLocalidad.Text, this.tProvincia.Text, this.tCP.Text, Convert.ToInt32(this.tTelefono.Text), this.listaPersonasContacto);
+            if (EmpresasCRUD.modificarPersonasContacto(em, this.empresa.cif) == 1)
+            {
+                base.Close();
+            }
         }
 
         private void añadirEmpresa()
         {
-            Empresa em = new Empresa(tNombre.Text, tNIF.Text, tDomicilio.Text, tLocalidad.Text, tProvincia.Text, Convert.ToInt32(tCP.Text), Convert.ToInt32(tTelefono.Text), tMail.Text, listaPersonasContacto);
-            var codigo = EmpresasCRUD.insertarEmpresa(em);
+            Empresa em = new Empresa(this.tNombre.Text, this.tNIF.Text, this.tDomicilio.Text, this.tLocalidad.Text, this.tProvincia.Text, this.tCP.Text, Convert.ToInt32(this.tTelefono.Text), this.listaPersonasContacto);
+            int codigo = EmpresasCRUD.insertarEmpresa(em);
             if (codigo == 1)
             {
-                MessageBox.Show("Camion almacenado correctamente.", "Nueva empresa", MessageBoxButton.OK, MessageBoxImage.Information);
-                bLimpiarCampos_Click(null, null);
+                this.bLimpiarCampos_Click(null, null);
+                if (this.esAltaEnMapa)
+                {
+                    this.vPadre.actualizarEmpresas();
+                }
             }
         }
 
         private void CambiarParaModificacion()
         {
-            tNombre.Text = empresa.nombre;
-            tNIF.Text = empresa.cif;
-            tDomicilio.Text = empresa.domicilio;
-            tLocalidad.Text = empresa.localidad;
-            tProvincia.Text = empresa.provincia;
-            tCP.Text = Convert.ToString(empresa.cp);
-            tTelefono.Text = Convert.ToString(empresa.telefono);
-            tMail.Text = empresa.email;
+            this.tNombre.Text = this.empresa.nombre;
+            this.tNIF.Text = this.empresa.cif;
+            this.tDomicilio.Text = this.empresa.domicilio;
+            this.tLocalidad.Text = this.empresa.localidad;
+            this.tProvincia.Text = this.empresa.provincia;
+            this.tCP.Text = this.empresa.cp;
+            this.tTelefono.Text = Convert.ToString(this.empresa.telefono);
         }
 
-        private void tablaPC_AutoGeneratingColumn(object sender, System.Windows.Controls.DataGridAutoGeneratingColumnEventArgs e)
+        private void tablaPC_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
-            if (e.Column.Header.ToString() == "cif")
+            if (e.Column.Header.ToString().Equals("cif"))
+            {
                 e.Cancel = true;
+            }
             else
+            {
                 e.Column.Header = UtilidadesVentana.generarEtiquetaFormatoColumna(e.Column.Header.ToString());
+            }
         }
     }
 }

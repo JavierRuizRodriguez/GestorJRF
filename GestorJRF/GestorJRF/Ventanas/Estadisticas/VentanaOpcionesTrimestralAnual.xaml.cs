@@ -14,32 +14,30 @@ namespace GestorJRF.Ventanas.Estadisticas
 
         public VentanaOpcionesTrimestralAnual(VentanaEstadisticas ventanaPadre, string tipo)
         {
-            InitializeComponent();
+            this.InitializeComponent();
             UtilidadesVentana.SituarVentana(0, this);
             this.ventanaPadre = ventanaPadre;
             this.tipo = tipo;
-            tAño.Text = DateTime.Now.Year.ToString();
-
+            this.tAño.Text = DateTime.Now.Year.ToString();
             if (tipo.Contains("Anual"))
             {
-                lTrimestre.Visibility = Visibility.Hidden;
-                cTrimestre.Visibility = Visibility.Hidden;
-                lAño.Margin = new Thickness(77, 11, 0, 0);
-                tAño.Margin = new Thickness(114, 15, 0, 0);
+                this.lTrimestre.Visibility = Visibility.Hidden;
+                this.cTrimestre.Visibility = Visibility.Hidden;
+                this.lAño.Margin = new Thickness(77.0, 11.0, 0.0, 0.0);
+                this.tAño.Margin = new Thickness(114.0, 15.0, 0.0, 0.0);
             }
         }
 
         private void bGenerarEstadistica_Click(object sender, RoutedEventArgs e)
         {
-            DateTime inicio;
-            DateTime final;
-
-            if (UtilidadesVerificacion.validadorNumeroEntero(tAño.Text))
+            if (UtilidadesVerificacion.validadorNumeroEntero(this.tAño.Text))
             {
-                int año = Convert.ToInt32(tAño.Text);
-                if (!tipo.Contains("Anual"))
+                int año = Convert.ToInt32(this.tAño.Text);
+                DateTime inicio;
+                DateTime final;
+                if (!this.tipo.Contains("Anual"))
                 {
-                    switch (cTrimestre.SelectedIndex)
+                    switch (this.cTrimestre.SelectedIndex)
                     {
                         case 0:
                             inicio = new DateTime(año, 1, 1);
@@ -68,14 +66,16 @@ namespace GestorJRF.Ventanas.Estadisticas
                     inicio = new DateTime(año, 1, 1);
                     final = new DateTime(año, 12, 31);
                 }
-                ventanaPadre.opciones = new BusquedaEstadisticas(inicio, final, tipo);
-
-                if (!tipo.Contains("comparativa"))
-                    ventanaPadre.generarGraficaLineal();
+                this.ventanaPadre.opciones = new BusquedaEstadisticas(inicio, final, this.tipo);
+                if (!this.tipo.Contains("comparativa"))
+                {
+                    this.ventanaPadre.generarGraficaLineal();
+                }
                 else
-                    ventanaPadre.generarGraficoBarras();
-
-                Close();
+                {
+                    this.ventanaPadre.generarGraficoBarras();
+                }
+                base.Close();
             }
         }
     }

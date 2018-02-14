@@ -1,41 +1,34 @@
-﻿<Window x:Class="GestorJRF.Ventanas.GestionDatosGenericos.Camiones.VentanaGestionCamiones"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GestorJRF.Ventanas.GestionDatosGenericos.Camiones"
-        mc:Ignorable="d"
-        Title="VentanaGestionCamiones" Height="331" Width="1095.344" ResizeMode="NoResize" Closing="CerrandoVentana">
+﻿<Window x:Class="GestorJRF.Ventanas.GestionDatosGenericos.Camiones.VentanaGestionCamiones" Title="Gestión de camiones - GESTOR JRF" Height="331" Width="1095.344" ResizeMode="NoResize" Closing="CerrandoVentana" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:GestorJRF.Ventanas.GestionDatosGenericos.Camiones">
     <Grid>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="270" Margin="10,10,0,0" VerticalAlignment="Top" Width="1057">
-            <Grid x:Name="gridPrincipal">
-                <Label x:Name="label" Content="MARCA" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="label_Copy" Content="MODELO" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="label_Copy1" Content="MATRÍCULA" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="label_Copy2" Content="LARGO CAJA (m)" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="label_Copy3" Content="LAGO VEHÍCULO (m)" HorizontalAlignment="Left" Margin="463,103,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="label_Copy6" Content="KILOMETRAJE (Km)" HorizontalAlignment="Left" Margin="10,134,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="label_Copy7" Content="TIPO COMBUSTIBLE" HorizontalAlignment="Left" Margin="463,10,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="label_Copy8" Content="GÁLIBO (m)" HorizontalAlignment="Left" Margin="463,134,0,0" VerticalAlignment="Top"/>
-                <ComboBox x:Name="cComustible" HorizontalAlignment="Left" Margin="588,14,0,0" VerticalAlignment="Top" Width="129" SelectedIndex="0">
-                    <ComboBoxItem Content="DIÉSEL"/>
-                    <ComboBoxItem Content="GASOLINA"/>
+        <Border BorderBrush="#FF000000" BorderThickness="1" HorizontalAlignment="Left" Height="270" Margin="10,10,0,0" VerticalAlignment="Top" Width="1057">
+            <Grid Name="gridPrincipal">
+                <Label Name="label" Content="MARCA" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" />
+                <Label Name="label_Copy" Content="MODELO" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" />
+                <Label Name="label_Copy1" Content="MATRÍCULA" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" />
+                <Label Name="label_Copy2" Content="LARGO CAJA (m)" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top" />
+                <Label Name="label_Copy3" Content="LAGO VEHÍCULO (m)" HorizontalAlignment="Left" Margin="463,103,0,0" VerticalAlignment="Top" />
+                <Label Name="label_Copy6" Content="KILOMETRAJE (Km)" HorizontalAlignment="Left" Margin="10,134,0,0" VerticalAlignment="Top" />
+                <Label Name="label_Copy7" Content="TIPO COMBUSTIBLE" HorizontalAlignment="Left" Margin="463,10,0,0" VerticalAlignment="Top" />
+                <Label Name="label_Copy8" Content="GÁLIBO (m)" HorizontalAlignment="Left" Margin="463,134,0,0" VerticalAlignment="Top" />
+                <ComboBox Name="cComustible" HorizontalAlignment="Left" Margin="588,14,0,0" VerticalAlignment="Top" Width="129" SelectedIndex="0">
+                    <ComboBoxItem Content="DIÉSEL" />
+                    <ComboBoxItem Content="GASOLINA" />
                 </ComboBox>
-                <TextBox x:Name="tMarca" HorizontalAlignment="Left" Height="23" Margin="130,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="328"/>
-                <TextBox x:Name="tModelo" HorizontalAlignment="Left" Height="23" Margin="130,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="917"/>
-                <TextBox x:Name="tMatricula" HorizontalAlignment="Left" Height="23" Margin="130,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="328"/>
-                <TextBox x:Name="tNumBastidor" HorizontalAlignment="Left" Height="23" Margin="588,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="459"/>
-                <TextBox x:Name="tLargoCaja" HorizontalAlignment="Left" Height="23" Margin="130,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="328"/>
-                <TextBox x:Name="tLargoVehiculo" HorizontalAlignment="Left" Height="23" Margin="588,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="459"/>
-                <TextBox x:Name="tKilometraje" HorizontalAlignment="Left" Height="23" Margin="130,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="328"/>
-                <TextBox x:Name="tGalibo" HorizontalAlignment="Left" Height="23" Margin="588,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="459"/>
-                <GroupBox x:Name="groupBox" Header="Acciones" HorizontalAlignment="Left" Margin="692,165,0,0" VerticalAlignment="Top" Height="94" Width="355">
+                <TextBox Name="tMarca" HorizontalAlignment="Left" Height="23" Margin="130,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="328" />
+                <TextBox Name="tModelo" HorizontalAlignment="Left" Height="23" Margin="130,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="917" />
+                <TextBox Name="tMatricula" HorizontalAlignment="Left" Height="23" Margin="130,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="328" />
+                <TextBox Name="tNumBastidor" HorizontalAlignment="Left" Height="23" Margin="588,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="459" />
+                <TextBox Name="tLargoCaja" HorizontalAlignment="Left" Height="23" Margin="130,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="328" />
+                <TextBox Name="tLargoVehiculo" HorizontalAlignment="Left" Height="23" Margin="588,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="459" />
+                <TextBox Name="tKilometraje" HorizontalAlignment="Left" Height="23" Margin="130,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="328" />
+                <TextBox Name="tGalibo" HorizontalAlignment="Left" Height="23" Margin="588,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="459" />
+                <GroupBox Name="groupBox" Header="Acciones" HorizontalAlignment="Left" Margin="692,165,0,0" VerticalAlignment="Top" Height="94" Width="355">
                     <Grid Margin="2,0,-2,0">
-                        <Button x:Name="bNuevo" Content="AÑADIR CAMIÓN" HorizontalAlignment="Left" Margin="157,10,0,0" VerticalAlignment="Top" Width="176" Height="52" Background="#FF9EFF9E" Click="bNuevo_Click"/>
-                        <Button x:Name="bLimpiarCampos" Content="LIMPIAR CAMPOS" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="139" Height="52" Background="#FFF4FF83" Click="bLimpiarCampos_Click"/>
+                        <Button Name="bNuevo" Content="AÑADIR CAMIÓN" HorizontalAlignment="Left" Margin="157,10,0,0" VerticalAlignment="Top" Width="176" Height="52" Background="#FF9EFF9E" Click="bNuevo_Click" />
+                        <Button Name="bLimpiarCampos" Content="LIMPIAR CAMPOS" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="139" Height="52" Background="#FFF4FF83" Click="bLimpiarCampos_Click" />
                     </Grid>
                 </GroupBox>
-                <Label x:Name="label_Copy5" Content="Nº BASTIDOR" HorizontalAlignment="Left" Margin="463,72,0,0" VerticalAlignment="Top"/>
+                <Label Name="label_Copy5" Content="Nº BASTIDOR" HorizontalAlignment="Left" Margin="463,72,0,0" VerticalAlignment="Top" />
             </Grid>
         </Border>
     </Grid>

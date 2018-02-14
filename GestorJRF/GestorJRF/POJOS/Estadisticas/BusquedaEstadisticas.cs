@@ -4,12 +4,35 @@ namespace GestorJRF.POJOS.Estadisticas
 {
     public class BusquedaEstadisticas
     {
+        public DateTime fechaInicio
+        {
+            get;
+            set;
+        }
 
-        public DateTime fechaInicio { get; set; }
-        public DateTime fechaFinal { get; set; }
-        public string tipo { get; set; }
-        public string cif { get; set; }
-        public string dni { get; set; }
+        public DateTime fechaFinal
+        {
+            get;
+            set;
+        }
+
+        public string tipo
+        {
+            get;
+            set;
+        }
+
+        public string cif
+        {
+            get;
+            set;
+        }
+
+        public string dni
+        {
+            get;
+            set;
+        }
 
         public BusquedaEstadisticas(DateTime fechaInicio, DateTime fechaFinal, string tipo)
         {

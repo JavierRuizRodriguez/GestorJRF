@@ -1,19 +1,15 @@
 ﻿using GestorJRF.CRUD;
 using GestorJRF.POJOS;
 using GestorJRF.Utilidades;
+using GestorJRF.Ventanas;
+using GestorJRF.Ventanas.GestionDatosGenericos.Empleados;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.CodeDom.Compiler;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.Windows.Markup;
 
 namespace GestorJRF.Ventanas.GestionDatosGenericos.Empleados
 {
@@ -27,79 +23,97 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Empleados
 
         public VentanaGestionEmpleados()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             UtilidadesVentana.SituarVentana(0, this);
-            esAlta = true;
+            this.esAlta = true;
         }
 
         public VentanaGestionEmpleados(Empleado empleado)
         {
-            InitializeComponent();
+            this.InitializeComponent();
             UtilidadesVentana.SituarVentana(0, this);
             this.empleado = empleado;
-            esAlta = false;
-
-            bNuevoEmpleado.Content = "MODIFICAR EMPLEADO";
-            tNombre.Text = empleado.nombre;
-            tApellidos.Text = empleado.apellidos;
-            tDNI.Text = empleado.dni;
-            tFechaNacimiento.Text = empleado.fechaNacimiento.Date.ToString("dd/MM/yyyy");
-            tFechaAlta.Text = empleado.fechaAlta.Date.ToString("dd/MM/yyyy");
-            tSueldo.Text = Convert.ToString(empleado.sueldoBruto);
-            tTelefono.Text = Convert.ToString(empleado.telefono);
-            tMail.Text = Convert.ToString(empleado.email);
+            this.esAlta = false;
+            this.bNuevoEmpleado.Content = "MODIFICAR EMPLEADO";
+            this.tNombre.Text = empleado.nombre;
+            this.tApellidos.Text = empleado.apellidos;
+            this.tDNI.Text = empleado.dni;
+            TextBox textBox = this.tFechaNacimiento;
+            DateTime dateTime = empleado.fechaNacimiento;
+            dateTime = dateTime.Date;
+            textBox.Text = dateTime.ToString("dd/MM/yyyy");
+            TextBox textBox2 = this.tFechaAlta;
+            dateTime = empleado.fechaAlta;
+            dateTime = dateTime.Date;
+            textBox2.Text = dateTime.ToString("dd/MM/yyyy");
+            this.tSueldo.Text = Convert.ToString(empleado.sueldoBase);
+            this.tTelefono.Text = Convert.ToString(empleado.telefono);
+            this.tMail.Text = Convert.ToString(empleado.email);
+            this.tComision.Text = Convert.ToString(empleado.comision);
         }
 
-        private void CerrandoVentana(object sender, System.ComponentModel.CancelEventArgs e)
+        private void CerrandoVentana(object sender, CancelEventArgs e)
         {
-            if (esAlta)
+            if (this.esAlta)
+            {
                 new VentanaMenuGestionDatos().Show();
+            }
         }
 
         private void bNuevoEmpleado_Click(object sender, RoutedEventArgs e)
         {
-            if (UtilidadesVentana.ComprobarCampos(gridPrincipal))
+            if (UtilidadesVentana.ComprobarCampos(this.gridPrincipal))
             {
-                if (sonCamposValidos())
+                if (this.sonCamposValidos())
                 {
-                    if (esAlta)
-                        crearEmpresa();
+                    if (this.esAlta)
+                    {
+                        this.crearEmpresa();
+                    }
                     else
-                        modificarEmpresa();
-                }   
+                    {
+                        this.modificarEmpresa();
+                    }
+                }
             }
             else
-                MessageBox.Show("Debe introducir todos los campos.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+            {
+                MessageBox.Show("Debe introducir todos los campos.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
+            }
         }
 
         private bool sonCamposValidos()
         {
-            if (UtilidadesVerificacion.validadorMail(tMail.Text) || UtilidadesVerificacion.validadorMail(tFechaAlta.Text)
-                    || UtilidadesVerificacion.validadorMail(tFechaNacimiento.Text) || UtilidadesVerificacion.validadorNumeroDecimal(tSueldo.Text)
-                    || UtilidadesVerificacion.validadorNumeroEntero(tTelefono.Text))
+            if (UtilidadesVerificacion.validadorMail(this.tMail.Text) && UtilidadesVerificacion.validadorFechas(this.tFechaAlta.Text) && UtilidadesVerificacion.validadorFechas(this.tFechaNacimiento.Text) && UtilidadesVerificacion.validadorNumeroDecimal(this.tSueldo.Text) && UtilidadesVerificacion.validadorNumeroEntero(this.tTelefono.Text) && UtilidadesVerificacion.validadorNumeroEntero(this.tComision.Text))
+            {
                 return true;
-            else
-                return false;
+            }
+            return false;
         }
 
         private void modificarEmpresa()
         {
-            Empleado em = new Empleado(tNombre.Text, tApellidos.Text, tDNI.Text, empleado.dni, Convert.ToDateTime(tFechaNacimiento.Text), Convert.ToDateTime(tFechaAlta.Text), Convert.ToInt32(tSueldo.Text), Convert.ToInt32(tTelefono.Text), tMail.Text);
-            EmpleadosCRUD.modificarEmpleado(em);
+            Empleado em = new Empleado(this.tNombre.Text, this.tApellidos.Text, this.tDNI.Text, this.empleado.dni, Convert.ToDateTime(this.tFechaNacimiento.Text), Convert.ToDateTime(this.tFechaAlta.Text), Convert.ToDouble(this.tSueldo.Text, UtilidadesVerificacion.cogerProveedorDecimal()), Convert.ToInt32(this.tTelefono.Text), this.tMail.Text, Convert.ToInt32(this.tComision.Text));
+            int salida = EmpleadosCRUD.modificarEmpleado(em);
+            if (salida == 1)
+            {
+                base.Close();
+            }
         }
 
         private void crearEmpresa()
         {
-            Empleado em = new Empleado(tNombre.Text, tApellidos.Text, tDNI.Text, Convert.ToDateTime(tFechaNacimiento.Text), Convert.ToDateTime(tFechaAlta.Text), Convert.ToInt32(tSueldo.Text), Convert.ToInt32(tTelefono.Text), tMail.Text);
+            Empleado em = new Empleado(this.tNombre.Text, this.tApellidos.Text, this.tDNI.Text, Convert.ToDateTime(this.tFechaNacimiento.Text), Convert.ToDateTime(this.tFechaAlta.Text), Convert.ToDouble(this.tSueldo.Text, UtilidadesVerificacion.cogerProveedorDecimal()), Convert.ToInt32(this.tTelefono.Text), this.tMail.Text, Convert.ToInt32(this.tComision.Text));
             int salida = EmpleadosCRUD.insertarEmpleado(em);
-
             if (salida == 1)
-                UtilidadesVentana.LimpiarCampos(gridPrincipal);
+            {
+                UtilidadesVentana.LimpiarCampos(this.gridPrincipal);
+            }
         }
 
         private void bLimpiarCampos_Click(object sender, RoutedEventArgs e)
         {
-            UtilidadesVentana.LimpiarCampos(gridPrincipal);
+            UtilidadesVentana.LimpiarCampos(this.gridPrincipal);
         }
     }
 }

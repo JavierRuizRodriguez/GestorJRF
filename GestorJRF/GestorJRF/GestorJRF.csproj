@@ -14,6 +14,21 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -53,10 +68,22 @@
       <HintPath>..\packages\MyBatis.NET.1.6.4\lib\IBatisNet.DataMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Maps.MapControl.WPF">
-      <HintPath>..\..\..\..\Programas instalados\BingMapsWPF\V1\Libraries\Microsoft.Maps.MapControl.WPF.dll</HintPath>
+    <Reference Include="Microsoft.Maps.MapControl.WPF, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Maps.MapControl.WPF.1.0.0.3\lib\net40-Client\Microsoft.Maps.MapControl.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ReportViewer.WinForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.140.1000.523\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.140.1000.523\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.140.1000.523\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MyBatis.Common, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MyBatis.Common.3.0.0\lib\MyBatis.Common.dll</HintPath>
       <Private>True</Private>
@@ -64,6 +91,9 @@
     <Reference Include="Npgsql, Version=3.1.8.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <HintPath>..\packages\Npgsql.3.1.8\lib\net451\Npgsql.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="QuickConverter, Version=1.2.5.0, Culture=neutral, PublicKeyToken=9c892aa7bc2af2cf, processorArchitecture=MSIL">
+      <HintPath>..\packages\QuickConverter.1.2.5\lib\net40\QuickConverter.dll</HintPath>
     </Reference>
     <Reference Include="ReachFramework" />
     <Reference Include="sapbusinessobjects.wpf.viewer, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
@@ -75,7 +105,15 @@
     <Reference Include="System.Printing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
-    <Reference Include="system.windows.controls.datavisualization.toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.DataVisualization.Toolkit, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Controls.DataVisualization.Toolkit.4.0.0.0\lib\net40-Client\System.Windows.Controls.DataVisualization.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Input.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPFToolkit.3.5.50211.1\lib\System.Windows.Controls.Input.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Layout.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPFToolkit.3.5.50211.1\lib\System.Windows.Controls.Layout.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -90,48 +128,77 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsFormsIntegration" />
-    <Reference Include="WPFToolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="WPFToolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPFToolkit.3.5.50211.1\lib\WPFToolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ConjuntosDatos\DataSet7.cs">
+      <DependentUpon>DataSet7.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ConjuntosDatos\DataSet7.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet7.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ConjuntosDatos\OperacionesTerceros.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OperacionesTerceros.xsd</DependentUpon>
+    </Compile>
     <Compile Include="CRUD\AlertasCRUD.cs" />
     <Compile Include="CRUD\CamionesCRUD.cs" />
     <Compile Include="CRUD\EmpleadosCRUD.cs" />
     <Compile Include="CRUD\EmpresasCRUD.cs" />
+    <Compile Include="CRUD\FacturasCRUD.cs" />
     <Compile Include="CRUD\GastosCRUD.cs" />
     <Compile Include="CRUD\ProveedoresCRUD.cs" />
     <Compile Include="CRUD\ResumenesCRUD.cs" />
     <Compile Include="CRUD\TarifasCRUD.cs" />
     <Compile Include="CRUD\UsuarioSistemaCRUD.cs" />
     <Compile Include="MyBatis.NET\InstanciaPostgreSQL.cs" />
+    <Compile Include="CRUD\PagosCRUD.cs" />
     <Compile Include="POJOS\Alerta.cs" />
     <Compile Include="POJOS\AlertaFecha.cs" />
     <Compile Include="POJOS\AlertaKM.cs" />
-    <Compile Include="POJOS\Cadena.cs" />
+    <Compile Include="POJOS\CadenaResumen.cs" />
     <Compile Include="POJOS\Camion.cs" />
+    <Compile Include="POJOS\ClaveValor.cs" />
     <Compile Include="POJOS\Comision.cs" />
     <Compile Include="POJOS\ComponenteTarifa.cs" />
     <Compile Include="POJOS\Empleado.cs" />
     <Compile Include="POJOS\Empresa.cs" />
     <Compile Include="POJOS\DobleCadena.cs" />
     <Compile Include="POJOS\Estadisticas\BusquedaEstadisticas.cs" />
+    <Compile Include="POJOS\Estadisticas\ComisionesInforme.cs" />
     <Compile Include="POJOS\Estadisticas\GastoEstadistica.cs" />
     <Compile Include="POJOS\Estadisticas\ResumenEstadistica.cs" />
     <Compile Include="POJOS\Facturas\BusquedaFactura.cs" />
+    <Compile Include="POJOS\Facturas\ComponenteFactura.cs" />
+    <Compile Include="POJOS\Facturas\Factura.cs" />
+    <Compile Include="POJOS\Facturas\OperacionesTerceros.cs" />
+    <Compile Include="POJOS\Facturas\ResumenGasto.cs" />
     <Compile Include="POJOS\Fechas.cs" />
     <Compile Include="POJOS\Gasto.cs" />
+    <Compile Include="POJOS\GastoBienInversion.cs" />
+    <Compile Include="POJOS\GastoNormal.cs" />
     <Compile Include="POJOS\Mapas\Itinerario.cs" />
     <Compile Include="POJOS\Mapas\Ruta.cs" />
+    <Compile Include="POJOS\Pagos\ComponentePago.cs" />
+    <Compile Include="POJOS\Pagos\Pago.cs" />
     <Compile Include="POJOS\PersonaContacto.cs" />
     <Compile Include="POJOS\Proveedor.cs" />
     <Compile Include="POJOS\Resumen.cs" />
     <Compile Include="POJOS\Tarifa.cs" />
+    <Compile Include="POJOS\TrimestreAño.cs" />
     <Compile Include="POJOS\UsuarioSistema.cs" />
-    <Compile Include="REST MAPAS\DataContracts.cs" />
     <Compile Include="REST MAPAS\BingREST.cs" />
+    <Compile Include="REST MAPAS\DataContracts.cs" />
+    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Utilidades\UtilidadesVentana.cs" />
     <Compile Include="Utilidades\UtilidadesVerificacion.cs" />
     <Compile Include="Ventanas\Estadisticas\VentanaEstadisticas.xaml.cs">
@@ -152,34 +219,50 @@
     <Compile Include="Ventanas\Estadisticas\VentanaOpcionesMensual.xaml.cs">
       <DependentUpon>VentanaOpcionesMensual.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ventanas\Facturas\DataSet1.cs">
-      <DependentUpon>DataSet1.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="Ventanas\Facturas\DataSet1.Designer.cs">
+    <Compile Include="ConjuntosDatos\DataSet1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet1.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Ventanas\Facturas\DataSet2.cs">
+    <Compile Include="ConjuntosDatos\DataSet2.cs">
       <DependentUpon>DataSet2.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Ventanas\Facturas\DataSet2.Designer.cs">
+    <Compile Include="ConjuntosDatos\DataSet2.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet2.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Ventanas\Facturas\DataSet3.cs">
+    <Compile Include="ConjuntosDatos\DataSet3.cs">
       <DependentUpon>DataSet3.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Ventanas\Facturas\DataSet3.Designer.cs">
+    <Compile Include="ConjuntosDatos\DataSet3.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet3.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Ventanas\Facturas\DataSet4.Designer.cs">
+    <Compile Include="ConjuntosDatos\DataSet4.cs">
+      <DependentUpon>DataSet4.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ConjuntosDatos\DataSet4.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet4.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ConjuntosDatos\DataSet5.cs">
+      <DependentUpon>DataSet5.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ConjuntosDatos\DataSet5.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet5.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ConjuntosDatos\DataSet6.cs">
+      <DependentUpon>DataSet6.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ConjuntosDatos\DataSet6.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet6.xsd</DependentUpon>
     </Compile>
     <Compile Include="Ventanas\Facturas\VentanaFacturaIva.xaml.cs">
       <DependentUpon>VentanaFacturaIva.xaml</DependentUpon>
@@ -190,8 +273,23 @@
     <Compile Include="Ventanas\Facturas\VentanaImpresionFactura.xaml.cs">
       <DependentUpon>VentanaImpresionFactura.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ventanas\Facturas\VentanaOperacionesTerceros.xaml.cs">
+      <DependentUpon>VentanaOperacionesTerceros.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ventanas\Facturas\VentanaSeleccionFacturacion.xaml.cs">
       <DependentUpon>VentanaSeleccionFacturacion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Camiones\VentanaModificacionKM.xaml.cs">
+      <DependentUpon>VentanaModificacionKM.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Camiones\VentanaSeleccionGestionCamiones.xaml.cs">
+      <DependentUpon>VentanaSeleccionGestionCamiones.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Gastos\VentanaGestionGastos.xaml.cs">
+      <DependentUpon>VentanaGestionGastos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionDatosGenericos\Gastos\VistaGastos.xaml.cs">
+      <DependentUpon>VistaGastos.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ventanas\Genericas\VistaCompletaDosTablas.xaml.cs">
       <DependentUpon>VistaCompletaDosTablas.xaml</DependentUpon>
@@ -262,29 +360,44 @@
     <Compile Include="Ventanas\GestionDatosGenericos\VentanaSeleccionGestion.xaml.cs">
       <DependentUpon>VentanaSeleccionGestion.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ventanas\GestionGastos\VistaGastos.xaml.cs">
-      <DependentUpon>VistaGastos.xaml</DependentUpon>
+    <Compile Include="Ventanas\GestionInformes\VentanaInformeEmpleado.xaml.cs">
+      <DependentUpon>VentanaInformeEmpleado.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ventanas\GestionGastos\VentanaGestionGastos.xaml.cs">
-      <DependentUpon>VentanaGestionGastos.xaml</DependentUpon>
+    <Compile Include="Ventanas\GestionInformes\VentanaSeleccionInformes.xaml.cs">
+      <DependentUpon>VentanaSeleccionInformes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionInformes\VentanaVisualizacionComisiones.xaml.cs">
+      <DependentUpon>VentanaVisualizacionComisiones.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionInformes\VentanaVisualizacionInformes.xaml.cs">
+      <DependentUpon>VentanaVisualizacionInformes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionPagos\VentanaGestionPagares.xaml.cs">
+      <DependentUpon>VentanaGestionPagares.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionPagos\VentanaGestionPagos.xaml.cs">
+      <DependentUpon>VentanaGestionPagos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\GestionPagos\VentanaSeleccionGestionPagos.xaml.cs">
+      <DependentUpon>VentanaSeleccionGestionPagos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ventanas\Login\VentanaPassOlvidada.xaml.cs">
+      <DependentUpon>VentanaPassOlvidada.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ventanas\Mapas\VentanaMapa.xaml.cs">
       <DependentUpon>VentanaMapa.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ventanas\VentanaMenuPrincipal.xaml.cs">
+    <Compile Include="Ventanas\Login\VentanaMenuPrincipal.xaml.cs">
       <DependentUpon>VentanaMenuPrincipal.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ventanas\VentanaNuevoUsuarioSistema.xaml.cs">
+    <Compile Include="Ventanas\Login\VentanaNuevoUsuarioSistema.xaml.cs">
       <DependentUpon>VentanaNuevoUsuarioSistema.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ventanas\VentanaModificarUsuarioSistema.xaml.cs">
+    <Compile Include="Ventanas\Login\VentanaModificarUsuarioSistema.xaml.cs">
       <DependentUpon>VentanaModificarUsuarioSistema.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ventanas\VentanaOpcionesModificacionUsuario.xaml.cs">
+    <Compile Include="Ventanas\Login\VentanaOpcionesModificacionUsuario.xaml.cs">
       <DependentUpon>VentanaOpcionesModificacionUsuario.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ventanas\VentanaPassOlvidada.xaml.cs">
-      <DependentUpon>VentanaPassOlvidada.xaml</DependentUpon>
     </Compile>
     <Page Include="Ventanas\Estadisticas\VentanaEstadisticas.xaml">
       <SubType>Designer</SubType>
@@ -322,7 +435,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Ventanas\Facturas\VentanaOperacionesTerceros.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Ventanas\Facturas\VentanaSeleccionFacturacion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Camiones\VentanaModificacionKM.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Camiones\VentanaSeleccionGestionCamiones.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Gastos\VentanaGestionGastos.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionDatosGenericos\Gastos\VistaGastos.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -414,11 +547,35 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Ventanas\GestionGastos\VistaGastos.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Ventanas\GestionInformes\VentanaInformeEmpleado.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Ventanas\GestionGastos\VentanaGestionGastos.xaml">
+    <Page Include="Ventanas\GestionInformes\VentanaSeleccionInformes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionInformes\VentanaVisualizacionComisiones.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionInformes\VentanaVisualizacionInformes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionPagos\VentanaGestionPagares.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionPagos\VentanaGestionPagos.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\GestionPagos\VentanaSeleccionGestionPagos.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\Login\VentanaPassOlvidada.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -426,7 +583,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Ventanas\VentanaLogin.xaml">
+    <Page Include="Ventanas\Login\VentanaLogin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -435,7 +592,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Principal.cs" />
-    <Compile Include="Ventanas\VentanaLogin.xaml.cs">
+    <Compile Include="Ventanas\Login\VentanaLogin.xaml.cs">
       <DependentUpon>VentanaLogin.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -443,23 +600,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Ventanas\VentanaMenuPrincipal.xaml">
+    <Page Include="Ventanas\Login\VentanaMenuPrincipal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Ventanas\VentanaNuevoUsuarioSistema.xaml">
+    <Page Include="Ventanas\Login\VentanaNuevoUsuarioSistema.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Ventanas\VentanaModificarUsuarioSistema.xaml">
+    <Page Include="Ventanas\Login\VentanaModificarUsuarioSistema.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ventanas\VentanaOpcionesModificacionUsuario.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Ventanas\VentanaPassOlvidada.xaml">
+    <Page Include="Ventanas\Login\VentanaOpcionesModificacionUsuario.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -478,13 +631,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="bin\Debug\Reportes\template_operacionesTerceros.rdlc" />
+    <EmbeddedResource Include="bin\Debug\Reportes\Report99.rdlc" />
+    <EmbeddedResource Include="bin\Debug\Reportes\Report3.rdlc" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Ventanas\Facturas\Report1.rdlc" />
-    <EmbeddedResource Include="Ventanas\Facturas\Report2.rdlc" />
     <None Include="bin\Debug\providers.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -492,6 +646,28 @@
     <None Include="bin\Debug\SqlMap.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
+    </None>
+    <None Include="ConjuntosDatos\DataSet7.xsc">
+      <DependentUpon>DataSet7.xsd</DependentUpon>
+    </None>
+    <None Include="ConjuntosDatos\DataSet7.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet7.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="ConjuntosDatos\DataSet7.xss">
+      <DependentUpon>DataSet7.xsd</DependentUpon>
+    </None>
+    <None Include="ConjuntosDatos\OperacionesTerceros.xsc">
+      <DependentUpon>OperacionesTerceros.xsd</DependentUpon>
+    </None>
+    <None Include="ConjuntosDatos\OperacionesTerceros.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>OperacionesTerceros.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="ConjuntosDatos\OperacionesTerceros.xss">
+      <DependentUpon>OperacionesTerceros.xsd</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\GestorJRF.POJOS.Empresa.datasource" />
@@ -501,49 +677,76 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Ventanas\Facturas\DataSet1.xsc">
+    <None Include="ConjuntosDatos\DataSet1.xsc">
       <DependentUpon>DataSet1.xsd</DependentUpon>
     </None>
-    <None Include="Ventanas\Facturas\DataSet1.xsd">
+    <None Include="ConjuntosDatos\DataSet1.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>DataSet1.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Ventanas\Facturas\DataSet1.xss">
+    <None Include="ConjuntosDatos\DataSet1.xss">
       <DependentUpon>DataSet1.xsd</DependentUpon>
     </None>
-    <None Include="Ventanas\Facturas\DataSet2.xsc">
+    <None Include="ConjuntosDatos\DataSet2.xsc">
       <DependentUpon>DataSet2.xsd</DependentUpon>
     </None>
-    <None Include="Ventanas\Facturas\DataSet2.xsd">
+    <None Include="ConjuntosDatos\DataSet2.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>DataSet2.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Ventanas\Facturas\DataSet2.xss">
+    <None Include="ConjuntosDatos\DataSet2.xss">
       <DependentUpon>DataSet2.xsd</DependentUpon>
     </None>
-    <None Include="Ventanas\Facturas\DataSet3.xsc">
+    <None Include="ConjuntosDatos\DataSet3.xsc">
       <DependentUpon>DataSet3.xsd</DependentUpon>
     </None>
-    <None Include="Ventanas\Facturas\DataSet3.xsd">
+    <None Include="ConjuntosDatos\DataSet3.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>DataSet3.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Ventanas\Facturas\DataSet3.xss">
+    <None Include="ConjuntosDatos\DataSet3.xss">
       <DependentUpon>DataSet3.xsd</DependentUpon>
     </None>
-    <None Include="Ventanas\Facturas\DataSet4.xsc">
+    <None Include="ConjuntosDatos\DataSet4.xsc">
       <DependentUpon>DataSet4.xsd</DependentUpon>
     </None>
-    <None Include="Ventanas\Facturas\DataSet4.xsd">
+    <None Include="ConjuntosDatos\DataSet4.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>DataSet4.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Ventanas\Facturas\DataSet4.xss">
+    <None Include="ConjuntosDatos\DataSet4.xss">
       <DependentUpon>DataSet4.xsd</DependentUpon>
+    </None>
+    <None Include="ConjuntosDatos\DataSet5.xsc">
+      <DependentUpon>DataSet5.xsd</DependentUpon>
+    </None>
+    <None Include="ConjuntosDatos\DataSet5.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet5.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="ConjuntosDatos\DataSet5.xss">
+      <DependentUpon>DataSet5.xsd</DependentUpon>
+    </None>
+    <None Include="ConjuntosDatos\DataSet6.xsc">
+      <DependentUpon>DataSet6.xsd</DependentUpon>
+    </None>
+    <None Include="ConjuntosDatos\DataSet6.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet6.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="ConjuntosDatos\DataSet6.xss">
+      <DependentUpon>DataSet6.xsd</DependentUpon>
+    </None>
+    <None Include="bin\Debug\Reportes\Report1.rdlc" />
+    <None Include="bin\Debug\Reportes\Report4.rdlc" />
+    <None Include="bin\Debug\Reportes\Report5.rdlc">
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -568,10 +771,37 @@
     <Resource Include="Iconos\actualizar.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Iconos\arriba.png" />
+    <Resource Include="Iconos\abajo.png" />
     <Content Include="Iconos\logo.ico" />
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 y x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

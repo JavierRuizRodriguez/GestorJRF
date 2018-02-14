@@ -1,10 +1,16 @@
 ﻿using GestorJRF.CRUD;
 using GestorJRF.POJOS;
 using GestorJRF.Utilidades;
+using GestorJRF.Ventanas;
+using GestorJRF.Ventanas.GestionDatosGenericos.Alertas;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
 
 namespace GestorJRF.Ventanas.GestionDatosGenericos.Alertas
 {
@@ -14,187 +20,202 @@ namespace GestorJRF.Ventanas.GestionDatosGenericos.Alertas
     public partial class VentanaGestionAlertas : Window
     {
         private bool esAlta;
+
         private bool tipoAvisoFecha;
+
         private bool esAvisoGenerico;
+
         private IList listaCamiones;
+
         private Alerta alerta;
+
 
         public VentanaGestionAlertas()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             UtilidadesVentana.SituarVentana(0, this);
-            esAlta = true;
-            listaCamiones = CamionesCRUD.cogerTodosCamiones();
-            foreach (Camion c in listaCamiones)
-                cCamion.Items.Add(new ComboBoxItem().Content = c.matricula);
-            cCamion.SelectedIndex = 0;
+            this.esAlta = true;
+            this.listaCamiones = CamionesCRUD.cogerTodosCamiones();
+            foreach (Camion listaCamione in this.listaCamiones)
+            {
+                ItemCollection items = this.cCamion.Items;
+                ComboBoxItem comboBoxItem = new ComboBoxItem();
+                object newItem = comboBoxItem.Content = listaCamione.matricula;
+                items.Add(newItem);
+            }
+            this.cCamion.SelectedIndex = -1;
         }
 
         public VentanaGestionAlertas(Alerta alerta)
         {
-            InitializeComponent();
+            this.InitializeComponent();
             UtilidadesVentana.SituarVentana(0, this);
             this.alerta = alerta;
-            esAlta = false;
-            listaCamiones = CamionesCRUD.cogerTodosCamiones();
-            foreach (Camion c in listaCamiones)
-                cCamion.Items.Add(new ComboBoxItem().Content = c.matricula);
-            cambiarParaModificar();
+            this.esAlta = false;
+            this.listaCamiones = CamionesCRUD.cogerTodosCamiones();
+            foreach (Camion listaCamione in this.listaCamiones)
+            {
+                ItemCollection items = this.cCamion.Items;
+                ComboBoxItem comboBoxItem = new ComboBoxItem();
+                object newItem = comboBoxItem.Content = listaCamione.matricula;
+                items.Add(newItem);
+            }
+            this.cambiarParaModificar();
         }
 
         private void cambiarParaModificar()
         {
-            bNuevoAviso.Content = "MODIFICAR ALERTA";
-            AlertaFecha alertaFecha;
-            AlertaKM alertaKM;
-            cCamion.SelectedIndex = (alerta.matricula == null) ? 0 : buscarIncideCamion();
-            if (alerta.matricula == null)
-                checkAvisoGenerico.IsChecked = true;
-
-            tDescripcion.Text = alerta.descripcion;
-            if (alerta.tipoAviso.Equals("fecha"))
+            this.bNuevoAviso.Content = "MODIFICAR ALERTA";
+            this.cCamion.SelectedIndex = ((this.alerta.matricula != null) ? this.buscarIncideCamion() : 0);
+            if (this.alerta.matricula == null)
             {
-                cAviso.SelectedIndex = 0;
-                alertaFecha = (AlertaFecha)alerta;
-                tAntelacion.Text = Convert.ToString(alertaFecha.diasAntelacion);
-                tLimite.Text = alertaFecha.fechaLimite.Date.ToString("dd/MM/yyyy");
+                this.checkAvisoGenerico.IsChecked = true;
+            }
+            this.tDescripcion.Text = this.alerta.descripcion;
+            if (this.alerta.tipoAviso.Equals("fecha"))
+            {
+                this.cAviso.SelectedIndex = -1;
+                AlertaFecha alertaFecha = (AlertaFecha)this.alerta;
+                this.tAntelacion.Text = Convert.ToString(alertaFecha.diasAntelacion);
+                TextBox textBox = this.tLimite;
+                DateTime dateTime = alertaFecha.fechaLimite;
+                dateTime = dateTime.Date;
+                textBox.Text = dateTime.ToString("dd/MM/yyyy");
             }
             else
             {
-                cAviso.SelectedIndex = 1;
-                lAntelacion.Content = "KM ANTELACIÓN AVISO";
-                lLimite.Content = "KM PARA AVISO";
-                alertaKM = (AlertaKM)alerta;
-                tAntelacion.Text = Convert.ToString(alertaKM.kmAntelacion);
-                tLimite.Text = Convert.ToString(alertaKM.kmLimite);
+                this.cAviso.SelectedIndex = 1;
+                this.lAntelacion.Content = "KM ANTELACIÓN AVISO";
+                this.lLimite.Content = "KM PARA AVISO";
+                AlertaKM alertaKM = (AlertaKM)this.alerta;
+                this.tAntelacion.Text = Convert.ToString(alertaKM.kmAntelacion);
+                this.tLimite.Text = Convert.ToString(alertaKM.kmLimite);
             }
         }
 
         private int buscarIncideCamion()
         {
-            var salida = 0;
-            foreach (Camion c in listaCamiones)
+            int salida = 0;
+            foreach (Camion listaCamione in this.listaCamiones)
             {
-                if (c.matricula.Equals(alerta.matricula))
+                if (listaCamione.matricula.Equals(this.alerta.matricula))
+                {
                     return salida;
-                else
-                    salida++;
+                }
+                salida++;
             }
             return salida;
         }
 
-        private void CerrandoVentana(object sender, System.ComponentModel.CancelEventArgs e)
+        private void CerrandoVentana(object sender, CancelEventArgs e)
         {
-            if (esAlta)
+            if (this.esAlta)
+            {
                 new VentanaMenuGestionDatos().Show();
+            }
         }
 
         private void checkAvisoGenerico_Checked(object sender, RoutedEventArgs e)
         {
-            cCamion.IsEnabled = false;
-            esAvisoGenerico = true;
+            this.cCamion.IsEnabled = false;
+            this.esAvisoGenerico = true;
         }
 
         private void checkAvisoGenerico_Unchecked(object sender, RoutedEventArgs e)
         {
-            cCamion.IsEnabled = true;
-            esAvisoGenerico = false;
+            this.cCamion.IsEnabled = true;
+            this.esAvisoGenerico = false;
         }
 
         private void bLimpiarCampos_Click(object sender, RoutedEventArgs e)
         {
-            UtilidadesVentana.LimpiarCampos(gridPrincipal);
+            UtilidadesVentana.LimpiarCampos(this.gridPrincipal);
         }
 
         private void bNuevoAviso_Click(object sender, RoutedEventArgs e)
         {
             bool camposValidos;
-            if (((ComboBoxItem)cAviso.SelectedItem).Content.Equals("FECHA"))
+            if (((ComboBoxItem)this.cAviso.SelectedItem).Content.Equals("FECHA"))
             {
-                tipoAvisoFecha = true;
-                camposValidos = UtilidadesVerificacion.validadorFechas(tLimite.Text) && UtilidadesVerificacion.validadorNumeroEntero(tAntelacion.Text);
+                this.tipoAvisoFecha = true;
+                camposValidos = (UtilidadesVerificacion.validadorFechas(this.tLimite.Text) && UtilidadesVerificacion.validadorNumeroEntero(this.tAntelacion.Text));
             }
             else
             {
-                tipoAvisoFecha = false;
-                camposValidos = UtilidadesVerificacion.validadorNumeroEntero(tLimite.Text) && UtilidadesVerificacion.validadorNumeroEntero(tAntelacion.Text);
+                this.tipoAvisoFecha = false;
+                camposValidos = (UtilidadesVerificacion.validadorNumeroEntero(this.tLimite.Text) && UtilidadesVerificacion.validadorNumeroEntero(this.tAntelacion.Text));
             }
-
-            if (UtilidadesVentana.ComprobarCampos(gridPrincipal))
+            if (UtilidadesVentana.ComprobarCampos(this.gridPrincipal))
             {
                 if (camposValidos)
                 {
-                    if (esAlta)
-                        añadirAlerta();
+                    if (this.esAlta)
+                    {
+                        this.añadirAlerta();
+                    }
                     else
-                        modificarAlerta();
+                    {
+                        this.modificarAlerta();
+                    }
                 }
             }
             else
-                MessageBox.Show("Debe introducir todos los campos.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Error);
+            {
+                MessageBox.Show("Debe introducir todos los campos.", "Aviso error", MessageBoxButton.OK, MessageBoxImage.Hand);
+            }
         }
 
         private void modificarAlerta()
         {
-            string matricula;
-
-            if (esAvisoGenerico)
-                matricula = null;
-            else
-                matricula = ((Camion)listaCamiones[cCamion.SelectedIndex]).matricula;
-
-            if (tipoAvisoFecha)
+            string matricula = (!this.esAvisoGenerico) ? ((Camion)this.listaCamiones[this.cCamion.SelectedIndex]).matricula : null;
+            if (this.tipoAvisoFecha)
             {
-                AlertaFecha alertaFecha = new AlertaFecha(alerta.id, matricula, tDescripcion.Text, Convert.ToInt32(tAntelacion.Text), Convert.ToDateTime(tLimite.Text));
+                AlertaFecha alertaFecha = new AlertaFecha(this.alerta.id, matricula, this.tDescripcion.Text, Convert.ToInt32(this.tAntelacion.Text), Convert.ToDateTime(this.tLimite.Text));
                 AlertasCRUD.modificarAlertaFecha(alertaFecha);
-                Close();
+                base.Close();
             }
-            else {
-                AlertaKM alertaKM = new AlertaKM(alerta.id, matricula, tDescripcion.Text, Convert.ToInt64(tAntelacion.Text), Convert.ToInt64(tLimite.Text));
+            else
+            {
+                AlertaKM alertaKM = new AlertaKM(this.alerta.id, matricula, this.tDescripcion.Text, Convert.ToInt64(this.tAntelacion.Text), Convert.ToInt64(this.tLimite.Text));
                 AlertasCRUD.modificarAlertaKM(alertaKM);
-                Close();
+                base.Close();
             }
         }
 
         private void añadirAlerta()
         {
-            string matricula;
-
-            if (esAvisoGenerico)
-                matricula = null;
-            else
-                matricula = ((Camion)listaCamiones[cCamion.SelectedIndex]).matricula;
-
-            Alerta a;
+            string matricula = (!this.esAvisoGenerico) ? ((Camion)this.listaCamiones[this.cCamion.SelectedIndex]).matricula : null;
             int salida;
-            if (tipoAvisoFecha)
+            if (this.tipoAvisoFecha)
             {
-                a = new AlertaFecha(matricula, tDescripcion.Text, Convert.ToInt32(tAntelacion.Text), Convert.ToDateTime(tLimite.Text));
-                salida = AlertasCRUD.añadirAlerta(a, 0);
+                Alerta a2 = new AlertaFecha(matricula, this.tDescripcion.Text, Convert.ToInt32(this.tAntelacion.Text), Convert.ToDateTime(this.tLimite.Text));
+                salida = AlertasCRUD.añadirAlerta(a2, 0);
             }
-            else {
-                a = new AlertaKM(matricula, tDescripcion.Text, Convert.ToInt64(tAntelacion.Text), Convert.ToInt64(tLimite.Text));
-                salida = AlertasCRUD.añadirAlerta(a, 1);
+            else
+            {
+                Alerta a2 = new AlertaKM(matricula, this.tDescripcion.Text, Convert.ToInt64(this.tAntelacion.Text), Convert.ToInt64(this.tLimite.Text));
+                salida = AlertasCRUD.añadirAlerta(a2, 1);
             }
-
             if (salida == 1)
-                UtilidadesVentana.LimpiarCampos(gridPrincipal);
+            {
+                UtilidadesVentana.LimpiarCampos(this.gridPrincipal);
+            }
         }
 
         private void cAviso_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (((ComboBoxItem)cAviso.SelectedItem).Content.Equals("FECHA"))
+            if (((ComboBoxItem)this.cAviso.SelectedItem).Content.Equals("FECHA"))
             {
-                lAntelacion.Content = "DÍAS ANTELACIÓN AVISO";
-                lLimite.Content = "FECHA DE AVISO";
-                checkAvisoGenerico.Visibility = Visibility.Visible;
+                this.lAntelacion.Content = "DÍAS ANTELACIÓN AVISO";
+                this.lLimite.Content = "FECHA DE AVISO";
+                this.checkAvisoGenerico.Visibility = Visibility.Visible;
             }
             else
             {
-                lAntelacion.Content = "KM ANTELACIÓN AVISO";
-                lLimite.Content = "KM PARA AVISO";
-                checkAvisoGenerico.Visibility = Visibility.Hidden;
-                checkAvisoGenerico.IsChecked = false;
+                this.lAntelacion.Content = "KM ANTELACIÓN AVISO";
+                this.lLimite.Content = "KM PARA AVISO";
+                this.checkAvisoGenerico.Visibility = Visibility.Hidden;
+                this.checkAvisoGenerico.IsChecked = false;
             }
         }
     }
